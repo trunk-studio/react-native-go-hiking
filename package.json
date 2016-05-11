@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
-    "bundle": "node node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.ios.js --bundle-output ./ios/main.jsbundle --sourcemap-output ./ios/sourcemap.js"
+    "bundle": "node node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.ios.js --bundle-output ./ios/main.jsbundle --sourcemap-output ./ios/sourcemap.js",
+    "android-bundle": "node node_modules/react-native/local-cli/cli.js bundle --dev false --platform android --entry-file index.android.js --bundle-output ./android/app/src/main/assets/main.android.jsbundle --sourcemap-output ./android/app/src/main/assets/sourcemap.android.js"
   },
   "dependencies": {
     "react": "^0.14.8",

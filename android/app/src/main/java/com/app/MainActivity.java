@@ -1,22 +1,25 @@
 package com.app;
 
-import com.facebook.react.ReactActivity;
-import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterPackage;
-import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterFrequency;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterActivity;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterPackage;
-
-import javax.annotation.Nullable;
+import com.facebook.react.ReactPackage;
+import com.facebook.react.shell.MainReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class MainActivity extends ReactNativeAutoUpdaterActivity {
+
+    /*************************************************
+     * These methods are required for the ReactNativeAutoUpdater Part
+     *************************************************
+     * */
 
     /**
      *  Name of the JS Bundle file shipped with the app.
@@ -25,15 +28,17 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     @Nullable
     @Override
     protected String getBundleAssetName() {
-        return "main.jsbundle";
+        return "main.android.jsbundle";
     }
 
     /**
      *  URL for the metadata of the update.
+     *  雷! 只要找不到就會 Error
      * */
     @Override
     protected String getUpdateMetadataUrl() {
-        return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.json";
+        // return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json";
+        return "http://192.168.2.101:3000/metadata.android.json";
     }
 
     /**
@@ -48,10 +53,12 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     /**
      *  If your updates metadata JSON has a relative URL for downloading
      *  the JS bundle, set this hostname.
+     *  雷! 只要找不到就會 Error
      * */
     @Override
     protected String getHostnameForRelativeDownloadURLs() {
-        return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
+        // return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
+        return "http://192.168.2.101:3000";
     }
 
     /**
@@ -88,6 +95,11 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
         return true;
     }
 
+    /*************************************************
+     * These methods are plain old React Native stuff
+     *************************************************
+     * */
+
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -100,10 +112,12 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     /**
      * Returns whether dev mode should be enabled.
      * This enables e.g. the dev menu.
+     * 這邊改用 false 就是 prod 版，用 auto updater 更新
      */
     @Override
     protected boolean getUseDeveloperSupport() {
         return BuildConfig.DEBUG;
+        // return false;
     }
 
     /**
@@ -113,8 +127,8 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new ReactNativeAutoUpdaterPackage()
-        );
+                new ReactNativeAutoUpdaterPackage(),
+                new MainReactPackage());
     }
+
 }

@@ -3,6 +3,8 @@
 .DS_Store
 main.jsbundle
 sourcemap.js
+main.android.jsbundle
+sourcemap.android.js
 # Xcode
 #
 build/
