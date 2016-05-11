@@ -5,11 +5,13 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios": "react-native run-ios",
-    "android": "react-native run-android"
+    "android": "react-native run-android",
+    "bundle": "node node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.ios.js --bundle-output ./ios/main.jsbundle --sourcemap-output ./ios/sourcemap.js"
   },
   "dependencies": {
     "react": "^0.14.8",
     "react-native": "^0.25.1",
+    "react-native-auto-updater": "^0.2.5",
     "react-native-router-flux": "2.3.9",
     "react-native-search-bar": "^2.8.0",
     "react-native-tabs": "^1.0.5",
@@ -24,7 +26,6 @@
     "eslint": "^2.8.0",
     "eslint-config-airbnb": "^7.0.0",
     "eslint-plugin-jsx-a11y": "0.6.2",
-    "eslint-plugin-react": "4.3.0",
     "eslint-plugin-react": "^4.2.3",
     "redux-logger": "^2.6.1"
   }

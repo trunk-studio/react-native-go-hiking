@@ -1,0 +1,8 @@
+{
+    "version": "1.0.0",
+    "minContainerVersion": "1.0",
+    "url": {
+      "url": "/qa/packager/main.jsbundle",
+      "isRelative": true
+    }
+}
