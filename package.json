@@ -6,10 +6,12 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
+    "android-mock-update-server": "json-server db.json --watch --static ./android/app/src/main/assets",
     "bundle": "node node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.ios.js --bundle-output ./ios/main.jsbundle --sourcemap-output ./ios/sourcemap.js",
     "android-bundle": "node node_modules/react-native/local-cli/cli.js bundle --dev false --platform android --entry-file index.android.js --bundle-output ./android/app/src/main/assets/main.android.jsbundle --sourcemap-output ./android/app/src/main/assets/sourcemap.android.js"
   },
   "dependencies": {
+    "json-server": "^0.8.12",
     "react": "^0.14.8",
     "react-native": "^0.25.1",
     "react-native-auto-updater": "^0.2.5",

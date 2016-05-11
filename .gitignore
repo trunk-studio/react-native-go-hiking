@@ -5,6 +5,7 @@ main.jsbundle
 sourcemap.js
 main.android.jsbundle
 sourcemap.android.js
+db.json
 # Xcode
 #
 build/
