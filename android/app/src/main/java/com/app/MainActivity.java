@@ -8,6 +8,7 @@ import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterActivity;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     @Override
     protected String getUpdateMetadataUrl() {
         // return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json";
-        return "http://10.0.1.12:3000/metadata.android.json";
+        return "http://192.168.0.104:3000/metadata.android.json";
     }
 
     /**
@@ -58,7 +59,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     @Override
     protected String getHostnameForRelativeDownloadURLs() {
         // return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
-        return "http://10.0.1.12:3000";
+        return "http://192.168.0.104:3000";
     }
 
     /**
@@ -128,7 +129,9 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
                 new ReactNativeAutoUpdaterPackage(),
-                new MainReactPackage());
+                new MainReactPackage(),
+                new VectorIconsPackage()
+                );
     }
 
 }

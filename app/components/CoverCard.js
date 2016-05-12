@@ -34,7 +34,7 @@ export default function CoverCard(props) {
       <Image source={props.img}
         style={[styles.cover, { height: props.height }]}
       />
-      <View style={[styles.textContainer, { height: props.height, paddingTop: props.height / 2 + props.txtTop }]}>
+      <View style={[{ height: props.height, paddingTop: props.height / 2 + props.txtTop }]}>
         <Text style={[props.textStyle ? props.textStyle : styles.text]}>
           {props.title}
         </Text>
