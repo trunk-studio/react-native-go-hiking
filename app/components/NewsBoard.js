@@ -9,6 +9,7 @@ import NewsItem from './NewsItem';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F1F7EB',
   },
   defaultTxt: {
     fontSize: 20,
@@ -16,13 +17,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   boardBar: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '500',
-    backgroundColor: '#359ac0',
+    backgroundColor: 'rgb(79, 164, 89)',//'#359ac0',
     paddingLeft: 20,
     paddingTop: 10,
     paddingBottom: 10,
+  },
+  boardBarText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '500',
   },
 });
 
@@ -46,7 +49,9 @@ export default function NewsBoard(props) {
   }
   return (
     <View style={{ flex: 1, flexDirection: 'column' }}>
-      <Text style={styles.boardBar}>{props.boardTitle}</Text>
+      <View style={styles.boardBar}>
+        <Text style={styles.boardBarText}>{props.boardTitle}</Text>
+      </View>
       <ScrollView
         keyscrollEventThrottle={200}
         style={styles.container}

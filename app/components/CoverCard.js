@@ -32,11 +32,11 @@ export default function CoverCard(props) {
       <Image source={props.img}
         style={[styles.cover, { height: props.height }]}
       />
-      <Text style={[styles.text,
-        { height: props.height, paddingTop: props.height / 2 + props.txtTop }]}
-      >
-        {props.title}
-      </Text>
+      <View style={[{ height: props.height, paddingTop: props.height / 2 + props.txtTop }]}>
+        <Text style={[styles.text]} >
+          {props.title}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -47,7 +47,7 @@ CoverCard.propTypes = {
   top: React.PropTypes.number,
   txtTop: React.PropTypes.number,
   height: React.PropTypes.number,
-  img: React.PropTypes.number,
+  img: React.PropTypes.object,
 };
 
 CoverCard.defaultProps = {
