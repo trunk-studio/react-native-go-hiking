@@ -13,9 +13,11 @@ const styles = StyleSheet.create({
     width: windowSize.width,
     opacity: 0.9,
   },
-  text: {
+  textContainer: {
     position: 'absolute',
     width: windowSize.width,
+  },
+  text: {
     fontSize: 34,
     textAlign: 'center',
     color: '#fff',
@@ -33,7 +35,7 @@ export default function CoverCard(props) {
         style={[styles.cover, { height: props.height }]}
       />
       <View style={[{ height: props.height, paddingTop: props.height / 2 + props.txtTop }]}>
-        <Text style={[styles.text]} >
+        <Text style={[props.textStyle ? props.textStyle : styles.text]}>
           {props.title}
         </Text>
       </View>
@@ -47,7 +49,11 @@ CoverCard.propTypes = {
   top: React.PropTypes.number,
   txtTop: React.PropTypes.number,
   height: React.PropTypes.number,
-  img: React.PropTypes.object,
+  img: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.number,
+  ]),
+  textStyle: React.PropTypes.object,
 };
 
 CoverCard.defaultProps = {

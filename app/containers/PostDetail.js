@@ -1,110 +1,187 @@
 import React, {
-  StyleSheet,
   ScrollView,
   Image,
   View,
   Text,
 } from 'react-native';
-import { requestSearchPost } from '../actions/SearchActions';
+import CoverCard from '../components/CoverCard';
 import { connect } from 'react-redux';
 import Dimensions from 'Dimensions';
-
+const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
-  wrapper: {
-    paddingTop: 65,
-    backgroundColor: 'rgb(240, 240, 240)',
-  },
-  hr: {
-    borderColor: 'rgba(185, 190, 183, 0.53)',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    marginLeft: 15,
-    marginRight: 15,
-  },
   title: {
     fontSize: 20,
-    paddingLeft: 27,
-    paddingRight: 27,
-    paddingTop: 10,
-    lineHeight: 30,
-    textAlign: 'center',
+    marginTop: 5,
+    marginBottom: 5,
+    fontWeight: '500',
   },
-  container: {
-    marginLeft: 25,
-    marginRight: 25,
-    marginTop: 20,
-    marginBottom: 100,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 15,
-    paddingBottom: 30,
-    backgroundColor: 'white',
-    shadowOpacity: 1,
-    shadowColor: 'rgba(147, 147, 147, 0.6)',
-    shadowOffset: {
-      width: 0,
-      height: 0,
+  infoText: {
+    flex: 1,
+    padding: 2,
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: '500',
+    textShadowColor: '#444',
+    textShadowOffset: { width: 1, height: 1 },
+  },
+  placeText: {
+    fontSize: 14,
+    paddingTop: 5,
+    paddingBottom: 10,
+  },
+  infoContainer: {
+    flex: 1,
+    paddingTop: 5,
+    paddingBottom: 5,
+    flexDirection: 'row',
+  },
+  wrapper: {
+    flex: 1,
+    marginBottom: 50,
+    ios: {
+      marginTop: 65,
+    },
+    android: {
+      marginTop: 55,
     },
   },
-  content: {
-    fontSize: 16,
-    color: 'rgb(40, 40, 40)',
-    lineHeight: 30,
+  scrollFrame: {
+    flex: 1,
+    flexDirection: 'column',
   },
-  itemImg: {
-    width: windowSize.width,
-    height: windowSize.height * 0.4,
+  scrollContainer: {
+    flex: 1,
+    margin: 15,
+    backgroundColor: 'rgb(246, 246, 246)',
   },
 });
-function formatUrlKey(num, length) {
-  let r = num.toString();
-  while (r.length < length) {
-    r = `0${r}`;
-  }
-  return r;
-}
+
+
 function PostDetail(props) {
-  return (
-    <ScrollView
-      style={styles.wrapper}
-      keyscrollEventThrottle={200}
-      automaticallyAdjustContentInsets={false}
-    >
-      <Image source={{ uri: `http://data.gov.tw/sites/default/files/visual/fruit/${formatUrlKey(props.urlKey, 3)}.jpg` }}style={ styles.itemImg } />
-      <Text style={ styles.title }>{props.title}</Text>
-      <View style={ styles.container }>
-        <Text style={ styles.content }>類型：{props.itemType}</Text>
-        <Text style={ styles.content }>產期：{props.month.join('、')}月</Text>
-        <Text style={ styles.content }>產地：{props.county.join('、')}</Text>
-        <Text style={ styles.content }>品種：{props.variety.join('、')}</Text>
+  function status() {
+    let cover;
+    if (props.status !== 'null') {
+      cover = (
+        <CoverCard
+          title={props.status}
+          height={windowSize.height * 0.4}
+          textStyle={{
+            width: windowSize.width,
+            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            fontSize: 20,
+            textAlign: 'center',
+            color: '#fff',
+          }}
+          img={{ uri: props.pic }} style={styles.coverContainer}
+        />
+      );
+    } else {
+      cover = (
+        <CoverCard
+          height={windowSize.height * 0.4}
+          img={{ uri: props.pic }} style={styles.coverContainer}
+        />
+      );
+    }
+    return cover;
+  }
+  function info() {
+    let infos = [];
+    if (props.level) {
+      let star = '';
+      for (let i = 0; i < props.level; i++) {
+        star += '★';
+      }
+      infos.push(<Text style={styles.infoText} key={'level'}>難易度：{star}</Text>);
+    }
+    if (props.detail_02) {
+      infos.push(
+        <Text
+          style={styles.infoText}
+          key={'detail_02'}
+        >
+          {props.detail_02}
+        </Text>
+      );
+    }
+    return infos;
+  }
+  function map() {
+    let mapImg;
+    if (props.map != 'null') {
+      mapImg = (
+        <View style={{ flex: 1, marginBottom: 20 }}>
+          <Image
+            source={{ uri: props.map }}
+            style={{
+              flex: 1,
+              padding: 20,
+              height: 500,
+            }}
+          />
       </View>
-    </ScrollView>
+      );
+    }
+    return mapImg;
+  }
+  return (
+    <View style={styles.wrapper}>
+      <ScrollView style={styles.scrollFrame}>
+        {status()}
+        <View style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
+          <View index={0} style={styles.scrollContainer}>
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <Text style={styles.title}>
+                {props.title}
+              </Text>
+              <Text style={styles.placeText}>
+                {props.place}
+              </Text>
+            </View>
+            <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+               {props.description_01}
+            </Text>
+            {map()}
+            <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+                {props.description_02}
+            </Text>
+          </View>
+        </View>
+        <View style={{ position: 'absolute', top: 10, right: 10 }}>
+          {info()}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 PostDetail.propTypes = {
-  index: React.PropTypes.number,
-  urlKey: React.PropTypes.string,
-  itemType: React.PropTypes.string,
-  month: React.PropTypes.array,
+  id: React.PropTypes.number,
   title: React.PropTypes.string,
-  variety: React.PropTypes.array,
-  county: React.PropTypes.array,
+  pic: React.PropTypes.string,
+  detail_01: React.PropTypes.string,
+  detail_02: React.PropTypes.string,
+  detail_03: React.PropTypes.string,
+  detail_04: React.PropTypes.string,
+  description_01: React.PropTypes.string,
+  description_02: React.PropTypes.string,
+  status: React.PropTypes.string,
+  recommend: React.PropTypes.string,
+  level: React.PropTypes.number,
+  place: React.PropTypes.string,
+  lat: React.PropTypes.number,
+  lon: React.PropTypes.number,
+  map: React.PropTypes.string,
+  url: React.PropTypes.string,
 };
 
-PostDetail.defaultProps = {
-  uri: 'https://images.unsplash.com/photo-1437750769465-301382cdf094?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=81fddd087f6ab2460e326af2413dc9fd',
-};
+PostDetail.defaultProps = {};
 
 function _injectPropsFromStore(state) {
-  return {
-    listData: state.search.postList,
-  };
+  return {};
 }
 
-const _injectPropsFormActions = {
-  requestSearchPost,
-};
+const _injectPropsFormActions = {};
 
 export default connect(_injectPropsFromStore, _injectPropsFormActions)(PostDetail);
