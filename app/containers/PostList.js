@@ -10,7 +10,7 @@ import data from '../json/data';
 const styles = React.StyleSheet.create({
   content: {
     flex: 1,
-    marginTop: 60,
+    marginTop: 65,
     backgroundColor: '#fff',
   },
 });
@@ -50,7 +50,11 @@ export default class PostList extends Component {
         index={rowData.index}
         title={rowData.title}
         img={rowData.pic}
-        description={`${rowData.description_01.substring(0, 50)}...`}
+        place={rowData.place}
+        status={rowData.status}
+        level={rowData.level}
+        detail_02={rowData.detail_02}
+        description={rowData.description_01}
         onItemPress={this.onListItemPress}
         bakColor={bakColor}
         rightText={''}
