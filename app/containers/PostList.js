@@ -33,14 +33,14 @@ export default class PostList extends Component {
   }
 
   componentWillMount() {
-    console.log("!!!!!!!!!!!!!!", data);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(data),
     });
   }
 
-  onListItemPress = (id) => {
-    Actions.postDetail({ id });
+  onListItemPress = (rowData) => {
+    console.log("!!!!!!!!!!!!!", rowData);
+    Actions.postDetail(rowData);
   }
 
   getListItem(rowData, sectionID, rowID) {
@@ -61,7 +61,7 @@ export default class PostList extends Component {
         level={rowData.level}
         detail_02={rowData.detail_02}
         description={rowData.description_01}
-        onItemPress={this.onListItemPress}
+        onItemPress={this.onListItemPress.bind(this, rowData)}
         bakColor={bakColor}
         rightText={''}
       />
