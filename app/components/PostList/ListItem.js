@@ -1,5 +1,4 @@
 import React, {
-  StyleSheet,
   PixelRatio,
   View,
   Text,
@@ -7,6 +6,7 @@ import React, {
   Image,
 } from 'react-native';
 const PIXEL_RATIO = PixelRatio.get();
+const StyleSheet = require('../../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   commentContent: {
     flex: 1,
@@ -40,21 +40,29 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     fontSize: 14,
-    paddingLeft: 20 * PIXEL_RATIO,
-    paddingRight: 20 * PIXEL_RATIO,
-    paddingTop: 3 * PIXEL_RATIO,
-    paddingBottom: 10 * PIXEL_RATIO,
+    ios: {
+      paddingLeft: 30,
+      paddingRight: 30,
+      paddingTop: 3,
+      paddingBottom: 20,
+    },
+    android: {
+      marginLeft: 30,
+      marginRight: 30,
+      paddingTop: 3,
+      paddingBottom: 20,
+    }
   },
   infoText: {
     flex: 1,
     flexDirection: 'row',
-    padding: 2 * PIXEL_RATIO,
+    padding: 2,
     fontSize: 12,
   },
   itemImg: {
     borderRadius: 3,
-    width: 42 * PIXEL_RATIO,
-    height: 35 * PIXEL_RATIO,
+    width: 84,
+    height: 70,
   },
   rightBlock: {
     flex: 1,

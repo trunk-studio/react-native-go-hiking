@@ -7,11 +7,17 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import ListItem from '../components/PostList/ListItem';
 import data from '../json/data';
-const styles = React.StyleSheet.create({
+const StyleSheet = require('../utils/F8StyleSheet');
+const styles = StyleSheet.create({
   content: {
     flex: 1,
-    marginTop: 65,
     backgroundColor: '#fff',
+    ios: {
+      marginTop: 65,
+    },
+    android: {
+      marginTop: 55,
+    },
   },
 });
 
