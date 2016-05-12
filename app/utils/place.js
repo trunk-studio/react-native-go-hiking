@@ -15,9 +15,9 @@ export function formatDistance(distance) {
   if (validDistance) {
     const isLessThanKm = (distance <= 1);
     if (isLessThanKm) {
-      return `${distance * 1000} m`;
+      return `${distance * 1000} 公尺`;
     }
-    return `${distance} km`;
+    return `${distance} 公里`;
   }
   return '';
 }

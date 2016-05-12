@@ -7,6 +7,7 @@ import React, {
 } from 'react-native';
 const PIXEL_RATIO = PixelRatio.get();
 const StyleSheet = require('../../utils/F8StyleSheet');
+import { formatDistance } from '../../utils/place';
 const styles = StyleSheet.create({
   commentContent: {
     flex: 1,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
       marginRight: 30,
       paddingTop: 3,
       paddingBottom: 20,
-    }
+    },
   },
   infoText: {
     flex: 1,
@@ -90,6 +91,13 @@ export default function PostListItem(props) {
     if (props.detail_02 != 'null') infos.push(<Text style={styles.infoText} key={'detail_02'}>{props.detail_02}</Text>);
     return infos;
   }
+  function nearby() {
+    let data;
+    if (props.distance) {
+      data = <Text style={styles.infoText}>距離：{formatDistance(props.distance)}</Text>
+    }
+    return data;
+  }
   return (
     <View style={props.bakColor}>
       <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress}>
@@ -101,6 +109,7 @@ export default function PostListItem(props) {
             <Text style={styles.title} numberOfLines={2} >
               {props.title}
             </Text>
+            {nearby()}
             {info()}
           </View>
         </View>
@@ -126,6 +135,7 @@ PostListItem.propTypes = {
   level: React.PropTypes.number,
   detail_02: React.PropTypes.string,
   place: React.PropTypes.string,
+  distance: React.PropTypes.number,
 };
 
 PostListItem.defaultProps = {

@@ -95,7 +95,7 @@ function PostDetail(props) {
       }
       infos.push(<Text style={styles.infoText} key={'level'}>難易度：{star}</Text>);
     }
-    if (props.detail_02) {
+    if (props.detail_02 !== 'null') {
       infos.push(
         <Text
           style={styles.infoText}

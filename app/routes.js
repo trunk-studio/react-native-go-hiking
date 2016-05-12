@@ -10,6 +10,7 @@ const Router = connect()(RNRF.Router);
 // View
 import TabIcon from './components/TabIcon';
 import About from './containers/About';
+import Nearby from './containers/NearbyPostList'
 import News from './containers/News';
 import NewsDetail from './containers/NewsDetail';
 import PostDetail from './containers/PostDetail';
@@ -44,15 +45,15 @@ export default function AppRoutes() {
               <Route name="category" component={Category} title="月份導覽" />
             </Router>
           </Route>
+          <Route name="tabNearby" schema="tab" title="附近步道" iconName="user">
+            <Router>
+              <Route name="nearby" component={Nearby} title="附近步道" />
+            </Router>
+          </Route>
           <Route name="tabNews" schema="tab" title="最新資訊" iconName="newspaper-o">
             <Router>
               <Route name="news" component={News} title="最新資訊" />
               <Route name="newsDetail" component={NewsDetail} title="活動資訊" />
-            </Router>
-          </Route>
-          <Route name="tabAbout" schema="tab" title="關於我們" iconName="user">
-            <Router>
-              <Route name="about" component={About} title="關於我們" />
             </Router>
           </Route>
         </Router>
