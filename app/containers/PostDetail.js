@@ -1,15 +1,13 @@
 import React, {
-  StyleSheet,
   ScrollView,
   Image,
   View,
   Text,
 } from 'react-native';
 import CoverCard from '../components/CoverCard';
-const coverImg = require('../images/about.jpg');
 import { connect } from 'react-redux';
 import Dimensions from 'Dimensions';
-
+const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   title: {
@@ -40,8 +38,13 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    marginTop: 64,
     marginBottom: 50,
+    ios: {
+      marginTop: 65,
+    },
+    android: {
+      marginTop: 55,
+    },
   },
   scrollFrame: {
     flex: 1,
@@ -101,7 +104,7 @@ function PostDetail(props) {
     let mapImg;
     if (props.map) {
       mapImg = (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginBottom: 20 }}>
           <Image
             source={{ uri: props.map }}
             style={{
