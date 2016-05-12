@@ -20,7 +20,7 @@ react-native run-ios
 ```
 npm run bundle-android
 npm run android-mock-update-server
-react-native run-ios
+react-native run-android
 ```
 # Bundle
 ```
