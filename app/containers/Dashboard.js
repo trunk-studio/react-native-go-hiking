@@ -5,17 +5,19 @@ import React, {
   Dimensions,
   View,
 } from 'react-native';
-import CoverCard from '../components/CoverCard';
 import InfoBar from '../components/InfoBar';
+import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
+import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { requestNews } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
-import { requestSetLocation } from '../actions/GeoActions';
 import { requestWeather } from '../actions/WeatherActions';
-import { Actions } from 'react-native-router-flux';
+import { requestSetLocation } from '../actions/GeoActions';
 
-const coverImg = require('../images/dashboard.jpg');
+
+const coverImg = {uri: 'https://pixabay.com/static/uploads/photo/2015/10/05/15/37/forest-972792_960_720.jpg'}; //require('../images/dashboard.jpg');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   wrapper: {
@@ -55,13 +57,22 @@ export default class Dashboard extends Component {
       });
     }
     const { listData, month, date, weekday, temp, desc, iconId } = this.props;
+    let activityListData = [];
+    for (const item of activityData.list) {
+      activityListData.push({
+        title: item.title,
+        content: item.description,
+      });
+    }
     return (
       <View style={styles.wrapper}>
-        <CoverCard img={coverImg} title={'蔬果寶'} height={windowSize.height * 0.3} />
+        <CoverCard img={coverImg} title={'登山趣'} height={windowSize.height * 0.3} />
+        {/*
         <InfoBar month={month} date={date} weekday={weekday} temp={temp} desc={desc}
           iconId={iconId} locationName={this.props.locationName}
         />
-        <NewsBoard boardTitle={'今日舉行的活動'} listData={listData}
+        */}
+        <NewsBoard boardTitle={'近期活動'} listData={activityListData}
           itemCount={3} onItemPress={onListItemPress}
         />
       </View>

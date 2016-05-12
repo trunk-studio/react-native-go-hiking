@@ -9,11 +9,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const styles = StyleSheet.create({
   newsItem: {
     flexDirection: 'row',
-    borderBottomColor: '#333',
+    borderBottomColor: '#417505',//'#333',
     borderBottomWidth: 1,
   },
   newsConent: {
     flex: 8,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   newsIcon: {
     flex: 2,
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 40,
-    color: '#359ac0',
+    color: '#417505', //'#359ac0',
   },
   newsTitle: {
     fontSize: 19,
@@ -32,16 +34,12 @@ const styles = StyleSheet.create({
     color: '#333',
     marginTop: 10,
     marginBottom: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   newsInfo: {
     fontSize: 15,
     lineHeight: 20,
     color: '#555',
     marginBottom: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
   },
 });
 
