@@ -76,6 +76,13 @@ function PostDetail(props) {
           img={{ uri: props.pic }} style={styles.coverContainer}
         />
       );
+    } else {
+      cover = (
+        <CoverCard
+          height={windowSize.height * 0.4}
+          img={{ uri: props.pic }} style={styles.coverContainer}
+        />
+      );
     }
     return cover;
   }

@@ -39,7 +39,6 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    console.log("!!!!!!!!!!!!!", rowData);
     Actions.postDetail(rowData);
   }
 
