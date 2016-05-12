@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: '#fff',
+    marginBottom: 50,
     ios: {
       marginTop: 65,
     },
@@ -39,7 +40,6 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    console.log("!!!!!!!!!!!!!", rowData);
     Actions.postDetail(rowData);
   }
 

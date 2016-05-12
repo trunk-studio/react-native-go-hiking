@@ -128,7 +128,8 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
                 new ReactNativeAutoUpdaterPackage(),
-                new MainReactPackage());
+                new MainReactPackage(),
+            new VectorIconsPackage());
     }
 
 }

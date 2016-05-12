@@ -76,6 +76,13 @@ function PostDetail(props) {
           img={{ uri: props.pic }} style={styles.coverContainer}
         />
       );
+    } else {
+      cover = (
+        <CoverCard
+          height={windowSize.height * 0.4}
+          img={{ uri: props.pic }} style={styles.coverContainer}
+        />
+      );
     }
     return cover;
   }
@@ -102,7 +109,7 @@ function PostDetail(props) {
   }
   function map() {
     let mapImg;
-    if (props.map) {
+    if (props.map != 'null') {
       mapImg = (
         <View style={{ flex: 1, marginBottom: 20 }}>
           <Image

@@ -87,7 +87,7 @@ export default function PostListItem(props) {
       }
       infos.push(<Text style={styles.infoText} key={'level'}>難易度：{star}</Text>);
     }
-    if (props.detail_02) infos.push(<Text style={styles.infoText} key={'detail_02'}>{props.detail_02}</Text>);
+    if (props.detail_02 != 'null') infos.push(<Text style={styles.infoText} key={'detail_02'}>{props.detail_02}</Text>);
     return infos;
   }
   return (
