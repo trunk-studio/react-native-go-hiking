@@ -23,9 +23,9 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      * */
 
     /**
-     *  Name of the JS Bundle file shipped with the app.
-     *  This file has to be added as an Android Asset.
-     * */
+     * Name of the JS Bundle file shipped with the app.
+     * This file has to be added as an Android Asset.
+     */
     @Nullable
     @Override
     protected String getBundleAssetName() {
@@ -33,9 +33,9 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     }
 
     /**
-     *  URL for the metadata of the update.
-     *  雷! 只要找不到就會 Error
-     * */
+     * URL for the metadata of the update.
+     * 雷! 只要找不到就會 Error
+     */
     @Override
     protected String getUpdateMetadataUrl() {
         // return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json";
@@ -45,17 +45,17 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     /**
      * Name of the metadata file shipped with the app.
      * This metadata is used to compare the shipped JS code against the updates.
-     * */
+     */
     @Override
     protected String getMetadataAssetName() {
         return "metadata.android.json";
     }
 
     /**
-     *  If your updates metadata JSON has a relative URL for downloading
-     *  the JS bundle, set this hostname.
-     *  雷! 只要找不到就會 Error
-     * */
+     * If your updates metadata JSON has a relative URL for downloading
+     * the JS bundle, set this hostname.
+     * 雷! 只要找不到就會 Error
+     */
     @Override
     protected String getHostnameForRelativeDownloadURLs() {
         // return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
@@ -63,34 +63,34 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
     }
 
     /**
-     *  Decide what type of updates to download.
+     * Decide what type of updates to download.
      * Available options -
-     *  MAJOR - will download only if major version number changes
-     *  MINOR - will download if major or minor version number changes
-     *  PATCH - will download for any version change
+     * MAJOR - will download only if major version number changes
+     * MINOR - will download if major or minor version number changes
+     * PATCH - will download for any version change
      * default value - PATCH
-     * */
+     */
     @Override
     protected ReactNativeAutoUpdaterUpdateType getAllowedUpdateType() {
         return ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType.MINOR;
     }
 
     /**
-     *  Decide how frequently to check for updates.
+     * Decide how frequently to check for updates.
      * Available options -
-     *  EACH_TIME - each time the app starts
-     *  DAILY     - maximum once per day
-     *  WEEKLY    - maximum once per week
+     * EACH_TIME - each time the app starts
+     * DAILY     - maximum once per day
+     * WEEKLY    - maximum once per week
      * default value - EACH_TIME
-     * */
+     */
     @Override
     protected ReactNativeAutoUpdaterFrequency getUpdateFrequency() {
         return ReactNativeAutoUpdaterFrequency.EACH_TIME;
     }
 
     /**
-     *  To show progress during the update process.
-     * */
+     * To show progress during the update process.
+     */
     @Override
     protected boolean getShowProgress() {
         return true;
@@ -131,7 +131,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
                 new ReactNativeAutoUpdaterPackage(),
                 new MainReactPackage(),
                 new VectorIconsPackage()
-                );
+        );
     }
 
 }
