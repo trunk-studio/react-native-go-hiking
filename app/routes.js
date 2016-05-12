@@ -38,14 +38,14 @@ export default function AppRoutes() {
               <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
             </Router>
           </Route>
-          <Route name="tabMonth" schema="tab" title="步道導覽" iconName="calendar">
+          <Route name="tabMonth" schema="tab" title="步道導覽" iconName="map-signs">
             <Router>
               <Route name="postList" component={PostList} />
               <Route name="postDetail" component={PostDetail} />
               <Route name="category" component={Category} title="月份導覽" />
             </Router>
           </Route>
-          <Route name="tabNearby" schema="tab" title="附近步道" iconName="user">
+          <Route name="tabNearby" schema="tab" title="附近步道" iconName="tree">
             <Router>
               <Route name="nearby" component={Nearby} title="附近步道" />
             </Router>
