@@ -109,7 +109,7 @@ function PostDetail(props) {
   }
   function map() {
     let mapImg;
-    if (props.map) {
+    if (props.map != 'null') {
       mapImg = (
         <View style={{ flex: 1, marginBottom: 20 }}>
           <Image

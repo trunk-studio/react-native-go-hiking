@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: '#fff',
+    marginBottom: 50,
     ios: {
       marginTop: 65,
     },
