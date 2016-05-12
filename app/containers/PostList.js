@@ -1,95 +1,83 @@
 import React, {
-  Component,
-  StyleSheet,
   View,
-  Dimensions,
-  SegmentedControlIOS,
+  Component,
+  ListView,
 } from 'react-native';
-import ScrollList from '../components/ScrollList';
-import { requestSearchPost } from '../actions/SearchActions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-
-const windowSize = Dimensions.get('window');
-const styles = StyleSheet.create({
-  wrapper: {
-    paddingTop: 64,
-    height: windowSize.height,
-  },
-  tabContainer: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: windowSize.width * 0.1,
-    paddingRight: windowSize.width * 0.1,
-    backgroundColor: 'rgb(131, 206, 227)',
+import ListItem from '../components/PostList/ListItem';
+import data from '../json/data';
+const styles = React.StyleSheet.create({
+  content: {
+    flex: 1,
+    marginTop: 60,
+    backgroundColor: '#fff',
   },
 });
 
+
 export default class PostList extends Component {
-  componentWillMount() {
-    this.props.requestSearchPost(this.props.mIndex);
-    this.setState({ selectedIndex: 0 });
+  constructor(props) {
+    super(props);
+    this.getListItem = this.getListItem.bind(this);
+    const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.state = {
+      dataSource,
+    };
   }
-  render() {
-    const { listData } = this.props;
-    function onListItemPress(detail) {
-      Actions.postDetail({
-        itemType: detail.type,
-        urlKey: detail.urlKey,
-        month: detail.month,
-        title: detail.crop,
-        variety: detail.variety,
-        county: detail.county,
-      });
+
+  componentWillMount() {
+    console.log("!!!!!!!!!!!!!!", data);
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(data),
+    });
+  }
+
+  onListItemPress = (id) => {
+    Actions.postDetail({ id });
+  }
+
+  getListItem(rowData, sectionID, rowID) {
+    let bakColor = {};
+    if (rowID % 2 === 0) {
+      bakColor = { backgroundColor: 'rgb(255, 255, 255)' };
+    } else {
+      bakColor = { backgroundColor: 'rgb(246, 246, 246)' };
     }
     return (
-      <View style={styles.wrapper}>
-        <View style={styles.tabContainer}>
-          <SegmentedControlIOS
-            style={styles.tabBar}
-            values={['蔬菜', '水果']}
-            selectedIndex={0}
-            backgroundColor={'white'}
-            tintColor={'#359ac0'}
-            borderRadius={5}
-            onChange={(event) => {
-              this.setState({ selectedIndex: event.nativeEvent.selectedSegmentIndex });
-            }}
-          />
-        </View>
-        <ScrollList
-          backgroundColor={'rgb(131, 206, 227)'}
-          listData={listData}
-          tabIndex={this.state.selectedIndex}
-          onItemPress={onListItemPress}
+      <ListItem
+        id={rowData.id}
+        index={rowData.index}
+        title={rowData.title}
+        img={rowData.pic}
+        description={`${rowData.description_01.substring(0, 50)}...`}
+        onItemPress={this.onListItemPress}
+        bakColor={bakColor}
+        rightText={''}
+      />
+    );
+  }
+
+  render() {
+    return (
+      <View style={styles.content}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.getListItem}
         />
-      </View>
+    </View>
     );
   }
 }
 
-PostList.propTypes = {
-  listData: React.PropTypes.array,
-  mIndex: React.PropTypes.number,
-  onChange: React.PropTypes.func,
-  requestSearchPost: React.PropTypes.func,
-};
+PostList.propTypes = {};
 
-PostList.defaultProps = {
-  listData: [],
-  mIndex: 1,
-  onChange: null,
-  requestSearchPost: null,
-};
+PostList.defaultProps = {};
 
 function _injectPropsFromStore(state) {
-  return {
-    listData: state.search.postList,
-  };
+  return {};
 }
 
-const _injectPropsFormActions = {
-  requestSearchPost,
-};
+const _injectPropsFormActions = {};
 
 export default connect(_injectPropsFromStore, _injectPropsFormActions)(PostList);
