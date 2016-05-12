@@ -1,7 +1,8 @@
 # Setup
 ### 資料格式
+放在 `app/json/data.json`
 ```
-{
+[{
   "id": 1,
   "title": "蘇花古道：大南澳越嶺段",
   "detail_01": "國家級步道",
@@ -18,7 +19,7 @@
   "lon": 121.688164,
   "map": "http://recreation.forest.gov.tw/RT/Photo/001/01/001EP_Map.jpg",
   "url": "http://recreation.forest.gov.tw/RT/RT_2_1.aspx?TR_ID=001"
-}
+}]
 ```
 ### install package
 ```
