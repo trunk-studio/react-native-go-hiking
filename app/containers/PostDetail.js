@@ -144,7 +144,7 @@ function PostDetail(props) {
             </Text>
             {map()}
             <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
-                {props.description_02}
+                {props.description_02 !== 'null' ? props.description_02 : null }
             </Text>
           </View>
         </View>
