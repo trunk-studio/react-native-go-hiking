@@ -41,12 +41,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/flavorDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/flavorDebug/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/flavorDebug/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/flavor/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/flavor/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/flavor/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/flavor/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/flavor/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/flavor/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavorDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavorDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavorDebug/assets" type="java-test-resource" />
@@ -54,6 +48,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavorDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavorDebug/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testFlavorDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/flavor/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/flavor/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/flavor/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/flavor/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/flavor/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/flavor/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/flavor/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/flavor/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/flavor/assets" type="java-resource" />
@@ -119,6 +119,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.facebook.react/react-native/0.24.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/flavorDebug" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/flavorRelease" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
