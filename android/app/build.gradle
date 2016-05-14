@@ -86,6 +86,16 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
     defaultConfig {
+        applicationId 'com.trunksys.gohiking'
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 4
+        versionName '1.0'
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
+        testApplicationId 'com.trunksys.gohiking.test'
+        signingConfig signingConfigs.config
     }
     splits {
         abi {
@@ -116,20 +126,6 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-        }
-    }
-    productFlavors {
-        flavor {
-            applicationId 'com.trunksys.gohiking'
-            minSdkVersion 19
-            targetSdkVersion 23
-            versionCode 3
-            versionName '1.0'
-            ndk {
-                abiFilters "armeabi-v7a", "x86"
-            }
-            testApplicationId 'com.trunksys.gohiking.test'
-            signingConfig signingConfigs.config
         }
     }
 }
