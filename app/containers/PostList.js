@@ -6,7 +6,10 @@ import React, {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import ListItem from '../components/PostList/ListItem';
-import data from '../json/data';
+import SwipeOut from 'react-native-swipeout';
+import { requestPathData } from '../actions/PathDataActions';
+import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
+
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   content: {
@@ -34,9 +37,15 @@ export default class PostList extends Component {
   }
 
   componentWillMount() {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(data),
-    });
+    this.props.requestPathData();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.pathList !== nextProps.pathList) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.pathList),
+      });
+    }
   }
 
   onListItemPress = (rowData) => {
@@ -50,21 +59,60 @@ export default class PostList extends Component {
     } else {
       bakColor = { backgroundColor: 'rgb(246, 246, 246)' };
     }
+
+    let tagColor;
+    switch (rowData.status) {
+      case '全線封閉':
+        tagColor = 'rgb(213, 64, 64)';
+        break;
+      case '部分封閉':
+        tagColor = 'rgb(221, 105, 49)';
+        break;
+      case '注意':
+        tagColor = 'rgb(152, 221, 84)';
+        break;
+      default:
+        tagColor = 'rgba(0,0,0,0)';
+        break;
+    }
+
+    const swipeoutBtns = [];
+    if (!rowData.isFav) {
+      swipeoutBtns.push(
+        {
+          text: '收藏',
+          backgroundColor: 'rgb(152, 221, 84)',
+          onPress: this.props.requestAddFavorite.bind(this, rowData.id),
+        },
+      );
+    } else {
+      swipeoutBtns.push(
+        {
+          text: '取消收藏',
+          backgroundColor: 'rgb(231, 48, 43)',
+          onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
+        },
+      );
+    }
+
     return (
-      <ListItem
-        id={rowData.id}
-        index={rowData.index}
-        title={rowData.title}
-        img={rowData.pic}
-        place={rowData.place}
-        status={rowData.status}
-        level={rowData.level}
-        detail_02={rowData.detail_02}
-        description={rowData.description_01}
-        onItemPress={this.onListItemPress.bind(this, rowData)}
-        bakColor={bakColor}
-        rightText={''}
-      />
+      <SwipeOut right={swipeoutBtns} autoClose >
+        <ListItem
+          id={rowData.id}
+          index={rowData.index}
+          title={rowData.title}
+          img={rowData.pic}
+          place={rowData.place}
+          status={rowData.status}
+          tagColor={tagColor}
+          level={rowData.level}
+          detail_02={rowData.detail_02}
+          description={rowData.description_01}
+          onItemPress={this.onListItemPress.bind(this, rowData)}
+          bakColor={bakColor}
+          rightText={''}
+        />
+      </SwipeOut>
     );
   }
 
@@ -74,20 +122,33 @@ export default class PostList extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
+          enableEmptySections
         />
     </View>
     );
   }
 }
 
-PostList.propTypes = {};
+PostList.propTypes = {
+  requestAddFavorite: React.PropTypes.func,
+  checkIsFav: React.PropTypes.func,
+  requestPathData: React.PropTypes.func,
+  requestRemoveFavorite: React.PropTypes.func,
+};
 
 PostList.defaultProps = {};
 
 function _injectPropsFromStore(state) {
-  return {};
+  return {
+    pathList: state.pathList,
+  };
 }
 
-const _injectPropsFormActions = {};
+const _injectPropsFormActions = {
+  requestAddFavorite,
+  checkIsFav,
+  requestPathData,
+  requestRemoveFavorite,
+};
 
 export default connect(_injectPropsFromStore, _injectPropsFormActions)(PostList);
