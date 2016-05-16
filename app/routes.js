@@ -32,6 +32,9 @@ export default function AppRoutes() {
             borderTopWidth: 1,
             backgroundColor: 'white',
           }}
+          navigationBarStyle={{
+            borderColor: '#DDD',
+          }}
         >
           <Route name="tabDashboard" schema="tab" title="首頁" iconName="home">
             <Router>

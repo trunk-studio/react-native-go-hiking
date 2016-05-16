@@ -33,7 +33,12 @@ export async function checkIsFav(id) {
 
 export async function addToFav(id) {
   let favoriteList = await getItem(storageKey);
-  favoriteList = JSON.parse(favoriteList);
+  console.log(favoriteList)
+  if (!favoriteList) {
+    favoriteList = [];
+  } else {
+    favoriteList = JSON.parse(favoriteList);
+  }
   favoriteList.push(id);
   await setItem(storageKey, JSON.stringify(favoriteList));
   favoriteList = await getItem(storageKey);

@@ -48,16 +48,9 @@ export default class MyFavorite extends Component {
   componentWillMount() {
     this.props.requestPathData();
   }
-  componentDidMount() {
-    this.props.requestPathData();
-  }
-  componentWillUpdate() {
-    this.props.requestPathData();
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.pathList !== nextProps.pathList) {
-      console.log('should update');
       let favoriteList = [];
       for (const item of nextProps.pathList) {
         if (item.isFav) {
