@@ -17,6 +17,7 @@ import PostDetail from './containers/PostDetail';
 import Dashboard from './containers/Dashboard';
 import Category from './containers/Category';
 import PostList from './containers/PostList';
+import MyFavorites from './containers/MyFavorites';
 
 export default function AppRoutes() {
   return (
@@ -50,10 +51,10 @@ export default function AppRoutes() {
               <Route name="nearby" component={Nearby} title="附近步道" />
             </Router>
           </Route>
-          <Route name="tabNews" schema="tab" title="最新資訊" iconName="newspaper-o">
+          <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart-o" >
             <Router>
-              <Route name="news" component={News} title="最新資訊" />
-              <Route name="newsDetail" component={NewsDetail} title="活動資訊" />
+              <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
+              <Route name="postDetail" component={PostDetail} />
             </Router>
           </Route>
         </Router>
