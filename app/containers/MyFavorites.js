@@ -35,10 +35,6 @@ const styles = StyleSheet.create({
 
 
 export default class MyFavorite extends Component {
-  constructor(props) {
-    super(props);
-    this.getListItem = this.getListItem.bind(this);
-  }
 
   componentWillMount() {
     this.props.requestPathData();
