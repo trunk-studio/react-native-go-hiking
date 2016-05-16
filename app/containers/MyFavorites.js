@@ -5,17 +5,26 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import ListItem from '../components/PostList/ListItem';
-import SwipeOut from 'react-native-swipeout';
 import { requestPathData } from '../actions/PathDataActions';
-import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
-
+import { checkIsFav, requestRemoveFavorite } from '../actions/FavoriteActions';
+import SwipeOut from 'react-native-swipeout';
+import ListItem from '../components/PostList/ListItem';
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    padding: 20,
+    ios: {
+      marginTop: 64,
+      marginBottom: 50,
+    },
+    android: {
+      marginTop: 54,
+    },
+  },
   content: {
     flex: 1,
     backgroundColor: '#fff',
-    marginBottom: 50,
     ios: {
       marginTop: 65,
     },
@@ -26,7 +35,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default class PostList extends Component {
+export default class MyFavorite extends Component {
   constructor(props) {
     super(props);
     this.getListItem = this.getListItem.bind(this);
@@ -42,8 +51,15 @@ export default class PostList extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.pathList !== nextProps.pathList) {
+      let favoriteList = [];
+      for (const item of nextProps.pathList) {
+        if (item.isFav) {
+          favoriteList.push(item);
+        }
+      }
+      console.log('list', favoriteList);
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.pathList),
+        dataSource: this.state.dataSource.cloneWithRows(favoriteList),
       });
     }
   }
@@ -76,27 +92,15 @@ export default class PostList extends Component {
         break;
     }
 
-    const swipeoutBtns = [];
-    if (!rowData.isFav) {
-      swipeoutBtns.push(
-        {
-          text: '收藏',
-          backgroundColor: 'rgb(152, 221, 84)',
-          onPress: this.props.requestAddFavorite.bind(this, rowData.id),
-        },
-      );
-    } else {
-      swipeoutBtns.push(
-        {
-          text: '取消收藏',
-          backgroundColor: 'rgb(231, 48, 43)',
-          onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
-        },
-      );
-    }
-
+    const swipeoutBtns = [
+      {
+        text: '取消收藏',
+        backgroundColor: 'rgb(231, 48, 43)',
+        onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
+      },
+    ];
     return (
-      <SwipeOut right={swipeoutBtns} autoClose >
+      <SwipeOut right={swipeoutBtns} autoClose>
         <ListItem
           id={rowData.id}
           index={rowData.index}
@@ -107,7 +111,6 @@ export default class PostList extends Component {
           tagColor={tagColor}
           level={rowData.level}
           detail_02={rowData.detail_02}
-          description={rowData.description_01}
           onItemPress={this.onListItemPress.bind(this, rowData)}
           bakColor={bakColor}
           rightText={''}
@@ -124,19 +127,18 @@ export default class PostList extends Component {
           renderRow={this.getListItem}
           enableEmptySections
         />
-    </View>
+      </View>
     );
   }
 }
 
-PostList.propTypes = {
-  requestAddFavorite: React.PropTypes.func,
-  checkIsFav: React.PropTypes.func,
-  requestPathData: React.PropTypes.func,
+MyFavorite.propTypes = {
   requestRemoveFavorite: React.PropTypes.func,
+  onListItemPress: React.PropTypes.func,
+  requestPathData: React.PropTypes.func,
 };
 
-PostList.defaultProps = {};
+MyFavorite.defaultProps = {};
 
 function _injectPropsFromStore(state) {
   return {
@@ -145,10 +147,9 @@ function _injectPropsFromStore(state) {
 }
 
 const _injectPropsFormActions = {
-  requestAddFavorite,
   checkIsFav,
-  requestPathData,
   requestRemoveFavorite,
+  requestPathData,
 };
 
-export default connect(_injectPropsFromStore, _injectPropsFormActions)(PostList);
+export default connect(_injectPropsFromStore, _injectPropsFormActions)(MyFavorite);
