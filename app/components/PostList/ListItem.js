@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'red',
   },
   title: {
     flex: 1,
@@ -112,7 +111,7 @@ export default function PostListItem(props) {
   }
   return (
     <View style={props.bakColor}>
-      <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress}>
+      <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress} >
         <View style={styles.commentContent}>
           <View style={styles.imageContent}>
             <Image source={{ uri: props.img }} style={styles.itemImg} />

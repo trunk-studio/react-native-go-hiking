@@ -1,7 +1,7 @@
 import React, {
   View,
   Component,
-  ListView,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -39,10 +39,10 @@ export default class MyFavorite extends Component {
   constructor(props) {
     super(props);
     this.getListItem = this.getListItem.bind(this);
-    const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.state = {
-      dataSource,
-    };
+    // const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    // this.state = {
+    //   dataSource,
+    // };
   }
 
   componentWillMount() {
@@ -50,18 +50,13 @@ export default class MyFavorite extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pathList !== nextProps.pathList) {
-      let favoriteList = [];
-      for (const item of nextProps.pathList) {
-        if (item.isFav) {
-          favoriteList.push(item);
-        }
-      }
-      console.log('list', favoriteList);
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(favoriteList),
-      });
-    }
+    // if (this.props.pathList !== nextProps.pathList) {
+    //
+    //   console.log('list', favoriteList);
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(favoriteList),
+    //   });
+    // }
   }
 
   onListItemPress = (rowData) => {
@@ -69,65 +64,73 @@ export default class MyFavorite extends Component {
   }
 
   getListItem(rowData, sectionID, rowID) {
-    let bakColor = {};
-    if (rowID % 2 === 0) {
-      bakColor = { backgroundColor: 'rgb(255, 255, 255)' };
-    } else {
-      bakColor = { backgroundColor: 'rgb(246, 246, 246)' };
-    }
 
-    let tagColor;
-    switch (rowData.status) {
-      case '全線封閉':
-        tagColor = 'rgb(213, 64, 64)';
-        break;
-      case '部分封閉':
-        tagColor = 'rgb(221, 105, 49)';
-        break;
-      case '注意':
-        tagColor = 'rgb(152, 221, 84)';
-        break;
-      default:
-        tagColor = 'rgba(0,0,0,0)';
-        break;
-    }
-
-    const swipeoutBtns = [
-      {
-        text: '取消收藏',
-        backgroundColor: 'rgb(231, 48, 43)',
-        onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
-      },
-    ];
-    return (
-      <SwipeOut right={swipeoutBtns} autoClose>
-        <ListItem
-          id={rowData.id}
-          index={rowData.index}
-          title={rowData.title}
-          img={rowData.pic}
-          place={rowData.place}
-          status={rowData.status}
-          tagColor={tagColor}
-          level={rowData.level}
-          detail_02={rowData.detail_02}
-          onItemPress={this.onListItemPress.bind(this, rowData)}
-          bakColor={bakColor}
-          rightText={''}
-        />
-      </SwipeOut>
-    );
   }
 
   render() {
+    let ListItemArray = [];
+    let favoriteList = [];
+    for (const item of this.props.pathList) {
+      if (item.isFav) {
+        favoriteList.push(item);
+      }
+    }
+    let rowIndex = 0;
+    for (let rowData of favoriteList) {
+      let bakColor = {};
+      if (rowIndex % 2 === 0) {
+        bakColor = { backgroundColor: 'rgb(255, 255, 255)' };
+      } else {
+        bakColor = { backgroundColor: 'rgb(246, 246, 246)' };
+      }
+      rowIndex += 1;
+
+      let tagColor;
+      switch (rowData.status) {
+        case '全線封閉':
+          tagColor = 'rgb(213, 64, 64)';
+          break;
+        case '部分封閉':
+          tagColor = 'rgb(221, 105, 49)';
+          break;
+        case '注意':
+          tagColor = 'rgb(152, 221, 84)';
+          break;
+        default:
+          tagColor = 'rgba(0,0,0,0)';
+          break;
+      }
+
+      const swipeoutBtns = [
+        {
+          text: '取消收藏',
+          backgroundColor: 'rgb(231, 48, 43)',
+          onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
+        },
+      ];
+
+      ListItemArray.push(
+        <SwipeOut right={swipeoutBtns} autoClose key={rowData.id}>
+          <ListItem
+            id={rowData.id}
+            index={rowData.index}
+            title={rowData.title}
+            img={rowData.pic}
+            place={rowData.place}
+            status={rowData.status}
+            tagColor={tagColor}
+            level={rowData.level}
+            detail_02={rowData.detail_02}
+            onItemPress={this.onListItemPress.bind(this, rowData)}
+            bakColor={bakColor}
+            rightText={''}
+          />
+      </SwipeOut>);
+    }
     return (
-      <View style={styles.content}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.getListItem}
-          enableEmptySections
-        />
-      </View>
+      <ScrollView style={styles.content}>
+        {ListItemArray}
+      </ScrollView>
     );
   }
 }
