@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "GoHiking.app"
+               BuildableName = "&#x53f0;&#x7063;&#x6b65;&#x9053;1&#x6307;&#x901a;.app"
                BlueprintName = "GoHiking"
                ReferencedContainer = "container:App.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "GoHiking.app"
+            BuildableName = "&#x53f0;&#x7063;&#x6b65;&#x9053;1&#x6307;&#x901a;.app"
             BlueprintName = "GoHiking"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "GoHiking.app"
+            BuildableName = "&#x53f0;&#x7063;&#x6b65;&#x9053;1&#x6307;&#x901a;.app"
             BlueprintName = "GoHiking"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>
@@ -99,7 +99,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "GoHiking.app"
+            BuildableName = "&#x53f0;&#x7063;&#x6b65;&#x9053;1&#x6307;&#x901a;.app"
             BlueprintName = "GoHiking"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>

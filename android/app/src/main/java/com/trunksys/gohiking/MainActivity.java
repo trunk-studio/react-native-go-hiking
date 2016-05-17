@@ -1,4 +1,4 @@
-package com.app;
+package com.trunksys.gohiking;
 
 
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater;
