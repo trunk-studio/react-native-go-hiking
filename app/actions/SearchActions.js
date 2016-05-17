@@ -1,5 +1,33 @@
 export const RECEIVED_SEARCH_NEWS = 'RECEIVED_SEARCH_NEWS';
 export const RECEIVED_SEARCH_POST = 'RECEIVED_SEARCH_POST';
+export const RECEIVED_AREA = 'RECEIVED_AREA';
+export const RECEIVED_TYPE = 'RECEIVED_TYPE';
+
+function receivedFilterArea(index) {
+  return {
+    type: RECEIVED_AREA,
+    data: index,
+  };
+}
+
+export function requestFilterArea(index) {
+  return (dispatch) => {
+    dispatch(receivedFilterArea(index));
+  };
+}
+
+function receivedFilterType(index) {
+  return {
+    type: RECEIVED_TYPE,
+    data: index,
+  };
+}
+
+export function requestFilterType(index) {
+  return (dispatch) => {
+    dispatch(receivedFilterType(index));
+  };
+}
 
 function receivedSearchNews(newsList) {
   return {

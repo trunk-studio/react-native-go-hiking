@@ -7,8 +7,10 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import ListItem from '../components/PostList/ListItem';
 import SwipeOut from 'react-native-swipeout';
+import Filter from '../components/Filter/FilterContainer';
 import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
+import { requestFilterArea, requestFilterType } from '../actions/SearchActions';
 
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
@@ -94,7 +96,6 @@ export default class PostList extends Component {
         },
       );
     }
-
     return (
       <SwipeOut right={swipeoutBtns} autoClose >
         <ListItem
@@ -116,9 +117,41 @@ export default class PostList extends Component {
     );
   }
 
+  areaOnChange = (id) => {
+    this.props.requestFilterArea(id);
+  };
+  typeOnChange = (id) => {
+    this.props.requestFilterType(id);
+  };
+
   render() {
+    const area = [
+      { title: '全部' },
+      { title: '北部' },
+      { title: '中部' },
+      { title: '南部' },
+      { title: '東部' },
+    ];
+    const type = [
+      { title: '全部' },
+      { title: '郊山' },
+      { title: '中級山', width: 65 },
+      { title: '百岳' },
+    ];
     return (
       <View style={styles.content}>
+        <Filter
+          title={'區域'}
+          dataList={area}
+          active={this.props.areaIndex}
+          onChange={this.areaOnChange}
+        />
+        <Filter
+          title={'類型'}
+          dataList={type}
+          active={this.props.typeIndex}
+          onChange={this.typeOnChange}
+        />
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
@@ -134,6 +167,8 @@ PostList.propTypes = {
   checkIsFav: React.PropTypes.func,
   requestPathData: React.PropTypes.func,
   requestRemoveFavorite: React.PropTypes.func,
+  requestFilterArea: React.PropTypes.func,
+  requestFilterType: React.PropTypes.func,
 };
 
 PostList.defaultProps = {};
@@ -141,6 +176,8 @@ PostList.defaultProps = {};
 function _injectPropsFromStore(state) {
   return {
     pathList: state.pathList,
+    typeIndex: state.search.typeIndex,
+    areaIndex: state.search.areaIndex,
   };
 }
 
@@ -149,6 +186,8 @@ const _injectPropsFormActions = {
   checkIsFav,
   requestPathData,
   requestRemoveFavorite,
+  requestFilterArea,
+  requestFilterType,
 };
 
 export default connect(_injectPropsFromStore, _injectPropsFormActions)(PostList);

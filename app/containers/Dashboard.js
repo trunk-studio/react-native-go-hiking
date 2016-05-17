@@ -7,14 +7,15 @@ import React, {
 import InfoBar from '../components/InfoBar';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
+import Filter from '../components/Filter/FilterContainer';
 import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { requestNews } from '../actions/SearchActions';
+import { requestNews, requestFilterArea, requestFilterType } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
 // import { requestSetLocation } from '../actions/GeoActions';
-
+import { Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
 
 const coverImg = {uri: 'https://pixabay.com/static/uploads/photo/2015/10/05/15/37/forest-972792_960_720.jpg'}; //require('../images/dashboard.jpg');
 const StyleSheet = require('../utils/F8StyleSheet');
@@ -51,6 +52,12 @@ export default class Dashboard extends Component {
       this.props.requestWeather({ name: locationName, country: countryName });
     }
   }
+  areaOnChange = (id) => {
+    this.props.requestFilterArea(id);
+  };
+  typeOnChange = (id) => {
+    this.props.requestFilterType(id);
+  };
   render() {
     function onListItemPress(detail) {
       Actions.newsDetail({
@@ -66,6 +73,19 @@ export default class Dashboard extends Component {
         content: item.description,
       });
     }
+    const area = [
+      { title: '全部' },
+      { title: '北部' },
+      { title: '中部' },
+      { title: '南部' },
+      { title: '東部' },
+    ];
+    const type = [
+      { title: '全部' },
+      { title: '郊山' },
+      { title: '中級山', width: 65 },
+      { title: '百岳' },
+    ];
     return (
       <View style={styles.wrapper}>
         <CoverCard img={coverImg} title={'登山趣'} height={windowSize.height * 0.3} />
@@ -74,6 +94,18 @@ export default class Dashboard extends Component {
           iconId={iconId} locationName={this.props.locationName}
         />
         */}
+        <Filter
+          title={'區域'}
+          dataList={area}
+          active={this.props.areaIndex}
+          onChange={this.areaOnChange}
+        />
+        <Filter
+          title={'類型'}
+          dataList={type}
+          active={this.props.typeIndex}
+          onChange={this.typeOnChange}
+        />
         <NewsBoard boardTitle={'近期活動'} listData={activityListData}
           itemCount={3} onItemPress={onListItemPress}
         />
@@ -99,6 +131,10 @@ Dashboard.propTypes = {
   temp: React.PropTypes.number,
   countryName: React.PropTypes.string,
   locationName: React.PropTypes.string,
+  requestFilterType: React.PropTypes.func,
+  requestFilterArea: React.PropTypes.func,
+  typeIndex: React.PropTypes.number,
+  areaIndex: React.PropTypes.number,
 };
 
 Dashboard.defaultProps = {
@@ -110,6 +146,8 @@ Dashboard.defaultProps = {
   requestWeather: null,
   month: 1,
   date: 1,
+  requestFilterType: null,
+  requestFilterArea: null,
 };
 
 function _injectPropsFromStore(state) {
@@ -123,6 +161,8 @@ function _injectPropsFromStore(state) {
     countryName: state.geo.countryName,
     locationName: state.geo.locationName,
     temp: state.weather.temp,
+    typeIndex: state.search.typeIndex,
+    areaIndex: state.search.areaIndex,
   };
 }
 
@@ -131,6 +171,8 @@ const _injectPropsFormActions = {
   requestToday,
   // requestSetLocation,
   requestWeather,
+  requestFilterArea,
+  requestFilterType,
 };
 
 export default connect(_injectPropsFromStore, _injectPropsFormActions)(Dashboard);
