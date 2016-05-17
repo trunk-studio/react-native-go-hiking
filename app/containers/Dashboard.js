@@ -68,7 +68,7 @@ export default class Dashboard extends Component {
     }
     return (
       <View style={styles.wrapper}>
-        <CoverCard img={coverImg} title={'登山趣'} height={windowSize.height * 0.3} />
+        <CoverCard img={coverImg} title={'台灣步道1指通'} height={windowSize.height * 0.3} />
         {/*
         <InfoBar month={month} date={date} weekday={weekday} temp={temp} desc={desc}
           iconId={iconId} locationName={this.props.locationName}
