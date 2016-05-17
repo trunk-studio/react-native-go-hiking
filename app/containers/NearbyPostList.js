@@ -50,12 +50,12 @@ export default class PostList extends Component {
               position.coords.latitude,
               position.coords.longitude
             );
-            // if (distance <= 100) {
+            if (distance <= 70) {
               nearbyData.push({
                 ...post,
                 distance,
               });
-            // }
+            }
           })
           nearbyData.sort((a, b) => {
             return parseFloat(a.distance) - parseFloat(b.distance);

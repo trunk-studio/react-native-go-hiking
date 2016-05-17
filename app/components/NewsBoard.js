@@ -49,9 +49,9 @@ export default function NewsBoard(props) {
   }
   return (
     <View style={{ flex: 1, flexDirection: 'column' }}>
-      <View style={styles.boardBar}>
+      {/*<View style={styles.boardBar}>
         <Text style={styles.boardBarText}>{props.boardTitle}</Text>
-      </View>
+      </View>*/}
       <ScrollView
         keyscrollEventThrottle={200}
         style={styles.container}

@@ -1,8 +1,8 @@
 import React, {
   Component,
-  Alert,
   Dimensions,
   View,
+  Linking,
 } from 'react-native';
 import InfoBar from '../components/InfoBar';
 import CoverCard from '../components/CoverCard';
@@ -60,9 +60,15 @@ export default class Dashboard extends Component {
   };
   render() {
     function onListItemPress(detail) {
-      Actions.newsDetail({
-        newsTitle: detail.title,
-        newsContent: detail.content,
+      // Actions.newsDetail({
+      //   newsTitle: detail.title,
+      //   newsContent: detail.content,
+      // });
+      const url = activityData.list[detail.index].url;
+      Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        }
       });
     }
     const { listData, month, date, weekday, temp, desc, iconId } = this.props;
