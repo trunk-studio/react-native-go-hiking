@@ -73,19 +73,20 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    Alert.alert('', '立即前往', [
-      { text: '確認', onPress: () => {
-        const lat = this.state.lat;
-        const lon = this.state.lon;
-        const url = `https://www.google.com.tw/maps/dir/${lat},${lon}/${rowData.lat},${rowData.lon}`;
-        Linking.canOpenURL(url).then(supported => {
-          if (supported) {
-            Linking.openURL(url);
-          }
-        });
-      } },
-      { text: '取消', onPress: () => {} },
-    ]);
+    Actions.postDetail(rowData);
+    // Alert.alert('', '立即前往', [
+    //   { text: '確認', onPress: () => {
+    //     const lat = this.state.lat;
+    //     const lon = this.state.lon;
+    //     const url = `https://www.google.com.tw/maps/dir/${lat},${lon}/${rowData.lat},${rowData.lon}`;
+    //     Linking.canOpenURL(url).then(supported => {
+    //       if (supported) {
+    //         Linking.openURL(url);
+    //       }
+    //     });
+    //   } },
+    //   { text: '取消', onPress: () => {} },
+    // ]);
   }
 
   getListItem(rowData, sectionID, rowID) {
@@ -121,7 +122,7 @@ export default class PostList extends Component {
         tagColor={tagColor}
         level={rowData.level}
         detail_02={rowData.detail_02}
-        description={rowData.description_01}
+        description={null}
         onItemPress={this.onListItemPress.bind(this, rowData)}
         distance={rowData.distance}
         bakColor={bakColor}
