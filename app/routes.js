@@ -42,7 +42,7 @@ export default function AppRoutes() {
               <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
             </Router>
           </Route>
-          <Route name="tabMonth" schema="tab" title="步道導覽" iconName="map-signs">
+          <Route name="tabList" schema="tab" title="步道導覽" iconName="map-signs">
             <Router>
               <Route name="postList" component={PostList} />
               <Route name="postDetail" component={PostDetail} />

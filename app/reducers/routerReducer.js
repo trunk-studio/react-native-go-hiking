@@ -3,7 +3,13 @@ import {
 } from 'react-native-router-flux';
 
 export function router(state = {}, action) {
+  // console.log("!!!!!!!!!!!!!!!!!!!!!",action.type, action.name,Actions);
   switch (action.type) {
+    case Actions.AFTER_FOCUS:
+      return {
+        ...state,
+        nowTab: action.name,
+      };
     case Actions.BEFORE_ROUTE:
       return state;
     case Actions.AFTER_ROUTE:

@@ -43,10 +43,14 @@ export default class PostList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pathList !== nextProps.pathList) {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.pathList),
-      });
+    if ( nextProps.nowTab === 'tabList') {
+      this.renderList(nextProps);
+    }
+    if ( nextProps.nowTab === 'tabList' && (
+      this.props.pathList !== nextProps.pathList ||
+      this.props.typeIndex !== nextProps.typeIndex ||
+      this.props.areaIndex !== nextProps.areaIndex)) {
+      this.renderList(nextProps);
     }
   }
 
@@ -124,6 +128,45 @@ export default class PostList extends Component {
     this.props.requestFilterType(id);
   };
 
+  renderList = (nextProps) => {
+    const area = [
+      { title: '全部' },
+      { title: '北部' },
+      { title: '中部' },
+      { title: '南部' },
+      { title: '東部' },
+    ];
+    const type = [
+      { title: '全部' },
+      { title: '郊山' },
+      { title: '中級山', width: 65 },
+      { title: '百岳' },
+    ];
+    let filterAreaPostList = [];
+    if (area[nextProps.areaIndex].title !== '全部') {
+      nextProps.pathList.forEach((post) => {
+        if (post.zone === area[nextProps.areaIndex].title) {
+          filterAreaPostList.push(post);
+        }
+      });
+    } else {
+      filterAreaPostList = [...nextProps.pathList];
+    }
+    let postList = [];
+    if (type[nextProps.typeIndex].title !== '全部') {
+      filterAreaPostList.forEach((post) => {
+        if (post.postType === type[nextProps.typeIndex].title) {
+          postList.push(post);
+        }
+      });
+    } else {
+      postList = [...filterAreaPostList];
+    }
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(postList),
+    });
+  }
+
   render() {
     const area = [
       { title: '全部' },
@@ -155,6 +198,7 @@ export default class PostList extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
+          ref={'ListView'}
           enableEmptySections
         />
     </View>
@@ -169,12 +213,16 @@ PostList.propTypes = {
   requestRemoveFavorite: React.PropTypes.func,
   requestFilterArea: React.PropTypes.func,
   requestFilterType: React.PropTypes.func,
+  typeIndex: React.PropTypes.number,
+  areaIndex: React.PropTypes.number,
+  nowTab: React.PropTypes.string,
 };
 
 PostList.defaultProps = {};
 
 function _injectPropsFromStore(state) {
   return {
+    nowTab: state.router.nowTab,
     pathList: state.pathList,
     typeIndex: state.search.typeIndex,
     areaIndex: state.search.areaIndex,
