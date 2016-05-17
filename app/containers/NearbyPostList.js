@@ -50,12 +50,12 @@ export default class PostList extends Component {
               position.coords.latitude,
               position.coords.longitude
             );
-            if (distance <= 100) {
+            // if (distance <= 100) {
               nearbyData.push({
                 ...post,
                 distance,
-              })
-            }
+              });
+            // }
           })
           nearbyData.sort((a, b) => {
             return parseFloat(a.distance) - parseFloat(b.distance);
@@ -95,6 +95,21 @@ export default class PostList extends Component {
     } else {
       bakColor = { backgroundColor: 'rgb(246, 246, 246)' };
     }
+    let tagColor;
+    switch (rowData.status) {
+      case '全線封閉':
+        tagColor = 'rgb(213, 64, 64)';
+        break;
+      case '部分封閉':
+        tagColor = 'rgb(221, 105, 49)';
+        break;
+      case '注意':
+        tagColor = 'rgb(152, 221, 84)';
+        break;
+      default:
+        tagColor = 'rgba(0,0,0,0)';
+        break;
+    }
     return (
       <ListItem
         id={rowData.id}
@@ -103,6 +118,7 @@ export default class PostList extends Component {
         img={rowData.pic}
         place={rowData.place}
         status={rowData.status}
+        tagColor={tagColor}
         level={rowData.level}
         detail_02={rowData.detail_02}
         description={rowData.description_01}
@@ -120,6 +136,7 @@ export default class PostList extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
+          enableEmptySections
         />
     </View>
     );

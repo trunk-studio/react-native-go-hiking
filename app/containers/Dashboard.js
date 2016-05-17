@@ -1,7 +1,6 @@
 import React, {
   Component,
   Alert,
-  StyleSheet,
   Dimensions,
   View,
 } from 'react-native';
@@ -14,16 +13,19 @@ import { Actions } from 'react-native-router-flux';
 import { requestNews } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
-import { requestSetLocation } from '../actions/GeoActions';
+// import { requestSetLocation } from '../actions/GeoActions';
 
 
 const coverImg = {uri: 'https://pixabay.com/static/uploads/photo/2015/10/05/15/37/forest-972792_960_720.jpg'}; //require('../images/dashboard.jpg');
+const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    marginTop: 21,
     marginBottom: 50,
+    ios: {
+      marginTop: 21,
+    },
   },
   icon: {
     lineHeight: 15,
@@ -33,15 +35,15 @@ const styles = StyleSheet.create({
 
 export default class Dashboard extends Component {
   componentDidMount() {
-    this.props.requestNews();
-    this.props.requestToday();
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.props.requestSetLocation(position);
-      },
-      (error) => Alert.alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
+    // this.props.requestNews();
+    // this.props.requestToday();
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => {
+    //     this.props.requestSetLocation(position);
+    //   },
+    //   (error) => {},
+    //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    // );
   }
   componentWillReceiveProps(nextProps) {
     const { countryName, locationName } = nextProps;
@@ -85,7 +87,7 @@ Dashboard.propTypes = {
   requestNews: React.PropTypes.func,
   requestSearchPost: React.PropTypes.func,
   requestToday: React.PropTypes.func,
-  requestSetLocation: React.PropTypes.func,
+  // requestSetLocation: React.PropTypes.func,
   requestWeather: React.PropTypes.func,
   uri: React.PropTypes.string,
   month: React.PropTypes.number,
@@ -104,7 +106,7 @@ Dashboard.defaultProps = {
   requestNews: null,
   requestSearchPost: null,
   requestToday: null,
-  requestSetLocation: null,
+  // requestSetLocation: null,
   requestWeather: null,
   month: 1,
   date: 1,
@@ -127,7 +129,7 @@ function _injectPropsFromStore(state) {
 const _injectPropsFormActions = {
   requestNews,
   requestToday,
-  requestSetLocation,
+  // requestSetLocation,
   requestWeather,
 };
 

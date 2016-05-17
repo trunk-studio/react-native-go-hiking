@@ -11,48 +11,46 @@ import { formatDistance } from '../../utils/place';
 const styles = StyleSheet.create({
   commentContent: {
     flex: 1,
-    paddingTop: 10 * PIXEL_RATIO,
-    paddingBottom: 3.5 * PIXEL_RATIO,
-    marginLeft: 13 * PIXEL_RATIO,
-    // flex: 1,
+    padding: 10,
+    paddingBottom: 3,
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     flex: 1,
     fontWeight: '700',
     color: 'rgb(198, 118, 69)',
-    padding: 2 * PIXEL_RATIO,
+    paddingBottom: 5,
+    paddingLeft: 2,
     // paddingTop: 3 * PIXEL_RATIO,
     fontSize: 14,
   },
   commentBody: {
-    flex: 1,
-    marginLeft: 5 * PIXEL_RATIO,
+    flex: 0.6,
     flexDirection: 'column',
     justifyContent: 'center',
   },
   imageContent: {
-    flex: 0.4,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  commentText: {
+  commentTextBlock: {
     flex: 1,
     flexDirection: 'row',
-    fontSize: 14,
+    paddingTop: 0,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
     ios: {
-      paddingLeft: 30,
-      paddingRight: 30,
-      paddingTop: 3,
-      paddingBottom: 20,
     },
     android: {
-      marginLeft: 30,
-      marginRight: 30,
-      paddingTop: 3,
-      paddingBottom: 20,
     },
+  },
+  commentText: {
+    flex: 1,
+    fontSize: 14,
   },
   infoText: {
     flex: 1,
@@ -62,8 +60,8 @@ const styles = StyleSheet.create({
   },
   itemImg: {
     borderRadius: 3,
-    width: 84,
-    height: 70,
+    width: 100,
+    height: 80,
   },
   rightBlock: {
     flex: 1,
@@ -71,6 +69,19 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  tag: {
+    position: 'absolute',
+    right: 10,
+    bottom: 18,
+    padding: 5,
+    width: 60,
+    backgroundColor: 'rgb(19, 150, 46)',
+    borderRadius: 5,
+  },
+  tagText: {
+    fontSize: 12,
+    color: 'white',
   },
 });
 
@@ -100,7 +111,7 @@ export default function PostListItem(props) {
   }
   return (
     <View style={props.bakColor}>
-      <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress}>
+      <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress} >
         <View style={styles.commentContent}>
           <View style={styles.imageContent}>
             <Image source={{ uri: props.img }} style={styles.itemImg} />
@@ -112,10 +123,25 @@ export default function PostListItem(props) {
             {nearby()}
             {info()}
           </View>
+          {
+            (props.status != 'null') ?
+              <View style={ [styles.tag, { backgroundColor: props.tagColor }] }>
+                <Text style={styles.tagText}>
+                  {props.status}
+                </Text>
+              </View>
+            : null
+          }
         </View>
-        <Text style={styles.commentText} numberOfLines={3}>
-          {props.description}
-        </Text>
+        {
+          (!!props.description) ?
+            <View style={styles.commentTextBlock}>
+              <Text style={styles.commentText} numberOfLines={3}>
+                {props.description}
+              </Text>
+            </View>
+          : null
+        }
       </TouchableOpacity>
     </View>
   );
@@ -136,6 +162,7 @@ PostListItem.propTypes = {
   detail_02: React.PropTypes.string,
   place: React.PropTypes.string,
   distance: React.PropTypes.number,
+  tagColor: React.PropTypes.string,
 };
 
 PostListItem.defaultProps = {
@@ -144,4 +171,5 @@ PostListItem.defaultProps = {
   img: 'https://unsplash.it/200/300/?random',
   onItemPress: () => {},
   bakColor: { backgroundColor: 'rgba(255, 255, 255, 1)' },
+  tagColor: 'rgba(0,0,0,0)',
 };
