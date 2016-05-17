@@ -1,10 +1,9 @@
 import React, {
   Component,
-  Alert,
   Dimensions,
   View,
+  StatusBar,
 } from 'react-native';
-import InfoBar from '../components/InfoBar';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
 import activityData from '../src/activity.json';
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 50,
     ios: {
-      marginTop: 21,
+      // marginTop: 21,
     },
   },
   icon: {
@@ -68,6 +67,7 @@ export default class Dashboard extends Component {
     }
     return (
       <View style={styles.wrapper}>
+        <StatusBar barStyle="light-content" />
         <CoverCard img={coverImg} title={'登山趣'} height={windowSize.height * 0.3} />
         {/*
         <InfoBar month={month} date={date} weekday={weekday} temp={temp} desc={desc}
