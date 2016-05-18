@@ -1,6 +1,9 @@
 import React, {
   Component,
   ScrollView,
+  Image,
+  View,
+  Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -8,6 +11,7 @@ import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestRemoveFavorite } from '../actions/FavoriteActions';
 import SwipeOut from 'react-native-swipeout';
 import ListItem from '../components/PostList/ListItem';
+const picNoFavItem = require('../images/no-fav-item.png');
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   wrapper: {
@@ -30,6 +34,23 @@ const styles = StyleSheet.create({
     android: {
       marginTop: 55,
     },
+  },
+  picContainer: {
+    paddingTop: 100,
+    flex: 0.8,
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  picNoFavItem: {
+    alignSelf: 'auto',
+    alignItems: 'stretch',
+    width: 250,
+    height: 177,
+  },
+  textNoFavItem: {
+    marginTop: 50,
+    color: '#666',
   },
 });
 
@@ -104,10 +125,32 @@ export default class MyFavorite extends Component {
           />
       </SwipeOut>);
     }
+
+    function render() {
+      let view = [];
+      if (ListItemArray.length > 0) {
+        view = (
+        <ScrollView style={styles.content}>
+          { ListItemArray }
+        </ScrollView>);
+      } else {
+        view = (
+        <ScrollView style={styles.content}>
+          <View style={styles.picContainer}>
+            <Image
+              source={picNoFavItem}
+              style={styles.picNoFavItem}
+            />
+          <Text style={styles.textNoFavItem}>
+            目前您沒有收藏任何步道 :p
+          </Text>
+          </View>
+        </ScrollView>);
+      }
+      return view;
+    }
     return (
-      <ScrollView style={styles.content}>
-        {ListItemArray}
-      </ScrollView>
+      render()
     );
   }
 }
