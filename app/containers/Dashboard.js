@@ -1,10 +1,10 @@
 import React, {
   Component,
-  Alert,
   Dimensions,
   View,
+  StatusBar,
+  Text,
 } from 'react-native';
-import InfoBar from '../components/InfoBar';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
 import activityData from '../src/activity.json';
@@ -13,7 +13,8 @@ import { Actions } from 'react-native-router-flux';
 import { requestNews } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
-// import { requestSetLocation } from '../actions/GeoActions';
+import ParallaxView from 'react-native-parallax-view';
+import { requestSetLocation } from '../actions/GeoActions';
 
 
 const coverImg = {uri: 'https://pixabay.com/static/uploads/photo/2015/10/05/15/37/forest-972792_960_720.jpg'}; //require('../images/dashboard.jpg');
@@ -24,26 +25,56 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 50,
     ios: {
-      marginTop: 21,
+      // marginTop: 21,
     },
   },
   icon: {
     lineHeight: 15,
     fontSize: 20,
   },
+  header: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    color: '#FFF',
+    fontSize: 30,
+    fontWeight: 'bold',
+    shadowOffset: {
+      width: 10,
+      height: 10,
+    },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
+  },
 });
 
 export default class Dashboard extends Component {
-  componentDidMount() {
+  componentWillMount() {
     // this.props.requestNews();
     // this.props.requestToday();
-    // navigator.geolocation.getCurrentPosition(
-    //   (position) => {
-    //     this.props.requestSetLocation(position);
-    //   },
-    //   (error) => {},
-    //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    // );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.props.requestSetLocation(position);
+        },
+        (error) => {},
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          });
+        },
+        (error) => {},
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+    }
   }
   componentWillReceiveProps(nextProps) {
     const { countryName, locationName } = nextProps;
@@ -67,17 +98,24 @@ export default class Dashboard extends Component {
       });
     }
     return (
-      <View style={styles.wrapper}>
-        <CoverCard img={coverImg} title={'台灣步道1指通'} height={windowSize.height * 0.3} />
-        {/*
-        <InfoBar month={month} date={date} weekday={weekday} temp={temp} desc={desc}
-          iconId={iconId} locationName={this.props.locationName}
-        />
-        */}
-        <NewsBoard boardTitle={'近期活動'} listData={activityListData}
-          itemCount={3} onItemPress={onListItemPress}
-        />
-      </View>
+      <ParallaxView
+          backgroundSource={coverImg}
+          windowHeight={200}
+          header={(
+            <View style={styles.header}>
+              <Text style={styles.headerTitle}>
+                  台灣步道 1 指通
+              </Text>
+            </View>
+          )}
+      >
+        <StatusBar barStyle="light-content" />
+        <View>
+          <NewsBoard boardTitle={'近期活動'} listData={activityListData}
+            itemCount={3} onItemPress={onListItemPress}
+          />
+        </View>
+      </ParallaxView>
     );
   }
 }
@@ -87,7 +125,7 @@ Dashboard.propTypes = {
   requestNews: React.PropTypes.func,
   requestSearchPost: React.PropTypes.func,
   requestToday: React.PropTypes.func,
-  // requestSetLocation: React.PropTypes.func,
+  requestSetLocation: React.PropTypes.func,
   requestWeather: React.PropTypes.func,
   uri: React.PropTypes.string,
   month: React.PropTypes.number,
@@ -106,7 +144,7 @@ Dashboard.defaultProps = {
   requestNews: null,
   requestSearchPost: null,
   requestToday: null,
-  // requestSetLocation: null,
+  requestSetLocation: null,
   requestWeather: null,
   month: 1,
   date: 1,
@@ -129,7 +167,7 @@ function _injectPropsFromStore(state) {
 const _injectPropsFormActions = {
   requestNews,
   requestToday,
-  // requestSetLocation,
+  requestSetLocation,
   requestWeather,
 };
 

@@ -5,6 +5,8 @@ function receivedSetLocation(loc) {
     type: RECEIVED_SET_LOCATION,
     countryName: loc.countryName,
     locationName: loc.name,
+    lon: loc.lon,
+    lat: loc.lat,
   };
 }
 
@@ -30,6 +32,7 @@ export async function requestSetLocation(position) {
   if (locationName === '') locationName = locationNameAlt;
 
   return (dispatch) => {
-    dispatch(receivedSetLocation({ name: locationName, countryName: country }));
+    dispatch(receivedSetLocation({ name: locationName, countryName: country, lon: position.coords.longitude,
+    lat: position.coords.latitude}));
   };
 }

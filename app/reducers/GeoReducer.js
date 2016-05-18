@@ -9,6 +9,8 @@ export function geo(state = {}, action) {
         ...state,
         countryName: action.countryName,
         locationName: action.locationName,
+        lon: action.lon,
+        lat: action.lat,
       };
     default:
       return state;
