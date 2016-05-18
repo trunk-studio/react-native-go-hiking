@@ -102,7 +102,8 @@ export default class MyFavorite extends Component {
             bakColor={bakColor}
             rightText={''}
           />
-      </SwipeOut>);
+        </SwipeOut>
+      );
     }
     return (
       <ScrollView style={styles.content}>

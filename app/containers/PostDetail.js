@@ -5,6 +5,7 @@ import React, {
   TouchableOpacity,
   Linking,
   Alert,
+  Component,
 } from 'react-native';
 import CoverCard from '../components/CoverCard';
 import { connect } from 'react-redux';
@@ -12,7 +13,7 @@ import Dimensions from 'Dimensions';
 import ParallaxView from 'react-native-parallax-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-
+import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   placeText: {
-    fontSize: 16,
+    fontSize: 20,
   },
   infoContainer: {
     flex: 1,
@@ -99,41 +100,57 @@ const styles = StyleSheet.create({
   articleHeader: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  toolButton: {
+    marginRight: 10,
+  },
+  toolbar: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: -22,
   },
 });
 
 
-function PostDetail(props) {
-  function info() {
-    let infos = [];
-    if (props.level) {
+class PostDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isFav: props.isFav,
+    };
+  }
+
+  info = () => {
+    const infos = [];
+    if (this.props.level) {
       let star = '';
-      for (let i = 0; i < props.level; i++) {
+      for (let i = 0; i < this.props.level; i++) {
         star += '★';
       }
       infos.push(<Text style={styles.infoText} key={'level'}>難易度：{star}</Text>);
     }
-    if (props.detail_02 !== 'null') {
+    if (this.props.detail_02 !== 'null') {
       infos.push(
         <Text
           style={styles.infoText}
           key={'detail_02'}
         >
-          {props.detail_02}
+          {this.props.detail_02}
         </Text>
       );
     }
     return infos;
   }
-  function map() {
+
+  map = () => {
     let mapImg;
-    if (props.map !== 'null') {
+    if (this.props.map !== 'null') {
       mapImg = (
         <View style={{ flex: 1, marginBottom: 20 }}>
           <Image
-            source={{ uri: props.map }}
+            source={{ uri: this.props.map }}
             style={{
               flex: 1,
               padding: 20,
@@ -149,8 +166,7 @@ function PostDetail(props) {
   navigate = () => {
     Alert.alert('', '立即前往', [
       { text: '確認', onPress: () => {
-        console.log(props);
-        const url = `https://www.google.com.tw/maps/dir/${props.myLat},${props.myLon}/${props.lat},${props.lon}`;
+        const url = `https://www.google.com.tw/maps/dir/${this.props.myLat},${this.props.myLon}/${this.props.lat},${this.props.lon}`;
         Linking.canOpenURL(url).then(supported => {
           if (supported) {
             Linking.openURL(url);
@@ -159,87 +175,104 @@ function PostDetail(props) {
       } },
       { text: '取消', onPress: () => {} },
     ]);
-  };
-
-  let tagColor = '';
-  if (!!props.status) {
-    switch (props.status) {
-      case '全線封閉':
-        tagColor = 'rgba(213, 64, 64, .8)';
-        break;
-      case '部分封閉':
-        tagColor = 'rgba(221, 105, 49, .8)';
-        break;
-      case '注意':
-        tagColor = 'rgba(152, 221, 84, .8)';
-        break;
-      default:
-        tagColor = 'rgba(0,0,0,0)';
-        break;
-    }
   }
-  return (
-    <ParallaxView
-      backgroundSource={{ uri: props.pic }}
-      windowHeight={260}
-      header={(
-        <View style={styles.header}>
-          <View style={styles.headerInfo}>
-            {info()}
-          </View>
-          <Text style={styles.headerTitle}>
-              {props.title}
-          </Text>
-        </View>
-      )}
-      style={{
-        marginTop: 64,
-      }}
-    >
-      {(!!props.status) ?
-        (<View style={[styles.statusBlock, { backgroundColor: tagColor }]}>
-            <Text style={styles.statusText}>
-              {props.status}
-            </Text>
-          </View>
-        ) : null
+
+  favorite = () => {
+    if (this.state.isFav) {
+      this.props.requestRemoveFavorite(this.props.id);
+    } else {
+      this.props.requestAddFavorite(this.props.id);
+    }
+    this.setState({
+      isFav: !this.state.isFav,
+    });
+  }
+
+  render() {
+    let tagColor = '';
+    if (this.props.status !== 'null') {
+      switch (this.props.status) {
+        case '全線封閉':
+          tagColor = 'rgba(213, 64, 64, .8)';
+          break;
+        case '部分封閉':
+          tagColor = 'rgba(221, 105, 49, .8)';
+          break;
+        case '注意':
+          tagColor = 'rgba(152, 221, 84, .8)';
+          break;
+        default:
+          tagColor = 'rgba(0,0,0,0)';
+          break;
       }
-      <View style={styles.scrollFrame}>
-        <View style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
-          <View index={0} style={styles.scrollContainer}>
-            <View style={styles.articleHeader}>
-              <TouchableOpacity onPress={navigate}>
-                <MaterialIcon
-                  name="near-me"
-                  size={18}
-                  color={'#000'}
-                  style={[styles.menuIcon, styles.favoriteIcon]}
-                />
-              </TouchableOpacity>
-              <Text style={styles.placeText}>
-                {props.place}
-              </Text>
-              <TouchableOpacity>
-                <Icon
-                  name="heart-o"
-                  size={18}
-                  color={'#000'}
-                  style={[styles.menuIcon, styles.favoriteIcon]}
-                />
-              </TouchableOpacity>
+    }
+    return (
+      <ParallaxView
+        backgroundSource={{ uri: this.props.pic }}
+        windowHeight={260}
+        header={(
+          <View style={styles.header}>
+            <View style={styles.headerInfo}>
+              {this.info()}
             </View>
-            <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
-              {props.description_01}
-            </Text>
-            {map()}
-            <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
-              {props.description_02 !== 'null' ? props.description_02 : null }
+            <Text style={styles.headerTitle}>
+                {this.props.title}
             </Text>
           </View>
+        )}
+        style={{
+          marginTop: 64,
+        }}
+      >
+        {(this.props.status !== 'null') ?
+          (<View style={[styles.statusBlock, { backgroundColor: tagColor }]}>
+              <Text style={styles.statusText}>
+                {this.props.status}
+              </Text>
+            </View>
+          ) : null
+        }
+        <View style={styles.scrollFrame}>
+          <View style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
+            <View index={0} style={styles.scrollContainer}>
+              <View style={styles.articleHeader}>
+                <Text style={styles.placeText}>
+                  {this.props.place}
+                </Text>
+              </View>
+              <View style={styles.toolbar}>
+                <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
+                  <MaterialIcon
+                    name="near-me"
+                    size={24}
+                    color={'#709D2A'}
+                    style={[styles.menuIcon, styles.favoriteIcon]}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
+                  <Icon
+                    name={ this.state.isFav ? 'heart' : 'heart-o' }
+                    size={24}
+                    color={'#709D2A'}
+                    style={[styles.menuIcon, styles.favoriteIcon]}
+                    />
+                </TouchableOpacity>
+              </View>
+              <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+                {this.props.description_01}
+              </Text>
+              {this.map()}
+              {/*
+              <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+                {props.description_02 !== 'null' ? props.description_02 : null }
+              </Text>
+              */}
+            </View>
+          </View>
         </View>
-      </View>
-    </ParallaxView>
-  );
+      </ParallaxView>
+    );
+  }
 }
 
 PostDetail.propTypes = {
@@ -260,9 +293,13 @@ PostDetail.propTypes = {
   lon: React.PropTypes.number,
   map: React.PropTypes.string,
   url: React.PropTypes.string,
+  requestAddFavorite: React.PropTypes.func,
+  requestRemoveFavorite: React.PropTypes.func,
+  isFav: React.PropTypes.bool,
 };
 
-PostDetail.defaultProps = {};
+PostDetail.defaultProps = {
+};
 
 function _injectPropsFromStore(state) {
   return {
@@ -271,6 +308,9 @@ function _injectPropsFromStore(state) {
   };
 }
 
-const _injectPropsFormActions = {};
+const _injectPropsFormActions = {
+  requestAddFavorite,
+  requestRemoveFavorite,
+};
 
 export default connect(_injectPropsFromStore, _injectPropsFormActions)(PostDetail);
