@@ -2,6 +2,7 @@ import React, {
   View,
   Component,
   ListView,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -35,6 +36,7 @@ export default class PostList extends Component {
     const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       dataSource,
+      postList: [],
     };
   }
 
@@ -164,7 +166,15 @@ export default class PostList extends Component {
     }
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(postList),
+      postList,
     });
+  }
+
+  renderScrollViewListItem = () => {
+    const ListItemArray = this.state.postList.map((post, i) => {
+      return this.getListItem(post, 0, i);
+    });
+    return ListItemArray;
   }
 
   render() {
@@ -195,12 +205,15 @@ export default class PostList extends Component {
           active={this.props.typeIndex}
           onChange={this.typeOnChange}
         />
-        <ListView
+        {/*<ListView
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
           ref={'ListView'}
           enableEmptySections
-        />
+        />*/}
+        <ScrollView>
+          {this.renderScrollViewListItem()}
+        </ScrollView>
     </View>
     );
   }
