@@ -52,7 +52,8 @@ export default function FilterContainer(props) {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Image source={require('../../images/mount.png')} style={ styles.icon } />
+        {/*<Image source={require('../../images/mount.png')} style={ styles.icon } />*/}
+        <Image source={{uri: 'http://i.imgur.com/JeSvwmd.png'}} style={ styles.icon } />
         <View style={ styles.title }>
           <Text style={{ color: 'rgb(88, 88, 88)' }}>{props.title}</Text>
         </View>
