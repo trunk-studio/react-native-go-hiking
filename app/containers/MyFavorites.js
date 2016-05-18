@@ -123,7 +123,8 @@ export default class MyFavorite extends Component {
             bakColor={bakColor}
             rightText={''}
           />
-      </SwipeOut>);
+        </SwipeOut>
+      );
     }
 
     function render() {
