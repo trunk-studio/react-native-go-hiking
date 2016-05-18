@@ -4,6 +4,11 @@ import {
 
 export function router(state = {}, action) {
   switch (action.type) {
+    case Actions.AFTER_FOCUS:
+      return {
+        ...state,
+        nowTab: action.name,
+      };
     case Actions.BEFORE_ROUTE:
       return state;
     case Actions.AFTER_ROUTE:

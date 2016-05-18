@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: 'rgb(19, 150, 46)',
     borderRadius: 5,
+    alignItems: 'center',
   },
   tagText: {
     fontSize: 12,

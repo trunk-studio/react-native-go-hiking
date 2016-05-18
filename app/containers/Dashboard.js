@@ -2,20 +2,23 @@ import React, {
   Component,
   Dimensions,
   View,
+  Linking,
+  TouchableOpacity,
   StatusBar,
   Text,
 } from 'react-native';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
+import Filter from '../components/Filter/FilterContainer';
 import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { requestNews } from '../actions/SearchActions';
+import { requestNews, requestFilterArea, requestFilterType } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxView from 'react-native-parallax-view';
 import { requestSetLocation } from '../actions/GeoActions';
-
 
 const coverImg = {uri: 'https://pixabay.com/static/uploads/photo/2015/10/05/15/37/forest-972792_960_720.jpg'}; //require('../images/dashboard.jpg');
 const StyleSheet = require('../utils/F8StyleSheet');
@@ -28,9 +31,31 @@ const styles = StyleSheet.create({
       // marginTop: 21,
     },
   },
+  searchIcon: {
+    color: '#fff',
+    paddingRight: 10,
+    fontSize: 16,
+  },
   icon: {
     lineHeight: 15,
     fontSize: 20,
+  },
+  searchContainer: {
+    alignItems: 'center',
+  },
+  searchBtn: {
+    margin: 10,
+    padding: 5,
+    borderRadius: 3,
+    backgroundColor: 'rgb(79, 164, 89)',
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  searchText: {
+    color: '#fff',
+    fontSize: 16,
   },
   header: {
     flex: 1,
@@ -82,11 +107,23 @@ export default class Dashboard extends Component {
       this.props.requestWeather({ name: locationName, country: countryName });
     }
   }
+  areaOnChange = (id) => {
+    this.props.requestFilterArea(id);
+  };
+  typeOnChange = (id) => {
+    this.props.requestFilterType(id);
+  };
   render() {
     function onListItemPress(detail) {
-      Actions.newsDetail({
-        newsTitle: detail.title,
-        newsContent: detail.content,
+      // Actions.newsDetail({
+      //   newsTitle: detail.title,
+      //   newsContent: detail.content,
+      // });
+      const url = activityData.list[detail.index].url;
+      Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        }
       });
     }
     const { listData, month, date, weekday, temp, desc, iconId } = this.props;
@@ -97,6 +134,19 @@ export default class Dashboard extends Component {
         content: item.description,
       });
     }
+    const area = [
+      { title: '全部' },
+      { title: '北部' },
+      { title: '中部' },
+      { title: '南部' },
+      { title: '東部' },
+    ];
+    const type = [
+      { title: '全部' },
+      { title: '郊山' },
+      { title: '中級山', width: 65 },
+      { title: '百岳' },
+    ];
     return (
       <ParallaxView
           backgroundSource={coverImg}
@@ -110,11 +160,27 @@ export default class Dashboard extends Component {
           )}
       >
         <StatusBar barStyle="light-content" />
-        <View>
-          <NewsBoard boardTitle={'近期活動'} listData={activityListData}
-            itemCount={3} onItemPress={onListItemPress}
-          />
+        <Filter
+          title={'區域'}
+          dataList={area}
+          active={this.props.areaIndex}
+          onChange={this.areaOnChange}
+        />
+        <Filter
+          title={'類型'}
+          dataList={type}
+          active={this.props.typeIndex}
+          onChange={this.typeOnChange}
+        />
+        <View style={styles.searchContainer}>
+          <TouchableOpacity style={styles.searchBtn} onPress={Actions.tabList}>
+            <Icon name={'search'} style={ styles.searchIcon } />
+            <Text style={styles.searchText}>搜尋台灣步道</Text>
+          </TouchableOpacity>
         </View>
+        <NewsBoard boardTitle={'近期活動'} listData={activityListData}
+          itemCount={30} onItemPress={onListItemPress}
+        />
       </ParallaxView>
     );
   }
@@ -137,6 +203,10 @@ Dashboard.propTypes = {
   temp: React.PropTypes.number,
   countryName: React.PropTypes.string,
   locationName: React.PropTypes.string,
+  requestFilterType: React.PropTypes.func,
+  requestFilterArea: React.PropTypes.func,
+  typeIndex: React.PropTypes.number,
+  areaIndex: React.PropTypes.number,
 };
 
 Dashboard.defaultProps = {
@@ -148,6 +218,8 @@ Dashboard.defaultProps = {
   requestWeather: null,
   month: 1,
   date: 1,
+  requestFilterType: null,
+  requestFilterArea: null,
 };
 
 function _injectPropsFromStore(state) {
@@ -161,6 +233,8 @@ function _injectPropsFromStore(state) {
     countryName: state.geo.countryName,
     locationName: state.geo.locationName,
     temp: state.weather.temp,
+    typeIndex: state.search.typeIndex,
+    areaIndex: state.search.areaIndex,
   };
 }
 
@@ -169,6 +243,8 @@ const _injectPropsFormActions = {
   requestToday,
   requestSetLocation,
   requestWeather,
+  requestFilterArea,
+  requestFilterType,
 };
 
 export default connect(_injectPropsFromStore, _injectPropsFormActions)(Dashboard);

@@ -10,7 +10,9 @@ const styles = StyleSheet.create({
   newsItem: {
     flexDirection: 'row',
     borderBottomColor: '#417505',//'#333',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
+    borderTopColor: '#417505',//'#333',
+    borderTopWidth: 0.5,
   },
   newsConent: {
     flex: 8,
@@ -46,6 +48,7 @@ const styles = StyleSheet.create({
 export default function NewsItem(props) {
   function onItemPress() {
     props.onItemPress({
+      index: props.index,
       title: props.title,
       content: props.content,
     });
