@@ -1,30 +1,74 @@
-import React, { Navigator } from 'react-native';
+import React, {
+  Navigator,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+ } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
   Route,
   Schema,
   TabBar,
+  Actions,
 } from 'react-native-router-flux';
 const Router = connect()(RNRF.Router);
 
 // View
 import TabIcon from './components/TabIcon';
-import About from './containers/About';
 import Nearby from './containers/NearbyPostList'
-import News from './containers/News';
 import NewsDetail from './containers/NewsDetail';
 import PostDetail from './containers/PostDetail';
 import Dashboard from './containers/Dashboard';
 import Category from './containers/Category';
 import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+const styles = StyleSheet.create({
+  leftButtonContainer: {
+    paddingLeft: 15,
+    paddingRight: 20,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  menuIcon: {
+    paddingRight: 6,
+    marginTop: 2,
+  },
+  navBackTitle: {
+    marginTop: 2,
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
 
 export default function AppRoutes() {
   return (
-    <Router name="root" leftTitle="Back">
-      <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight} />
+    <Router name="root">
+      <Schema name="default"
+        sceneConfig={Navigator.SceneConfigs.FloatFromRight}
+      />
+      <Schema name="back"
+        renderLeftButton={() => {
+          return (
+            <TouchableOpacity
+              style={styles.leftButtonContainer}
+              onPress={Actions.pop}
+            >
+              <Icon
+                name="angle-left"
+                size={24}
+                color={'#FFF'}
+                style={styles.menuIcon}
+              />
+            <Text style={styles.navBackTitle}> Back </Text>
+            </TouchableOpacity>
+        );}}
+      />
       <Schema name="tab" type="switch" icon={TabIcon} />
-      <Route hideNavBar={1} name="tabbar">
+      <Route hideNavBar name="tabbar">
         <Router
           footer={TabBar}
           tabBarStyle={{
@@ -33,7 +77,13 @@ export default function AppRoutes() {
             backgroundColor: 'white',
           }}
           navigationBarStyle={{
+            backgroundColor: '#709D2A',
             borderColor: '#DDD',
+            marginTop: 0,
+            paddingTop: 0,
+          }}
+          titleStyle={{
+            color: 'white',
           }}
         >
           <Route name="tabDashboard" schema="tab" title="首頁" iconName="home">
@@ -45,7 +95,7 @@ export default function AppRoutes() {
           <Route name="tabList" schema="tab" title="步道導覽" iconName="map-signs">
             <Router>
               <Route name="postList" component={PostList} />
-              <Route name="postDetail" component={PostDetail} />
+              <Route name="postDetail" schema="back" component={PostDetail} />
               <Route name="category" component={Category} title="月份導覽" />
             </Router>
           </Route>
