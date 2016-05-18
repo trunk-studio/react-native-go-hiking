@@ -88,7 +88,7 @@ export default class PostList extends Component {
       swipeoutBtns.push(
         {
           text: '收藏',
-          backgroundColor: 'rgb(152, 221, 84)',
+          backgroundColor: 'rgb(79, 164, 89)',
           onPress: this.props.requestAddFavorite.bind(this, rowData.id),
         },
       );
