@@ -89,7 +89,7 @@ android {
         applicationId 'com.trunksys.gohiking'
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 5
+        versionCode 6
         versionName '1.0'
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -127,6 +127,8 @@ android {
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
         }
+    }
+    productFlavors {
     }
 }
 
