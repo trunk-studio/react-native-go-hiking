@@ -43,10 +43,10 @@ export default class PostList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( nextProps.nowTab === 'tabList') {
+    if ( nextProps.nowTab === 'tabList' || nextProps.nowTab === 'postList' ) {
       this.renderList(nextProps);
     }
-    if ( nextProps.nowTab === 'tabList' && (
+    if ( nextProps.nowTab === 'tabList' || nextProps.nowTab === 'postList' && (
       this.props.pathList !== nextProps.pathList ||
       this.props.typeIndex !== nextProps.typeIndex ||
       this.props.areaIndex !== nextProps.areaIndex)) {
