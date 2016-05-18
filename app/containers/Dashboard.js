@@ -188,6 +188,7 @@ export default class Dashboard extends Component {
             active={this.props.areaIndex}
             onChange={this.areaOnChange}
           />
+        <View style={{ height: 4 }} />
           <Filter
             title={'類型'}
             dataList={type}
