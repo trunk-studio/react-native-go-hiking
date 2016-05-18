@@ -17,6 +17,14 @@ import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../action
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
+  parallaxView: {
+    ios: {
+      marginTop: 64,
+    },
+    android: {
+      marginTop: 55,
+    },
+  },
   title: {
     fontSize: 20,
     marginTop: 5,
@@ -220,9 +228,7 @@ class PostDetail extends Component {
             </Text>
           </View>
         )}
-        style={{
-          marginTop: 64,
-        }}
+        style={styles.parallaxView}
       >
         {(this.props.status !== 'null') ?
           (<View style={[styles.statusBlock, { backgroundColor: tagColor }]}>
