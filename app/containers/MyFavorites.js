@@ -11,7 +11,8 @@ import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestRemoveFavorite } from '../actions/FavoriteActions';
 import SwipeOut from 'react-native-swipeout';
 import ListItem from '../components/PostList/ListItem';
-const picNoFavItem = require('../images/no-fav-item.png');
+// const picNoFavItem = require('../images/no-fav-item.png');
+const picNoFavItem = {uri: 'http://i.imgur.com/RnNDu8l.png '};
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   wrapper: {

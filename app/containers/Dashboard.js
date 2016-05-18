@@ -20,7 +20,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxView from 'react-native-parallax-view';
 import { requestSetLocation } from '../actions/GeoActions';
 
-const coverImg = require('../images/dashboard.png');
+// const coverImg = require('../images/dashboard.png');
+const coverImg = {uri: 'http://i.imgur.com/npjaJgX.png'};
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
