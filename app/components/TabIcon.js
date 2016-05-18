@@ -25,7 +25,7 @@ export default function TabIcon(props) {
   return (
     <Text
       style={{
-        color: props.selected ? '#359ac0' : 'rgba(83, 83, 82, 1)',
+        color: props.selected ? 'rgb(79, 164, 89)' : 'rgba(83, 83, 82, 1)',
         textAlign: 'center',
         paddingTop: 6,
       }}
