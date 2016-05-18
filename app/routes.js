@@ -105,7 +105,7 @@ export default function AppRoutes() {
               <Route name="postDetail" schema="back" component={PostDetail} />
             </Router>
           </Route>
-          <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart-o" >
+          <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" >
             <Router>
               <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
               <Route name="postDetail" schema="back" component={PostDetail} />
