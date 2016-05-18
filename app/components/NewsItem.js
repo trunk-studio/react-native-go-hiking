@@ -8,11 +8,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   newsItem: {
+    flex: 1,
     flexDirection: 'row',
-    borderBottomColor: '#417505',//'#333',
-    borderBottomWidth: 0.5,
-    borderTopColor: '#417505',//'#333',
-    borderTopWidth: 0.5,
+    // borderBottomColor: '#410005',//'#333',
+    // borderBottomWidth: 0.5,
+    // borderTopColor: '#417500',//'#333',
+    // borderTopWidth: 0.5,
   },
   newsConent: {
     flex: 8,
@@ -55,6 +56,7 @@ export default function NewsItem(props) {
   }
   return (
     <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress}>
+      <View style={{height: 0.5, backgroundColor: '#417505'}} />
       <View style={styles.newsItem}>
         <View style={styles.newsConent}>
           <Text style={styles.newsTitle} numberOfLines={1}>
@@ -68,6 +70,7 @@ export default function NewsItem(props) {
           <Icon name={'angle-right'} style={ styles.icon } />
         </View>
       </View>
+      <View style={{height: 0.5, backgroundColor: '#417505'}} />
     </TouchableOpacity>
   );
 }

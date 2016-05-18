@@ -45,13 +45,12 @@ export default class PostList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( nextProps.nowTab === 'tabList' || nextProps.nowTab === 'postList' ) {
-      this.renderList(nextProps);
-    }
-    if ( nextProps.nowTab === 'tabList' || nextProps.nowTab === 'postList' && (
-      this.props.pathList !== nextProps.pathList ||
+    // if ( nextProps.nowTab === 'tabList' || nextProps.nowTab === 'postList' ) {
+    //   this.renderList(nextProps);
+    // }
+    if (this.props.pathList !== nextProps.pathList ||
       this.props.typeIndex !== nextProps.typeIndex ||
-      this.props.areaIndex !== nextProps.areaIndex)) {
+      this.props.areaIndex !== nextProps.areaIndex) {
       this.renderList(nextProps);
     }
   }
@@ -103,7 +102,7 @@ export default class PostList extends Component {
       );
     }
     return (
-      <SwipeOut right={swipeoutBtns} autoClose >
+      <SwipeOut key={rowData.id} right={swipeoutBtns} autoClose >
         <ListItem
           id={rowData.id}
           index={rowData.index}
