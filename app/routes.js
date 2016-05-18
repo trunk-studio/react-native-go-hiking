@@ -102,7 +102,7 @@ export default function AppRoutes() {
           <Route name="tabNearby" schema="tab" title="附近步道" iconName="tree">
             <Router>
               <Route name="nearby" component={Nearby} title="附近步道" />
-              <Route name="postDetail" component={PostDetail} />
+              <Route name="postDetail" schema="back" component={PostDetail} />
             </Router>
           </Route>
           <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart-o" >
