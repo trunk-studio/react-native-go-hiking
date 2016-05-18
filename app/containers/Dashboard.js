@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxView from 'react-native-parallax-view';
 import { requestSetLocation } from '../actions/GeoActions';
 
-const coverImg = {uri: 'https://pixabay.com/static/uploads/photo/2015/10/05/15/37/forest-972792_960_720.jpg'}; //require('../images/dashboard.jpg');
+const coverImg = require('../images/dashboard.png');
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     alignItems: 'center',
+    marginBottom: 10,
   },
   searchBtn: {
     margin: 10,
@@ -72,6 +73,25 @@ const styles = StyleSheet.create({
     },
     shadowColor: 'black',
     shadowOpacity: 1.0,
+  },
+  bar: {
+    ios: {
+      position: 'absolute',
+      width: windowSize.width * 4,
+      height: windowSize.width * 4,
+      top: -25,
+      left: -windowSize.width * 1.5,
+      backgroundColor: '#fff',
+      borderRadius: windowSize.width * 2,
+      borderColor: 'rgb(79, 164, 89)',
+      borderWidth: 5,
+    },
+    android: {
+      width: windowSize.width,
+      height: 5,
+      backgroundColor: 'rgb(79, 164, 89)',
+      marginBottom: 10,
+    },
   },
 });
 
@@ -149,38 +169,41 @@ export default class Dashboard extends Component {
     ];
     return (
       <ParallaxView
-          backgroundSource={coverImg}
-          windowHeight={200}
-          header={(
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>
-                  台灣步道 1 指通
-              </Text>
-            </View>
-          )}
+        backgroundSource={coverImg}
+        windowHeight={200}
+        header={(
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>
+                台灣步道 1 指通
+            </Text>
+          </View>
+        )}
       >
         <StatusBar barStyle="light-content" />
-        <Filter
-          title={'區域'}
-          dataList={area}
-          active={this.props.areaIndex}
-          onChange={this.areaOnChange}
-        />
-        <Filter
-          title={'類型'}
-          dataList={type}
-          active={this.props.typeIndex}
-          onChange={this.typeOnChange}
-        />
-        <View style={styles.searchContainer}>
-          <TouchableOpacity style={styles.searchBtn} onPress={Actions.tabList}>
-            <Icon name={'search'} style={ styles.searchIcon } />
-            <Text style={styles.searchText}>搜尋台灣步道</Text>
-          </TouchableOpacity>
-        </View>
-        <NewsBoard boardTitle={'近期活動'} listData={activityListData}
-          itemCount={30} onItemPress={onListItemPress}
-        />
+        <View style={{ backgroundColor:'#fff', marginBottom: 50 }}>
+          <View style={styles.bar} />
+          <Filter
+            title={'區域'}
+            dataList={area}
+            active={this.props.areaIndex}
+            onChange={this.areaOnChange}
+          />
+          <Filter
+            title={'類型'}
+            dataList={type}
+            active={this.props.typeIndex}
+            onChange={this.typeOnChange}
+          />
+          <View style={styles.searchContainer}>
+            <TouchableOpacity style={styles.searchBtn} onPress={Actions.tabList}>
+              <Icon name={'search'} style={ styles.searchIcon } />
+              <Text style={styles.searchText}>搜尋台灣步道</Text>
+            </TouchableOpacity>
+          </View>
+          <NewsBoard boardTitle={'近期活動'} listData={activityListData}
+            itemCount={30} onItemPress={onListItemPress}
+          />
+      </View>
       </ParallaxView>
     );
   }
