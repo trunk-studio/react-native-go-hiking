@@ -8,6 +8,7 @@ import React, {
 const PIXEL_RATIO = PixelRatio.get();
 const StyleSheet = require('../../utils/F8StyleSheet');
 import { formatDistance } from '../../utils/place';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 const styles = StyleSheet.create({
   commentContent: {
     flex: 1,
@@ -91,6 +92,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'white',
   },
+  favoriteIcon: {
+    margin: 0,
+  },
+  nearbyContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
 });
 
 export default function PostListItem(props) {
@@ -113,7 +122,16 @@ export default function PostListItem(props) {
   function nearby() {
     let data;
     if (props.distance) {
-      data = <Text style={styles.distance}>{formatDistance(props.distance)}</Text>
+      data = (
+        <View style={styles.nearbyContainer}>
+          <MaterialIcon
+            name="near-me"
+            size={12}
+            color={'#000'}
+            style={[styles.favoriteIcon]}
+          /><Text style={styles.distance}>{formatDistance(props.distance)}</Text>
+        </View>
+      );
     }
     return data;
   }
@@ -130,9 +148,7 @@ export default function PostListItem(props) {
             </Text>
             {info()}
           </View>
-          <View style={[]}>
-            {nearby()}
-          </View>
+          {nearby()}
           {
             (props.status !== 'null') ?
               <View style={ [styles.tag, { backgroundColor: props.tagColor }] }>
