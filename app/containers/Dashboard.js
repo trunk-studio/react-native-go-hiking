@@ -3,8 +3,9 @@ import React, {
   Dimensions,
   View,
   Linking,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
-import InfoBar from '../components/InfoBar';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
 import Filter from '../components/Filter/FilterContainer';
@@ -15,7 +16,7 @@ import { requestNews, requestFilterArea, requestFilterType } from '../actions/Se
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
 // import { requestSetLocation } from '../actions/GeoActions';
-import { Select, Option, OptionList, updatePosition } from 'react-native-dropdown';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const coverImg = {uri: 'https://pixabay.com/static/uploads/photo/2015/10/05/15/37/forest-972792_960_720.jpg'}; //require('../images/dashboard.jpg');
 const StyleSheet = require('../utils/F8StyleSheet');
@@ -28,9 +29,31 @@ const styles = StyleSheet.create({
       marginTop: 21,
     },
   },
+  searchIcon: {
+    color: '#fff',
+    paddingRight: 10,
+    fontSize: 16,
+  },
   icon: {
     lineHeight: 15,
     fontSize: 20,
+  },
+  searchContainer: {
+    alignItems: 'center',
+  },
+  searchBtn: {
+    margin: 10,
+    padding: 5,
+    borderRadius: 3,
+    backgroundColor: 'rgb(79, 164, 89)',
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  searchText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
@@ -112,6 +135,12 @@ export default class Dashboard extends Component {
           active={this.props.typeIndex}
           onChange={this.typeOnChange}
         />
+        <View style={styles.searchContainer}>
+          <TouchableOpacity style={styles.searchBtn} onPress={Actions.tabList}>
+            <Icon name={'search'} style={ styles.searchIcon } />
+            <Text style={styles.searchText}>搜尋台灣步道</Text>
+          </TouchableOpacity>
+        </View>
         <NewsBoard boardTitle={'近期活動'} listData={activityListData}
           itemCount={3} onItemPress={onListItemPress}
         />

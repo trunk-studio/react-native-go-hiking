@@ -1,19 +1,31 @@
 import React, {
   View,
   Text,
-  TouchableOpacity,
   PropTypes,
-  StyleSheet
+  StyleSheet,
+  Image,
 } from 'react-native';
 import FilterButton from './Button';
+import Icon from 'react-native-vector-icons/FontAwesome';
 const styles = StyleSheet.create({
-  title:{
+  title: {
     paddingLeft: 10,
     padding: 3,
   },
-  container: {
+  buttonContainer: {
     flexDirection: 'row',
     paddingBottom: 5,
+  },
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+  },
+  icon: {
+    height: 20,
+    width: 20,
   },
 });
 
@@ -38,11 +50,14 @@ export default function FilterContainer(props) {
     return buttons;
   }
   return (
-    <View>
-      <View style={ styles.title }>
-        <Text style={{ color: 'rgb(88, 88, 88)' }}>{props.title}</Text>
+    <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Image source={require('../../images/mount.png')} style={ styles.icon } />
+        <View style={ styles.title }>
+          <Text style={{ color: 'rgb(88, 88, 88)' }}>{props.title}</Text>
+        </View>
       </View>
-      <View style={styles.container}>
+      <View style={styles.buttonContainer}>
         {genbutton()}
       </View>
     </View>

@@ -52,11 +52,19 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
   },
+  distance: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 2,
+    fontSize: 12,
+    color: '#666',
+  },
   infoText: {
     flex: 1,
     flexDirection: 'row',
     padding: 2,
     fontSize: 12,
+    color: '#666',
   },
   itemImg: {
     borderRadius: 3,
@@ -78,6 +86,7 @@ const styles = StyleSheet.create({
     width: 60,
     backgroundColor: 'rgb(19, 150, 46)',
     borderRadius: 5,
+    alignItems: 'center',
   },
   tagText: {
     fontSize: 12,
@@ -105,7 +114,7 @@ export default function PostListItem(props) {
   function nearby() {
     let data;
     if (props.distance) {
-      data = <Text style={styles.infoText}>距離：{formatDistance(props.distance)}</Text>
+      data = <Text style={styles.distance}>{formatDistance(props.distance)}</Text>
     }
     return data;
   }
@@ -120,11 +129,13 @@ export default function PostListItem(props) {
             <Text style={styles.title} numberOfLines={2} >
               {props.title}
             </Text>
-            {nearby()}
             {info()}
           </View>
+          <View style={[]}>
+            {nearby()}
+          </View>
           {
-            (props.status != 'null') ?
+            (props.status !== 'null') ?
               <View style={ [styles.tag, { backgroundColor: props.tagColor }] }>
                 <Text style={styles.tagText}>
                   {props.status}
