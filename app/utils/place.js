@@ -17,7 +17,7 @@ export function formatDistance(distance) {
     if (isLessThanKm) {
       return `${distance * 1000} 公尺`;
     }
-    return `${distance} 公里`;
+    return `${Math.round(distance)}公里`;
   }
   return '';
 }

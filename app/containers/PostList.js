@@ -107,7 +107,7 @@ export default class PostList extends Component {
           tagColor={tagColor}
           level={rowData.level}
           detail_02={rowData.detail_02}
-          description={rowData.description_01}
+          description={null}
           onItemPress={this.onListItemPress.bind(this, rowData)}
           bakColor={bakColor}
           rightText={''}
