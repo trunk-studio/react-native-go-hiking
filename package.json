@@ -8,7 +8,8 @@
     "android": "react-native run-android",
     "android-mock-update-server": "json-server db.json --watch --static ./android/app/src/main/assets",
     "bundle-ios": "node node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.ios.js --bundle-output ./ios/main.jsbundle --sourcemap-output ./ios/sourcemap.js",
-    "bundle-android": "node node_modules/react-native/local-cli/cli.js bundle --dev false --platform android --entry-file index.android.js --bundle-output ./android/app/src/main/assets/main.android.jsbundle --sourcemap-output ./android/app/src/main/assets/sourcemap.android.js"
+    "bundle-android": "node node_modules/react-native/local-cli/cli.js bundle --dev false --platform android --entry-file index.android.js --bundle-output ./android/app/src/main/assets/main.android.jsbundle --sourcemap-output ./android/app/src/main/assets/sourcemap.android.js",
+    "gsjson": "./node_modules/.bin/gsjson 142Ybs86pOSF6iLVjgDqH5LV5Rg-145kZUEM4eAGr1h0 ./app/json/data.src.json"
   },
   "dependencies": {
     "json-server": "^0.8.12",
@@ -32,6 +33,7 @@
     "eslint-config-airbnb": "^7.0.0",
     "eslint-plugin-jsx-a11y": "0.6.2",
     "eslint-plugin-react": "^4.2.3",
+    "google-spreadsheet-to-json": "^0.1.6",
     "redux-logger": "^2.6.1"
   }
 }
