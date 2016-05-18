@@ -144,7 +144,7 @@ export default class PostList extends Component {
           id={rowData.id}
           index={rowData.index}
           title={rowData.title}
-          img={rowData.pic}
+          img={rowData.cover}
           place={rowData.place}
           status={rowData.status}
           tagColor={tagColor}

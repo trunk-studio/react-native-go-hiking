@@ -216,7 +216,7 @@ class PostDetail extends Component {
     }
     return (
       <ParallaxView
-        backgroundSource={{ uri: this.props.pic }}
+        backgroundSource={{ uri: this.props.cover }}
         windowHeight={260}
         header={(
           <View style={styles.header}>
