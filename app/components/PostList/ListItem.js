@@ -139,6 +139,7 @@ export default function PostListItem(props) {
             難易度：
           </Text>
           <Image source={{ uri: levelImgSrc }} style={{
+            marginTop: -5,
             width: 55,
             height: 10,
           }}
