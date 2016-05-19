@@ -3,6 +3,7 @@ import React, {
   Component,
   ListView,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -38,17 +39,22 @@ export default class PostList extends Component {
     this.state = {
       dataSource,
       postList: [],
-      visible: true,
+      visible: false,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
-    setTimeout(() => {
+    if (Platform.OS === 'ios') {
       this.setState({
-        visible: !this.state.visible
+        visible: true,
       });
-    }, 500);
+      setTimeout(() => {
+        this.setState({
+          visible: !this.state.visible,
+        });
+      }, 1000);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,7 +92,7 @@ export default class PostList extends Component {
         tagColor = 'rgb(221, 105, 49)';
         break;
       case '注意':
-        tagColor = 'rgb(152, 221, 84)';
+        tagColor = '#D9CE3E';
         break;
       default:
         tagColor = 'rgba(0,0,0,0)';
@@ -98,7 +104,7 @@ export default class PostList extends Component {
       swipeoutBtns.push(
         {
           text: '收藏',
-          backgroundColor: 'rgb(152, 221, 84)',
+          backgroundColor: 'rgb(79, 164, 89)',
           onPress: this.props.requestAddFavorite.bind(this, rowData.id),
         },
       );

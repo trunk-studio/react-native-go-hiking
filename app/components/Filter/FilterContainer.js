@@ -44,6 +44,7 @@ export default function FilterContainer(props) {
           width={width}
           active={i === props.active}
           onPress={onChange}
+          activeColor={props.activeColor}
         />
       );
     });
@@ -53,10 +54,12 @@ export default function FilterContainer(props) {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         {/*<Image source={require('../../images/mount.png')} style={ styles.icon } />*/}
-        <Image source={{uri: 'http://i.imgur.com/JeSvwmd.png'}} style={ styles.icon } />
-        <View style={ styles.title }>
-          <Text style={{ color: 'rgb(88, 88, 88)' }}>{props.title}</Text>
-        </View>
+        {/* <Image source={{uri: 'http://i.imgur.com/JeSvwmd.png'}} style={ styles.icon } /> */}
+        {/*
+          <View style={ styles.title }>
+            <Text style={{ color: 'rgb(88, 88, 88)' }}>{props.title}</Text>
+          </View>
+        */}
       </View>
       <View style={styles.buttonContainer}>
         {genbutton()}
@@ -70,6 +73,7 @@ FilterContainer.propTypes = {
   dataList: PropTypes.array,
   active: PropTypes.number,
   onChange: PropTypes.func,
+  activeColor: PropTypes.string,
 };
 
 FilterContainer.defaultProps = {
@@ -77,4 +81,5 @@ FilterContainer.defaultProps = {
   dataList: [],
   active: 1,
   onChange: () => {},
+  activeColor: 'rgb(79, 164, 89)',
 };

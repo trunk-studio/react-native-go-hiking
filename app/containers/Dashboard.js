@@ -97,6 +97,13 @@ const styles = StyleSheet.create({
 });
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      areaId: 0,
+      typeId: 0,
+    };
+  }
   componentWillMount() {
     // this.props.requestNews();
     // this.props.requestToday();
@@ -129,10 +136,21 @@ export default class Dashboard extends Component {
     }
   }
   areaOnChange = (id) => {
-    this.props.requestFilterArea(id);
+    // this.props.requestFilterArea(id);
+    this.setState({
+      areaId: id,
+    });
   };
   typeOnChange = (id) => {
-    this.props.requestFilterType(id);
+    // this.props.requestFilterType(id);
+    this.setState({
+      typeId: id,
+    });
+  };
+  onSearchHandle = () => {
+    this.props.requestFilterArea(this.state.areaId);
+    this.props.requestFilterType(this.state.typeId);
+    Actions.tabList();
   };
   render() {
     function onListItemPress(detail) {
@@ -156,17 +174,17 @@ export default class Dashboard extends Component {
       });
     }
     const area = [
-      { title: '全部' },
-      { title: '北部' },
-      { title: '中部' },
-      { title: '南部' },
-      { title: '東部' },
+      { title: '全部區域' },
+      { title: '北 部' },
+      { title: '中 部' },
+      { title: '南 部' },
+      { title: '東 部' },
     ];
     const type = [
-      { title: '全部' },
-      { title: '郊山' },
-      { title: '中級山', width: 65 },
-      { title: '百岳' },
+      { title: '全部類型' },
+      { title: '郊 山' },
+      { title: '中 級 山', width: 65 },
+      { title: '百 岳' },
     ];
     return (
       <ParallaxView
@@ -181,33 +199,34 @@ export default class Dashboard extends Component {
         )}
       >
         <StatusBar barStyle="light-content" />
-        <View style={{ backgroundColor:'#fff', marginBottom: 50 }}>
+        <View style={{ backgroundColor: '#fff', marginBottom: 50 }}>
           <View style={styles.bar} />
-          <Filter
-            title={'區域'}
-            dataList={area}
-            active={this.props.areaIndex}
-            onChange={this.areaOnChange}
-          />
-        <View style={{ height: 4 }} />
           <Filter
             title={'類型'}
             dataList={type}
-            active={this.props.typeIndex}
+            active={this.state.typeId}
             onChange={this.typeOnChange}
+            activeColor={'#37A22E'}
+          />
+          <Filter
+            title={'區域'}
+            dataList={area}
+            active={this.state.areaId}
+            onChange={this.areaOnChange}
+            activeColor={'#338CAB'}
           />
           <View style={styles.searchContainer}>
-            <TouchableOpacity style={styles.searchBtn} onPress={Actions.tabList}>
+            <TouchableOpacity style={styles.searchBtn} onPress={this.onSearchHandle}>
               <Icon name={'search'} style={ styles.searchIcon } />
               <Text style={styles.searchText}>搜尋台灣步道</Text>
             </TouchableOpacity>
           </View>
-          <View style={{height: 0.5, backgroundColor: '#417505'}} />
+          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
           <NewsBoard boardTitle={'近期活動'} listData={activityListData}
             itemCount={30} onItemPress={onListItemPress}
           />
-          <View style={{height: 0.5, backgroundColor: '#417505'}} />
-      </View>
+          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
+        </View>
       </ParallaxView>
     );
   }
