@@ -1,9 +1,16 @@
 package com.trunksys.gohiking;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater;
-import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterFrequency;
+import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterActivity;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterPackage;
 import com.facebook.react.ReactPackage;
@@ -17,10 +24,43 @@ import javax.annotation.Nullable;
 
 public class MainActivity extends ReactNativeAutoUpdaterActivity {
 
+    private static final int MY_PERMISSION_LOCATION = 111;
+
     /*************************************************
      * These methods are required for the ReactNativeAutoUpdater Part
-     *************************************************
-     * */
+     * ************************************************
+     */
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        Log.wtf("!!!!!!!!!!!!!!!", "onRequestPermissionsResult=>");
+        switch (requestCode) {
+            case MY_PERMISSION_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
 
     /**
      * Name of the JS Bundle file shipped with the app.
@@ -38,7 +78,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      */
     @Override
     protected String getUpdateMetadataUrl() {
-         return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json";
+        return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json";
 //        return "http://192.168.2.101:3000/metadata.android.json";
     }
 
@@ -58,7 +98,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      */
     @Override
     protected String getHostnameForRelativeDownloadURLs() {
-         return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
+        return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
 //        return "http://192.168.2.101:3000";
     }
 
@@ -121,6 +161,18 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
         // return false;
     }
 
+    @Override
+    public void updateFinished() {
+        super.updateFinished();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestLocationPermission();
+    }
+
+
     /**
      * A list of packages used by the app. If the app uses additional views
      * or modules besides the default ones, add more packages here.
@@ -132,6 +184,21 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
                 new MainReactPackage(),
                 new VectorIconsPackage()
         );
+    }
+
+    private void requestLocationPermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permissionCheck == -1) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSION_LOCATION);
+            }
+        }
     }
 
 }
