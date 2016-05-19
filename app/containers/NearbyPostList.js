@@ -15,6 +15,7 @@ import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../action
 import { calcDistance } from '../utils/place';
 const StyleSheet = require('../utils/F8StyleSheet');
 const picNoFavItem = require('../images/no-fav-item.png');
+import Spinner from 'react-native-loading-spinner-overlay';
 const styles = StyleSheet.create({
   content: {
     flex: 1,
@@ -58,11 +59,17 @@ export default class PostList extends Component {
       lat: 0,
       lon: 0,
       nearbyData: null,
+      visible: true,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
+    setTimeout(() => {
+      this.setState({
+        visible: !this.state.visible
+      });
+    }, 500);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -134,26 +141,37 @@ export default class PostList extends Component {
         let tagColor;
         switch (rowData.status) {
           case '全線封閉':
-          tagColor = 'rgb(213, 64, 64)';
-          break;
+            tagColor = 'rgb(213, 64, 64)';
+            break;
           case '部分封閉':
-          tagColor = 'rgb(221, 105, 49)';
-          break;
+            tagColor = 'rgb(221, 105, 49)';
+            break;
           case '注意':
-          tagColor = 'rgb(152, 221, 84)';
-          break;
+            tagColor = '#D9CE3E';
+            break;
           default:
-          tagColor = 'rgba(0,0,0,0)';
-          break;
+            tagColor = 'rgba(0,0,0,0)';
+            break;
         }
 
-        const swipeoutBtns = [
-          {
-            text: '取消收藏',
-            backgroundColor: 'rgb(231, 48, 43)',
-            onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
-          },
-        ];
+        const swipeoutBtns = [];
+        if (!rowData.isFav) {
+          swipeoutBtns.push(
+            {
+              text: '收藏',
+              backgroundColor: 'rgb(79, 164, 89)',
+              onPress: this.props.requestAddFavorite.bind(this, rowData.id),
+            },
+          );
+        } else {
+          swipeoutBtns.push(
+            {
+              text: '取消收藏',
+              backgroundColor: 'rgb(231, 48, 43)',
+              onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
+            },
+          );
+        }
 
         ListItemArray.push(
           <SwipeOut right={swipeoutBtns} autoClose key={rowData.id}>
@@ -198,6 +216,7 @@ export default class PostList extends Component {
 
     return (
       <ScrollView style={styles.content}>
+        <Spinner visible={this.state.visible} />
         { contentChildren }
       </ScrollView>
     );

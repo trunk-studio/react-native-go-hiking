@@ -2,10 +2,13 @@ package com.trunksys.gohiking;
 
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater;
@@ -30,37 +33,6 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      * These methods are required for the ReactNativeAutoUpdater Part
      * ************************************************
      */
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        Log.wtf("!!!!!!!!!!!!!!!", "onRequestPermissionsResult=>");
-        switch (requestCode) {
-            case MY_PERMISSION_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
 
     /**
      * Name of the JS Bundle file shipped with the app.
@@ -166,13 +138,6 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
         super.updateFinished();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestLocationPermission();
-    }
-
-
     /**
      * A list of packages used by the app. If the app uses additional views
      * or modules besides the default ones, add more packages here.
@@ -186,17 +151,90 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
         );
     }
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestLocationPermission();
+    }
+
+    /*
+     * GRANT permissions we needed.
+     */
+    private void dialogNeedPermissions(final Activity activity) {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("注意")
+                .setMessage("您是否願意給予台灣步道1指通地理資訊的權限？" +
+                        "我們需要這個權限為您呈現周遭的相關資料，" +
+                        "如果沒有此權限 App 將無法運作。")
+                .setPositiveButton("給予權限", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(activity,
+                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                MY_PERMISSION_LOCATION);
+                    }
+                })
+                .setNegativeButton("離開", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
     private void requestLocationPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 
-        if (permissionCheck == -1) {
+        Log.wtf("gohiking", "permissionCheck=>" + permissionCheck);
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                dialogNeedPermissions(this);
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
             } else {
+
+                // No explanation needed, we can request the permission.
+
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSION_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        Log.wtf("gohiking", "permissionCheck=>" + requestCode);
+        switch (requestCode) {
+            case MY_PERMISSION_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.wtf("gohiking", "location permission ok");
+                } else {
+                    Log.wtf("gohiking", "request location permission failed. try it again.");
+                    dialogNeedPermissions(this);
+                }
+                return;
             }
         }
     }

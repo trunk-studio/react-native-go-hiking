@@ -14,6 +14,7 @@ import ParallaxView from 'react-native-parallax-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
+import LightBox from 'react-native-lightbox';
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -38,7 +39,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   placeText: {
-    fontSize: 20,
+    fontSize: 18,
+    color: '#709D2A',
   },
   infoContainer: {
     flex: 1,
@@ -112,12 +114,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   toolButton: {
-    marginRight: 10,
+    flexDirection: 'row',
+    paddingLeft: 6,
+    paddingRight: 6,
+    alignItems: 'center',
   },
   toolbar: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: -22,
+  },
+  imgSrcBlock: {
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
+    padding: 2,
+  },
+  imgSrcText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#EEE',
+    fontStyle: 'italic',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
   },
 });
 
@@ -157,14 +179,16 @@ class PostDetail extends Component {
     if (this.props.map !== 'null') {
       mapImg = (
         <View style={{ flex: 1, marginBottom: 20 }}>
-          <Image
-            source={{ uri: this.props.map }}
-            style={{
-              flex: 1,
-              padding: 20,
-              height: 500,
-            }}
-          />
+          <LightBox>
+            <Image
+              source={{ uri: this.props.map }}
+              style={{
+                flex: 1,
+                padding: 20,
+                height: 500,
+              }}
+            />
+          </LightBox>
       </View>
       );
     }
@@ -172,7 +196,7 @@ class PostDetail extends Component {
   }
 
   navigate = () => {
-    Alert.alert('', '立即前往', [
+    Alert.alert('立即前往', '導航僅供參考', [
       { text: '確認', onPress: () => {
         const url = `https://www.google.com.tw/maps/dir/${this.props.myLat},${this.props.myLon}/${this.props.lat},${this.props.lon}`;
         Linking.canOpenURL(url).then(supported => {
@@ -196,6 +220,14 @@ class PostDetail extends Component {
     });
   }
 
+  linkToSrc = (url) => {
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      }
+    });
+  }
+
   render() {
     let tagColor = '';
     if (this.props.status !== 'null') {
@@ -207,7 +239,7 @@ class PostDetail extends Component {
           tagColor = 'rgba(221, 105, 49, .8)';
           break;
         case '注意':
-          tagColor = 'rgba(152, 221, 84, .8)';
+          tagColor = '#D9CE3E';
           break;
         default:
           tagColor = 'rgba(0,0,0,0)';
@@ -226,6 +258,11 @@ class PostDetail extends Component {
             <Text style={styles.headerTitle}>
                 {this.props.title}
             </Text>
+            <TouchableOpacity onPress={this.linkToSrc.bind(this, this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
+              <Text style={styles.imgSrcText}>
+                {this.props.coverSourceName}
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
         style={styles.parallaxView}
@@ -241,19 +278,17 @@ class PostDetail extends Component {
         <View style={styles.scrollFrame}>
           <View style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
             <View index={0} style={styles.scrollContainer}>
-              <View style={styles.articleHeader}>
-                <Text style={styles.placeText}>
-                  {this.props.place}
-                </Text>
-              </View>
               <View style={styles.toolbar}>
                 <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
                   <MaterialIcon
                     name="near-me"
-                    size={24}
+                    size={26}
                     color={'#709D2A'}
                     style={[styles.menuIcon, styles.favoriteIcon]}
-                    />
+                  />
+                  <Text style={styles.placeText}>
+                    {this.props.place}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
                   <Icon
@@ -261,7 +296,7 @@ class PostDetail extends Component {
                     size={24}
                     color={'#709D2A'}
                     style={[styles.menuIcon, styles.favoriteIcon]}
-                    />
+                  />
                 </TouchableOpacity>
               </View>
               <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
@@ -302,6 +337,11 @@ PostDetail.propTypes = {
   requestAddFavorite: React.PropTypes.func,
   requestRemoveFavorite: React.PropTypes.func,
   isFav: React.PropTypes.bool,
+  cover: React.PropTypes.string,
+  coverSourceUrl: React.PropTypes.string,
+  coverSourceName: React.PropTypes.string,
+  myLat: React.PropTypes.number,
+  myLon: React.PropTypes.number,
 };
 
 PostDetail.defaultProps = {

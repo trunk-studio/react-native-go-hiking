@@ -3,6 +3,7 @@ import React, {
   Component,
   ListView,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -12,6 +13,7 @@ import Filter from '../components/Filter/FilterContainer';
 import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { requestFilterArea, requestFilterType } from '../actions/SearchActions';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
@@ -26,6 +28,12 @@ const styles = StyleSheet.create({
       marginTop: 55,
     },
   },
+  filterContainer: {
+    backgroundColor: '#567354',
+    marginTop: -1,
+    paddingTop: 5,
+    paddingBottom: 2,
+  },
 });
 
 
@@ -37,11 +45,22 @@ export default class PostList extends Component {
     this.state = {
       dataSource,
       postList: [],
+      visible: false,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
+    if (Platform.OS === 'ios') {
+      this.setState({
+        visible: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          visible: !this.state.visible,
+        });
+      }, 1000);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,6 +71,9 @@ export default class PostList extends Component {
       this.props.typeIndex !== nextProps.typeIndex ||
       this.props.areaIndex !== nextProps.areaIndex) {
       this.renderList(nextProps);
+    }
+    if(nextProps.pathList.length > 10) {
+      this
     }
   }
 
@@ -76,7 +98,7 @@ export default class PostList extends Component {
         tagColor = 'rgb(221, 105, 49)';
         break;
       case '注意':
-        tagColor = 'rgb(152, 221, 84)';
+        tagColor = '#D9CE3E';
         break;
       default:
         tagColor = 'rgba(0,0,0,0)';
@@ -88,7 +110,7 @@ export default class PostList extends Component {
       swipeoutBtns.push(
         {
           text: '收藏',
-          backgroundColor: 'rgb(152, 221, 84)',
+          backgroundColor: 'rgb(79, 164, 89)',
           onPress: this.props.requestAddFavorite.bind(this, rowData.id),
         },
       );
@@ -178,32 +200,39 @@ export default class PostList extends Component {
 
   render() {
     const area = [
-      { title: '全部' },
+      { title: '全部區域' },
       { title: '北部' },
       { title: '中部' },
       { title: '南部' },
       { title: '東部' },
     ];
     const type = [
-      { title: '全部' },
-      { title: '郊山' },
+      { title: '全部類型' },
+      { title: '郊　山' },
       { title: '中級山', width: 65 },
-      { title: '百岳' },
+      { title: '百　岳' },
     ];
     return (
       <View style={styles.content}>
-        <Filter
-          title={'區域'}
-          dataList={area}
-          active={this.props.areaIndex}
-          onChange={this.areaOnChange}
-        />
-        <Filter
-          title={'類型'}
-          dataList={type}
-          active={this.props.typeIndex}
-          onChange={this.typeOnChange}
-        />
+        <Spinner visible={this.state.visible} />
+        <View style={styles.filterContainer}>
+          <Filter
+            title={'類型'}
+            dataList={type}
+            active={this.props.typeIndex}
+            onChange={this.typeOnChange}
+            activeColor={'#fff'}
+            textColor={'#567354'}
+            />
+          <Filter
+            title={'區域'}
+            dataList={area}
+            active={this.props.areaIndex}
+            onChange={this.areaOnChange}
+            activeColor={'#fff'}
+            textColor={'#567354'}
+          />
+        </View>
         {/*<ListView
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}

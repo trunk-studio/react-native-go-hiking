@@ -21,11 +21,12 @@ const styles = StyleSheet.create({
 });
 
 export default function Button(props) {
-  const buttonColor = props.active ? 'rgb(79, 164, 89)' : 'rgba(0, 0, 0, 0)';
-  const textColor = props.active ? '#fff' : 'rgb(79, 164, 89)';
+  const buttonColor = props.active ? props.activeColor : 'rgba(0, 0, 0, 0)';
+  const borderColor = props.activeColor;
+  const textColor = props.active ? props.textColor : props.activeColor;
   return (
     <TouchableOpacity
-      style={[styles.container, { backgroundColor: buttonColor, width: props.width }]}
+      style={[styles.container, { backgroundColor: buttonColor, width: props.width, borderColor: borderColor }]}
       onPress={props.onPress.bind(this, props.index)}
     >
       <Text style={[styles.text, { color: textColor }]}>
@@ -41,6 +42,8 @@ Button.propTypes = {
   active: PropTypes.bool,
   width: PropTypes.number,
   onPress: PropTypes.func,
+  activeColor: PropTypes.string,
+  textColor: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -48,4 +51,6 @@ Button.defaultProps = {
   active: false,
   width: 50,
   onPress: () => {},
+  activeColor: 'rgb(79, 164, 89)',
+  textColor: '#fff',
 };
