@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
   bar: {
     ios: {
       position: 'absolute',
-      width: windowSize.width * 4,
-      height: windowSize.width * 4,
+      width: windowSize.width * 7,
+      height: windowSize.width * 7,
       top: -25,
-      left: -windowSize.width * 1.5,
+      left: -windowSize.width * 3,
       backgroundColor: '#fff',
-      borderRadius: windowSize.width * 2,
+      borderRadius: windowSize.width * 3.5,
       borderColor: 'rgb(79, 164, 89)',
       borderWidth: 5,
     },
@@ -171,7 +171,7 @@ export default class Dashboard extends Component {
     return (
       <ParallaxView
         backgroundSource={coverImg}
-        windowHeight={200}
+        windowHeight={300}
         header={(
           <View style={styles.header}>
             <Text style={styles.headerTitle}>

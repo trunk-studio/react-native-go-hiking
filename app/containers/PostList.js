@@ -12,6 +12,7 @@ import Filter from '../components/Filter/FilterContainer';
 import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { requestFilterArea, requestFilterType } from '../actions/SearchActions';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
@@ -37,11 +38,17 @@ export default class PostList extends Component {
     this.state = {
       dataSource,
       postList: [],
+      visible: true,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
+    setTimeout(() => {
+      this.setState({
+        visible: !this.state.visible
+      });
+    }, 500);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,6 +59,9 @@ export default class PostList extends Component {
       this.props.typeIndex !== nextProps.typeIndex ||
       this.props.areaIndex !== nextProps.areaIndex) {
       this.renderList(nextProps);
+    }
+    if(nextProps.pathList.length > 10) {
+      this
     }
   }
 
@@ -192,6 +202,7 @@ export default class PostList extends Component {
     ];
     return (
       <View style={styles.content}>
+        <Spinner visible={this.state.visible} />
         <Filter
           title={'區域'}
           dataList={area}

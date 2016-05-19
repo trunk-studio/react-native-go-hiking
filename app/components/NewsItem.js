@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
     // borderTopWidth: 0.5,
   },
   newsConent: {
-    flex: 8,
+    flex: 10,
     paddingLeft: 20,
-    paddingRight: 20,
   },
   newsIcon: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'center',
@@ -31,15 +30,15 @@ const styles = StyleSheet.create({
     color: '#417505', //'#359ac0',
   },
   newsTitle: {
-    fontSize: 19,
+    fontSize: 14,
     fontWeight: '500',
     lineHeight: 25,
     color: '#333',
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 2,
   },
   newsInfo: {
-    fontSize: 15,
+    fontSize: 12,
     lineHeight: 20,
     color: '#555',
     marginBottom: 15,
@@ -62,7 +61,7 @@ export default function NewsItem(props) {
           <Text style={styles.newsTitle} numberOfLines={1}>
             {props.title}
           </Text>
-          <Text style={styles.newsInfo} numberOfLines={2}>
+          <Text style={styles.newsInfo} numberOfLines={3}>
             {props.content}
           </Text>
         </View>

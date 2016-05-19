@@ -172,7 +172,7 @@ class PostDetail extends Component {
   }
 
   navigate = () => {
-    Alert.alert('', '立即前往', [
+    Alert.alert('立即前往', '導航僅供參考', [
       { text: '確認', onPress: () => {
         const url = `https://www.google.com.tw/maps/dir/${this.props.myLat},${this.props.myLon}/${this.props.lat},${this.props.lon}`;
         Linking.canOpenURL(url).then(supported => {

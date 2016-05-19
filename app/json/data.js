@@ -852,7 +852,7 @@ export default [{
   "id": 78,
   "title": "龍過脈森林步道",
   "cover": "http://xn--kwr22her7a6qdvs6a.tw/moutainphoto/102nopai/1021015-16.JPG",
-  "coverSourceUrl": "http://輝哥的天空.tw/mountain/nopaia/002nomountain-main.htm",
+  "coverSourceUrl": "http://xn--kwr22her7a6qdvs6a.tw/mountain/nopaia/002nomountain-main.htm",
   "coverSourceName": "輝哥的天空",
   "detail_01": "區域級步道",
   "detail_02": "全程 4.2 公里",
@@ -1601,7 +1601,7 @@ export default [{
 }, {
   "id": 70,
   "title": "麒麟山森林步道",
-  "cover": "http://輝哥的天空.tw/moutainphoto/WALK/1010718-11.JPG",
+  "cover": "http://xn--kwr22her7a6qdvs6a.tw/moutainphoto/WALK/1010718-11.JPG",
   "coverSourceUrl": "http://qd4929.pixnet.net/blog/post/283578323-991205%E5%BD%B0%E5%8C%96%E7%94%B0%E4%B8%AD_%E9%BA%92%E9%BA%9F%E5%B1%B1%E6%A3%AE%E6%9E%97%E6%AD%A5%E9%81%93",
   "coverSourceName": "豬頭胸就是愛Lu",
   "detail_01": "區域級步道",

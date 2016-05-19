@@ -66,6 +66,17 @@ export default function AppRoutes() {
             <Text style={styles.navBackTitle}> Back </Text>
             </TouchableOpacity>
         );}}
+        renderTitle={(childState, index) => {
+          console.log("!!!!!!!!!!!!", childState, index, Actions);
+          return (
+            <TouchableOpacity
+              style={styles.leftButtonContainer}
+              onPress={Actions.pop}
+            >
+            <Text style={styles.navBackTitle}> {childState.props.title} </Text>
+            </TouchableOpacity>
+          );
+        }}
       />
       <Schema name="tab" type="switch" icon={TabIcon} />
       <Route hideNavBar name="tabbar">
