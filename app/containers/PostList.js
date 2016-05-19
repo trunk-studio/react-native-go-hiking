@@ -51,7 +51,7 @@ export default class PostList extends Component {
 
   componentWillMount() {
     this.props.requestPathData();
-    if (Platform.OS === 'ios') {
+    // if (Platform.OS === 'ios') {
       this.setState({
         visible: true,
       });
@@ -60,7 +60,7 @@ export default class PostList extends Component {
           visible: !this.state.visible,
         });
       }, 1000);
-    }
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
