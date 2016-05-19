@@ -70,7 +70,7 @@ export default class PostList extends Component {
       this.setState({
         visible: !this.state.visible
       });
-    }, 500);
+    }, 5000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -218,10 +218,12 @@ export default class PostList extends Component {
     );}
 
     return (
-      <ScrollView style={styles.content}>
+      <View style={styles.content}>
         <Spinner visible={this.state.visible} />
-        { contentChildren }
-      </ScrollView>
+        <ScrollView>
+          { contentChildren }
+        </ScrollView>
+      </View>
     );
   }
 }
