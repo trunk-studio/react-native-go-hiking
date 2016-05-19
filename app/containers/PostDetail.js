@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
+    textAlign: 'right',
   },
   placeText: {
     fontSize: 18,
@@ -156,10 +157,41 @@ class PostDetail extends Component {
     const infos = [];
     if (this.props.level) {
       let star = '';
-      for (let i = 0; i < this.props.level; i++) {
-        star += '★';
+      // for (let i = 0; i < this.props.level; i++) {
+      //   star += '★';
+      // }
+      let levelImgSrc = '';
+      switch (this.props.level) {
+        case 1:
+          levelImgSrc = 'http://i.imgur.com/B24J6K2.png';
+          break;
+        case 2:
+          levelImgSrc = 'http://i.imgur.com/bC8Fs5H.png';
+          break;
+        case 3:
+          levelImgSrc = 'http://i.imgur.com/0SkdW5R.png';
+          break;
+        case 4:
+          levelImgSrc = 'http://i.imgur.com/6R9jsvO.png';
+          break;
+        case 5:
+          levelImgSrc = 'http://i.imgur.com/OlqyR2d.png';
+          break;
+        default:
+          levelImgSrc = '';
+          break;
       }
-      infos.push(<Text style={styles.infoText} key={'level'}>難易度：{star}</Text>);
+      infos.push(
+        <View key={'level'} style={{ flexDirection: 'row'}}>
+          <Text style={styles.infoText}>
+            難易度：
+          </Text>
+          <Image source={{ uri: levelImgSrc }} style={{
+              width: 80,
+              height: 15,
+            }} />
+        </View>
+      );
     }
     if (this.props.detail_02 !== 'null') {
       infos.push(
