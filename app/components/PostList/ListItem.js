@@ -61,9 +61,10 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   infoText: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     padding: 2,
+    paddingRight: 0,
     fontSize: 12,
     color: '#666',
   },
@@ -109,12 +110,41 @@ export default function PostListItem(props) {
   function info() {
     let infos = [];
     if (props.place) infos.push(<Text style={styles.infoText} key={'place'}>{props.place}</Text>);
+
     if (props.level) {
-      let star = '';
-      for (let i = 0; i < props.level; i++) {
-        star += '★';
+      let levelImgSrc = '';
+      switch (props.level) {
+        case 1:
+          levelImgSrc = 'http://i.imgur.com/B24J6K2.png';
+          break;
+        case 2:
+          levelImgSrc = 'http://i.imgur.com/bC8Fs5H.png';
+          break;
+        case 3:
+          levelImgSrc = 'http://i.imgur.com/0SkdW5R.png';
+          break;
+        case 4:
+          levelImgSrc = 'http://i.imgur.com/6R9jsvO.png';
+          break;
+        case 5:
+          levelImgSrc = 'http://i.imgur.com/OlqyR2d.png';
+          break;
+        default:
+          levelImgSrc = '';
+          break;
       }
-      infos.push(<Text style={styles.infoText} key={'level'}>難易度：{star}</Text>);
+      infos.push(
+        <View key={'level'} style={{ flexDirection: 'row', alignItems: 'center'}}>
+          <Text style={styles.infoText}>
+            難易度：
+          </Text>
+          <Image source={{ uri: levelImgSrc }} style={{
+            width: 55,
+            height: 10,
+          }}
+          />
+        </View>
+      );
     }
     if (props.detail_02 != 'null') infos.push(<Text style={styles.infoText} key={'detail_02'}>{props.detail_02}</Text>);
     return infos;
