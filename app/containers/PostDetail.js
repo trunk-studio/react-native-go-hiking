@@ -258,7 +258,7 @@ class PostDetail extends Component {
             <Text style={styles.headerTitle}>
                 {this.props.title}
             </Text>
-            <TouchableOpacity onPress={this.linkToSrc.bind(this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
+            <TouchableOpacity onPress={this.linkToSrc.bind(this, this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
               <Text style={styles.imgSrcText}>
                 {this.props.coverSourceName}
               </Text>
