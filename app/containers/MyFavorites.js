@@ -93,7 +93,7 @@ export default class MyFavorite extends Component {
           tagColor = 'rgb(221, 105, 49)';
           break;
         case '注意':
-          tagColor = 'rgb(152, 221, 84)';
+          tagColor = '#D9CE3E';
           break;
         default:
           tagColor = 'rgba(0,0,0,0)';

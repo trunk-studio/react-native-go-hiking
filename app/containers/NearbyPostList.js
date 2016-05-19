@@ -134,26 +134,37 @@ export default class PostList extends Component {
         let tagColor;
         switch (rowData.status) {
           case '全線封閉':
-          tagColor = 'rgb(213, 64, 64)';
-          break;
+            tagColor = 'rgb(213, 64, 64)';
+            break;
           case '部分封閉':
-          tagColor = 'rgb(221, 105, 49)';
-          break;
+            tagColor = 'rgb(221, 105, 49)';
+            break;
           case '注意':
-          tagColor = 'rgb(152, 221, 84)';
-          break;
+            tagColor = '#D9CE3E';
+            break;
           default:
-          tagColor = 'rgba(0,0,0,0)';
-          break;
+            tagColor = 'rgba(0,0,0,0)';
+            break;
         }
 
-        const swipeoutBtns = [
-          {
-            text: '取消收藏',
-            backgroundColor: 'rgb(231, 48, 43)',
-            onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
-          },
-        ];
+        const swipeoutBtns = [];
+        if (!rowData.isFav) {
+          swipeoutBtns.push(
+            {
+              text: '收藏',
+              backgroundColor: 'rgb(79, 164, 89)',
+              onPress: this.props.requestAddFavorite.bind(this, rowData.id),
+            },
+          );
+        } else {
+          swipeoutBtns.push(
+            {
+              text: '取消收藏',
+              backgroundColor: 'rgb(231, 48, 43)',
+              onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
+            },
+          );
+        }
 
         ListItemArray.push(
           <SwipeOut right={swipeoutBtns} autoClose key={rowData.id}>
