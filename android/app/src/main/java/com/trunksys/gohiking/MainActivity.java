@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 public class MainActivity extends ReactNativeAutoUpdaterActivity {
 
     private static final int MY_PERMISSION_LOCATION = 111;
+    private static final String TAG = "GoHiking";
 
     /*************************************************
      * These methods are required for the ReactNativeAutoUpdater Part
@@ -172,7 +173,10 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(activity,
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                new String[]{
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                },
                                 MY_PERMISSION_LOCATION);
                     }
                 })
@@ -206,16 +210,12 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
                 // sees the explanation, try again to request the permission.
 
             } else {
-
-                // No explanation needed, we can request the permission.
-
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                        },
                         MY_PERMISSION_LOCATION);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         }
     }

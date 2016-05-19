@@ -5,6 +5,7 @@ import React, {
   ScrollView,
   Image,
   Text,
+  Alert,
 } from 'react-native';
 import SwipeOut from 'react-native-swipeout';
 import { connect } from 'react-redux';
@@ -91,7 +92,7 @@ export default class PostList extends Component {
                   distance,
                 });
               }
-            })
+            });
             nearbyData.sort((a, b) => {
               return parseFloat(a.distance) - parseFloat(b.distance);
             });
@@ -101,8 +102,10 @@ export default class PostList extends Component {
               lon: position.coords.longitude,
             });
           },
-          (error) => {},
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+          (error) => {
+            // Alert.alert(error.toString());
+          },
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
         );
       }
     }
