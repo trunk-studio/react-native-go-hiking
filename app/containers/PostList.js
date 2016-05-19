@@ -3,6 +3,7 @@ import React, {
   Component,
   ListView,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -12,6 +13,7 @@ import Filter from '../components/Filter/FilterContainer';
 import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { requestFilterArea, requestFilterType } from '../actions/SearchActions';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
@@ -37,11 +39,22 @@ export default class PostList extends Component {
     this.state = {
       dataSource,
       postList: [],
+      visible: false,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
+    if (Platform.OS === 'ios') {
+      this.setState({
+        visible: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          visible: !this.state.visible,
+        });
+      }, 1000);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,6 +65,9 @@ export default class PostList extends Component {
       this.props.typeIndex !== nextProps.typeIndex ||
       this.props.areaIndex !== nextProps.areaIndex) {
       this.renderList(nextProps);
+    }
+    if(nextProps.pathList.length > 10) {
+      this
     }
   }
 
@@ -192,6 +208,7 @@ export default class PostList extends Component {
     ];
     return (
       <View style={styles.content}>
+        <Spinner visible={this.state.visible} />
         <Filter
           title={'區域'}
           dataList={area}

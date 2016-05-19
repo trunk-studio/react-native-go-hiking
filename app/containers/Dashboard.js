@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
   bar: {
     ios: {
       position: 'absolute',
-      width: windowSize.width * 4,
-      height: windowSize.width * 4,
+      width: windowSize.width * 7,
+      height: windowSize.width * 7,
       top: -25,
-      left: -windowSize.width * 1.5,
+      left: -windowSize.width * 3,
       backgroundColor: '#fff',
-      borderRadius: windowSize.width * 2,
+      borderRadius: windowSize.width * 3.5,
       borderColor: 'rgb(79, 164, 89)',
       borderWidth: 5,
     },
@@ -97,6 +97,13 @@ const styles = StyleSheet.create({
 });
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      areaId: 0,
+      typeId: 0,
+    };
+  }
   componentWillMount() {
     // this.props.requestNews();
     // this.props.requestToday();
@@ -129,10 +136,21 @@ export default class Dashboard extends Component {
     }
   }
   areaOnChange = (id) => {
-    this.props.requestFilterArea(id);
+    // this.props.requestFilterArea(id);
+    this.setState({
+      areaId: id,
+    });
   };
   typeOnChange = (id) => {
-    this.props.requestFilterType(id);
+    // this.props.requestFilterType(id);
+    this.setState({
+      typeId: id,
+    });
+  };
+  onSearchHandle = () => {
+    this.props.requestFilterArea(this.state.areaId);
+    this.props.requestFilterType(this.state.typeId);
+    Actions.tabList();
   };
   render() {
     function onListItemPress(detail) {
@@ -171,7 +189,7 @@ export default class Dashboard extends Component {
     return (
       <ParallaxView
         backgroundSource={coverImg}
-        windowHeight={200}
+        windowHeight={300}
         header={(
           <View style={styles.header}>
             <Text style={styles.headerTitle}>
@@ -186,19 +204,19 @@ export default class Dashboard extends Component {
           <Filter
             title={'類型'}
             dataList={type}
-            active={this.props.typeIndex}
+            active={this.state.typeId}
             onChange={this.typeOnChange}
             activeColor={'#37A22E'}
           />
           <Filter
             title={'區域'}
             dataList={area}
-            active={this.props.areaIndex}
+            active={this.state.areaId}
             onChange={this.areaOnChange}
             activeColor={'#338CAB'}
           />
           <View style={styles.searchContainer}>
-            <TouchableOpacity style={styles.searchBtn} onPress={Actions.tabList}>
+            <TouchableOpacity style={styles.searchBtn} onPress={this.onSearchHandle}>
               <Icon name={'search'} style={ styles.searchIcon } />
               <Text style={styles.searchText}>搜尋台灣步道</Text>
             </TouchableOpacity>

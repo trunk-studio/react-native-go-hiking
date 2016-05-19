@@ -15,6 +15,7 @@ import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../action
 import { calcDistance } from '../utils/place';
 const StyleSheet = require('../utils/F8StyleSheet');
 const picNoFavItem = require('../images/no-fav-item.png');
+import Spinner from 'react-native-loading-spinner-overlay';
 const styles = StyleSheet.create({
   content: {
     flex: 1,
@@ -58,11 +59,17 @@ export default class PostList extends Component {
       lat: 0,
       lon: 0,
       nearbyData: null,
+      visible: true,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
+    setTimeout(() => {
+      this.setState({
+        visible: !this.state.visible
+      });
+    }, 500);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -209,6 +216,7 @@ export default class PostList extends Component {
 
     return (
       <ScrollView style={styles.content}>
+        <Spinner visible={this.state.visible} />
         { contentChildren }
       </ScrollView>
     );

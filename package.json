@@ -16,6 +16,7 @@
     "react": "^0.14.8",
     "react-native": "^0.24.1",
     "react-native-auto-updater": "https://github.com/FuYaoDe/react-native-auto-updater.git",
+    "react-native-loading-spinner-overlay": "^0.1.0",
     "react-native-lightbox": "^0.6.0",
     "react-native-parallax-view": "^2.0.4",
     "react-native-router-flux": "2.3.9",
