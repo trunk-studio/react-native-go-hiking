@@ -76,39 +76,45 @@ export default class PostList extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.pathList !== nextProps.pathList) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const nearbyData = [];
-            nextProps.pathList.forEach((post) => {
-              const distance = calcDistance(
-                post.lat,
-                post.lon,
-                position.coords.latitude,
-                position.coords.longitude
-              );
-              if (distance <= 70) {
-                nearbyData.push({
-                  ...post,
-                  distance,
-                });
-              }
-            });
-            nearbyData.sort((a, b) => {
-              return parseFloat(a.distance) - parseFloat(b.distance);
-            });
-            this.setState({
-              nearbyData,
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-            });
-          },
-          (error) => {
-            // Alert.alert(error.toString());
-          },
-          { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
-        );
+      try {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+           (position) => {
+             const nearbyData = [];
+             nextProps.pathList.forEach((post) => {
+               const distance = calcDistance(
+                 post.lat,
+                 post.lon,
+                 position.coords.latitude,
+                 position.coords.longitude
+               );
+               if (distance <= 70) {
+                 nearbyData.push({
+                   ...post,
+                   distance,
+                 });
+               }
+             });
+             nearbyData.sort((a, b) => {
+               return parseFloat(a.distance) - parseFloat(b.distance);
+             });
+             this.setState({
+               nearbyData,
+               lat: position.coords.latitude,
+               lon: position.coords.longitude,
+             });
+           },
+           (error) => {
+             navigator.geolocation.stopObserving();
+             // Alert.alert(error.toString());
+           },
+           { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
+         );
+        }
+      } catch (e) {
+        Alert.alert(e.toString());
       }
+      if (navigator.geolocation) navigator.geolocation.stopObserving();
     }
   }
 
