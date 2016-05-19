@@ -175,16 +175,16 @@ export default class Dashboard extends Component {
     }
     const area = [
       { title: '全部區域' },
-      { title: '北 部' },
-      { title: '中 部' },
-      { title: '南 部' },
-      { title: '東 部' },
+      { title: '北部' },
+      { title: '中部' },
+      { title: '南部' },
+      { title: '東部' },
     ];
     const type = [
       { title: '全部類型' },
-      { title: '郊 山' },
-      { title: '中 級 山', width: 65 },
-      { title: '百 岳' },
+      { title: '郊　山' },
+      { title: '中級山', width: 65 },
+      { title: '百　岳' },
     ];
     return (
       <ParallaxView

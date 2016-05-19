@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
       marginTop: 55,
     },
   },
+  filterContainer: {
+    backgroundColor: '#567354',
+    marginTop: -1,
+    paddingTop: 5,
+    paddingBottom: 2,
+  },
 });
 
 
@@ -194,33 +200,39 @@ export default class PostList extends Component {
 
   render() {
     const area = [
-      { title: '全部' },
+      { title: '全部區域' },
       { title: '北部' },
       { title: '中部' },
       { title: '南部' },
       { title: '東部' },
     ];
     const type = [
-      { title: '全部' },
-      { title: '郊山' },
+      { title: '全部類型' },
+      { title: '郊　山' },
       { title: '中級山', width: 65 },
-      { title: '百岳' },
+      { title: '百　岳' },
     ];
     return (
       <View style={styles.content}>
         <Spinner visible={this.state.visible} />
-        <Filter
-          title={'區域'}
-          dataList={area}
-          active={this.props.areaIndex}
-          onChange={this.areaOnChange}
-        />
-        <Filter
-          title={'類型'}
-          dataList={type}
-          active={this.props.typeIndex}
-          onChange={this.typeOnChange}
-        />
+        <View style={styles.filterContainer}>
+          <Filter
+            title={'類型'}
+            dataList={type}
+            active={this.props.typeIndex}
+            onChange={this.typeOnChange}
+            activeColor={'#fff'}
+            textColor={'#567354'}
+            />
+          <Filter
+            title={'區域'}
+            dataList={area}
+            active={this.props.areaIndex}
+            onChange={this.areaOnChange}
+            activeColor={'#fff'}
+            textColor={'#567354'}
+          />
+        </View>
         {/*<ListView
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
