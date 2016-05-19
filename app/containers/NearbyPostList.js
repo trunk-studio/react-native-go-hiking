@@ -6,6 +6,7 @@ import React, {
   Image,
   Text,
   Alert,
+  Platform,
 } from 'react-native';
 import SwipeOut from 'react-native-swipeout';
 import { connect } from 'react-redux';
@@ -112,7 +113,13 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    Actions.postDetail(rowData);
+    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const newDate = {
+      ...rowData,
+      title: pageTitle,
+      postTitle: rowData.title,
+    };
+    Actions.postDetail(newDate);
     // Alert.alert('', '立即前往', [
     //   { text: '確認', onPress: () => {
     //     const lat = this.state.lat;

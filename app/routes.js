@@ -4,6 +4,7 @@ import React, {
   Text,
   Component,
   Dimensions,
+  Platform,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
