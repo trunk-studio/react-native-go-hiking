@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   scrollFrame: {
     flex: 1,
     flexDirection: 'column',
-    paddingBottom: 25,
+    //paddingBottom: 25,
   },
   scrollContainer: {
     flex: 1,
@@ -78,12 +78,14 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 26,
     fontWeight: 'bold',
-    shadowOffset: {
-      width: 2,
-      height: 2,
+    ios: {
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
     },
-    shadowColor: 'black',
-    shadowOpacity: 1.0,
   },
   statusBlock: {
     alignSelf: 'stretch',
@@ -131,16 +133,18 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   imgSrcText: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#EEE',
     fontStyle: 'italic',
-    shadowOffset: {
-      width: 2,
-      height: 2,
+    ios: {
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
     },
-    shadowColor: 'black',
-    shadowOpacity: 1.0,
   },
 });
 
@@ -207,17 +211,22 @@ class PostDetail extends Component {
   }
 
   map = () => {
+    let imgWidth = windowSize.width;
+    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+
     let mapImg;
     if (this.props.map !== 'null') {
       mapImg = (
-        <View style={{ flex: 1, marginBottom: 20 }}>
+        <View style={{ flex: 1 }}>
           <LightBox>
             <Image
+              resizeMode="contain"
               source={{ uri: this.props.map }}
               style={{
                 flex: 1,
                 padding: 20,
-                height: 500,
+                width: imgWidth,
+                height: imgHeight,
               }}
             />
           </LightBox>
@@ -227,8 +236,21 @@ class PostDetail extends Component {
     return mapImg;
   }
 
+  gmap = () => {
+    let imgWidth = windowSize.width;
+    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+
+    return (
+      <View style={{ paddingTop: 20 }}>
+        <TouchableOpacity onPress={this.navigate}>
+          <Image resizeMode="cover" source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=9&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw`}} style={{ flex: 1, width: imgWidth, height: imgHeight }} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   navigate = () => {
-    Alert.alert('', '立即前往', [
+    Alert.alert('立即前往', '導航僅供參考', [
       { text: '確認', onPress: () => {
         const url = `https://www.google.com.tw/maps/dir/${this.props.myLat},${this.props.myLon}/${this.props.lat},${this.props.lon}`;
         Linking.canOpenURL(url).then(supported => {
@@ -278,6 +300,7 @@ class PostDetail extends Component {
           break;
       }
     }
+
     return (
       <ParallaxView
         backgroundSource={{ uri: this.props.cover }}
@@ -288,9 +311,9 @@ class PostDetail extends Component {
               {this.info()}
             </View>
             <Text style={styles.headerTitle}>
-                {this.props.title}
+                {this.props.postTitle}
             </Text>
-            <TouchableOpacity onPress={this.linkToSrc.bind(this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
+            <TouchableOpacity onPress={this.linkToSrc.bind(this, this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
               <Text style={styles.imgSrcText}>
                 {this.props.coverSourceName}
               </Text>
@@ -334,13 +357,15 @@ class PostDetail extends Component {
               <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
                 {this.props.description_01}
               </Text>
-              {this.map()}
+
               {/*
               <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
                 {props.description_02 !== 'null' ? props.description_02 : null }
               </Text>
               */}
             </View>
+            {this.map()}
+            {this.gmap()}
           </View>
         </View>
       </ParallaxView>

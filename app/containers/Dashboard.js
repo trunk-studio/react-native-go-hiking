@@ -6,6 +6,8 @@ import React, {
   TouchableOpacity,
   StatusBar,
   Text,
+  Alert,
+  Platform,
 } from 'react-native';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
@@ -18,6 +20,7 @@ import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxView from 'react-native-parallax-view';
+import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 
 // const coverImg = require('../images/dashboard.png');
@@ -69,8 +72,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 3,
+      height: 3,
     },
     shadowColor: 'black',
     shadowOpacity: 1.0,
@@ -78,12 +81,12 @@ const styles = StyleSheet.create({
   bar: {
     ios: {
       position: 'absolute',
-      width: windowSize.width * 4,
-      height: windowSize.width * 4,
+      width: windowSize.width * 7,
+      height: windowSize.width * 7,
       top: -25,
-      left: -windowSize.width * 1.5,
+      left: -windowSize.width * 3,
       backgroundColor: '#fff',
-      borderRadius: windowSize.width * 2,
+      borderRadius: windowSize.width * 3.5,
       borderColor: 'rgb(79, 164, 89)',
       borderWidth: 5,
     },
@@ -94,9 +97,36 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
   },
+  versionBlock: {
+    position: 'absolute',
+    bottom: 15,
+    right: 5,
+    padding: 2,
+  },
+  imgSrcText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#555',
+    fontStyle: 'italic',
+    ios: {
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
+    }
+  },
 });
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      areaId: 0,
+      typeId: 0,
+    };
+  }
   componentWillMount() {
     // this.props.requestNews();
     // this.props.requestToday();
@@ -104,23 +134,41 @@ export default class Dashboard extends Component {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           this.props.requestSetLocation(position);
-        },
-        (error) => {},
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-      );
-    }
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
           this.setState({
             lat: position.coords.latitude,
             lon: position.coords.longitude,
           });
+          // navigator.geolocation.stopObserving();
         },
-        (error) => {},
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        (error) => {
+          navigator.geolocation.stopObserving();
+          // Alert.alert(error.toString());
+        },
+        { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
       );
     }
+    let url;
+    if (Platform.OS === 'ios') {
+      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.json';
+    } else {
+      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json';
+    }
+    fetch(url)
+    .then((response) => response.text())
+    .then((responseText) => {
+      const onlineMetadata = JSON.parse(responseText);
+      const onlineVersion = onlineMetadata.version.split('.');
+      const nowVersion = ReactNativeAutoUpdater.jsCodeVersion().split('.');
+      if (onlineVersion[0] !== nowVersion[0]) {
+        Alert.alert('版本過舊', '請至 App Store 更新');
+      } else if (onlineVersion[1] !== nowVersion[1] || onlineVersion[2] !== nowVersion[2]) {
+        Alert.alert('有新版本喔', '重新開啟 App 更新');
+      }
+
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
   }
   componentWillReceiveProps(nextProps) {
     const { countryName, locationName } = nextProps;
@@ -129,10 +177,21 @@ export default class Dashboard extends Component {
     }
   }
   areaOnChange = (id) => {
-    this.props.requestFilterArea(id);
+    // this.props.requestFilterArea(id);
+    this.setState({
+      areaId: id,
+    });
   };
   typeOnChange = (id) => {
-    this.props.requestFilterType(id);
+    // this.props.requestFilterType(id);
+    this.setState({
+      typeId: id,
+    });
+  };
+  onSearchHandle = () => {
+    this.props.requestFilterArea(this.state.areaId);
+    this.props.requestFilterType(this.state.typeId);
+    Actions.tabList();
   };
   render() {
     function onListItemPress(detail) {
@@ -157,26 +216,31 @@ export default class Dashboard extends Component {
     }
     const area = [
       { title: '全部區域' },
-      { title: '北 部' },
-      { title: '中 部' },
-      { title: '南 部' },
-      { title: '東 部' },
+      { title: '北部' },
+      { title: '中部' },
+      { title: '南部' },
+      { title: '東部' },
     ];
     const type = [
       { title: '全部類型' },
-      { title: '郊 山' },
-      { title: '中 級 山', width: 65 },
-      { title: '百 岳' },
+      { title: '郊　山' },
+      { title: '中級山', width: 65 },
+      { title: '百　岳' },
     ];
     return (
       <ParallaxView
         backgroundSource={coverImg}
-        windowHeight={200}
+        windowHeight={300}
         header={(
           <View style={styles.header}>
             <Text style={styles.headerTitle}>
                 台灣步道 1 指通
             </Text>
+            <View style={styles.versionBlock}>
+              <Text style={styles.imgSrcText}>
+                v {ReactNativeAutoUpdater.jsCodeVersion()}
+              </Text>
+            </View>
           </View>
         )}
       >
@@ -186,28 +250,27 @@ export default class Dashboard extends Component {
           <Filter
             title={'類型'}
             dataList={type}
-            active={this.props.typeIndex}
+            active={this.state.typeId}
             onChange={this.typeOnChange}
             activeColor={'#37A22E'}
           />
           <Filter
             title={'區域'}
             dataList={area}
-            active={this.props.areaIndex}
+            active={this.state.areaId}
             onChange={this.areaOnChange}
             activeColor={'#338CAB'}
           />
           <View style={styles.searchContainer}>
-            <TouchableOpacity style={styles.searchBtn} onPress={Actions.tabList}>
+            <TouchableOpacity style={styles.searchBtn} onPress={this.onSearchHandle}>
               <Icon name={'search'} style={ styles.searchIcon } />
               <Text style={styles.searchText}>搜尋台灣步道</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
+
           <NewsBoard boardTitle={'近期活動'} listData={activityListData}
-            itemCount={30} onItemPress={onListItemPress}
-          />
-          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
+            itemCount={30} onItemPress={onListItemPress} />
+          
         </View>
       </ParallaxView>
     );

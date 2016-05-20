@@ -2,8 +2,8 @@ package com.trunksys.gohiking;
 
 
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater;
-import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterFrequency;
+import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterActivity;
 import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterPackage;
 import com.facebook.react.ReactPackage;
@@ -17,10 +17,13 @@ import javax.annotation.Nullable;
 
 public class MainActivity extends ReactNativeAutoUpdaterActivity {
 
+    private static final int MY_PERMISSION_LOCATION = 111;
+    private static final String TAG = "GoHiking";
+
     /*************************************************
      * These methods are required for the ReactNativeAutoUpdater Part
-     *************************************************
-     * */
+     * ************************************************
+     */
 
     /**
      * Name of the JS Bundle file shipped with the app.
@@ -38,7 +41,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      */
     @Override
     protected String getUpdateMetadataUrl() {
-         return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json";
+        return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json";
 //        return "http://192.168.2.101:3000/metadata.android.json";
     }
 
@@ -58,7 +61,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      */
     @Override
     protected String getHostnameForRelativeDownloadURLs() {
-         return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
+        return "https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking";
 //        return "http://192.168.2.101:3000";
     }
 
@@ -72,7 +75,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      */
     @Override
     protected ReactNativeAutoUpdaterUpdateType getAllowedUpdateType() {
-        return ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType.MINOR;
+        return ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType.PATCH;
     }
 
     /**
@@ -121,13 +124,18 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
         // return false;
     }
 
+    @Override
+    public void updateFinished() {
+        super.updateFinished();
+    }
+
     /**
      * A list of packages used by the app. If the app uses additional views
      * or modules besides the default ones, add more packages here.
      */
     @Override
     protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
+        return Arrays.asList(
                 new ReactNativeAutoUpdaterPackage(),
                 new MainReactPackage(),
                 new VectorIconsPackage()

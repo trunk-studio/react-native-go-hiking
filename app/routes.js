@@ -2,7 +2,9 @@ import React, {
   Navigator,
   TouchableOpacity,
   Text,
-  StyleSheet,
+  Component,
+  Dimensions,
+  Platform,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
@@ -24,6 +26,8 @@ import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+const windowSize = Dimensions.get('window');
+const StyleSheet = require('./utils/F8StyleSheet');
 const styles = StyleSheet.create({
   leftButtonContainer: {
     paddingLeft: 15,
@@ -42,77 +46,93 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  titleStyle: {
+    color: 'white',
+    android: {
+      flex: 1,
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      paddingTop: 10,
+      marginLeft: ~~(windowSize.width / 5),
+    },
+  },
 });
 
-export default function AppRoutes() {
-  return (
-    <Router name="root">
-      <Schema name="default"
-        sceneConfig={Navigator.SceneConfigs.FloatFromRight}
-      />
-      <Schema name="back"
-        renderLeftButton={() => {
-          return (
-            <TouchableOpacity
-              style={styles.leftButtonContainer}
-              onPress={Actions.pop}
-            >
-              <Icon
-                name="angle-left"
-                size={24}
-                color={'#FFF'}
-                style={styles.menuIcon}
-              />
-            <Text style={styles.navBackTitle}> Back </Text>
-            </TouchableOpacity>
-        );}}
-      />
-      <Schema name="tab" type="switch" icon={TabIcon} />
-      <Route hideNavBar name="tabbar">
-        <Router
-          footer={TabBar}
-          tabBarStyle={{
-            borderTopColor: 'rgba(83, 83, 82, 0.25)',
-            borderTopWidth: 1,
-            backgroundColor: 'white',
-          }}
-          navigationBarStyle={{
-            backgroundColor: '#709D2A',
-            borderColor: '#DDD',
-            marginTop: 0,
-            paddingTop: 0,
-          }}
-          titleStyle={{
-            color: 'white',
-          }}
-        >
-          <Route name="tabDashboard" schema="tab" title="首頁" iconName="home">
-            <Router>
-              <Route name="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
-              <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
-            </Router>
-          </Route>
-          <Route name="tabList" schema="tab" title="步道導覽" iconName="map-signs">
-            <Router>
-              <Route name="postList" component={PostList} />
-              <Route name="postDetail" schema="back" component={PostDetail} />
-              <Route name="category" component={Category} title="月份導覽" />
-            </Router>
-          </Route>
-          <Route name="tabNearby" schema="tab" title="附近步道" iconName="tree">
-            <Router>
-              <Route name="nearby" component={Nearby} title="附近步道" />
-              <Route name="postDetail" schema="back" component={PostDetail} />
-            </Router>
-          </Route>
-          <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" >
-            <Router>
-              <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
-              <Route name="postDetail" schema="back" component={PostDetail} />
-            </Router>
-          </Route>
-        </Router>
-      </Route>
-    </Router>
-  );
+export default class AppRoutes extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <Router name="root">
+        <Schema name="default"
+          sceneConfig={Navigator.SceneConfigs.FloatFromRight}
+        />
+        <Schema name="back"
+          sceneConfig={Navigator.SceneConfigs.FloatFromRight}
+          renderLeftButton={() => {
+            return (
+              <TouchableOpacity
+                style={styles.leftButtonContainer}
+                onPress={Actions.pop}
+              >
+                <Icon
+                  name="angle-left"
+                  size={24}
+                  color={'#FFF'}
+                  style={styles.menuIcon}
+                />
+                <Text style={styles.navBackTitle}></Text>
+              </TouchableOpacity>
+            );}}
+        />
+        <Schema name="tab" type="switch" icon={TabIcon} />
+        <Route hideNavBar name="tabbar">
+          <Router
+            footer={TabBar}
+            tabBarStyle={{
+              borderTopColor: 'rgba(83, 83, 82, 0.25)',
+              borderTopWidth: 1,
+              backgroundColor: 'white',
+            }}
+            navigationBarStyle={{
+              backgroundColor: '#709D2A',
+              borderColor: '#DDD',
+              marginTop: 0,
+              paddingTop: 0,
+            }}
+            titleStyle={styles.titleStyle}
+          >
+            <Route name="tabDashboard" schema="tab" title="首頁" iconName="home">
+              <Router>
+                <Route name="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
+                <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
+              </Router>
+            </Route>
+            <Route name="tabList" schema="tab" title="步道導覽" iconName="map-signs">
+              <Router>
+                <Route name="postList" component={PostList} />
+                <Route name="postDetail" schema="back" component={PostDetail} />
+                <Route name="category" component={Category} title="月份導覽" />
+              </Router>
+            </Route>
+            <Route name="tabNearby" schema="tab" title="附近步道" iconName="tree">
+              <Router>
+                <Route name="nearby" component={Nearby} title="附近步道" />
+                <Route name="postDetail" schema="back" component={PostDetail} />
+              </Router>
+            </Route>
+            <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" >
+              <Router>
+                <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
+                <Route name="postDetail" schema="back" component={PostDetail} />
+              </Router>
+            </Route>
+          </Router>
+        </Route>
+      </Router>
+    );
+  }
 }

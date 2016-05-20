@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
     // borderTopWidth: 0.5,
   },
   newsConent: {
-    flex: 8,
+    flex: 10,
     paddingLeft: 20,
-    paddingRight: 20,
   },
   newsIcon: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'center',
@@ -31,15 +30,15 @@ const styles = StyleSheet.create({
     color: '#417505', //'#359ac0',
   },
   newsTitle: {
-    fontSize: 19,
+    fontSize: 14,
     fontWeight: '500',
     lineHeight: 25,
     color: '#333',
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 2,
   },
   newsInfo: {
-    fontSize: 15,
+    fontSize: 12,
     lineHeight: 20,
     color: '#555',
     marginBottom: 15,
@@ -56,13 +55,13 @@ export default function NewsItem(props) {
   }
   return (
     <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress}>
-      <View style={{height: 0.5, backgroundColor: '#417505'}} />
+      <View style={{height: 1, backgroundColor: '#37A22E'}} />
       <View style={styles.newsItem}>
         <View style={styles.newsConent}>
           <Text style={styles.newsTitle} numberOfLines={1}>
             {props.title}
           </Text>
-          <Text style={styles.newsInfo} numberOfLines={2}>
+          <Text style={styles.newsInfo} numberOfLines={3}>
             {props.content}
           </Text>
         </View>
@@ -70,7 +69,6 @@ export default function NewsItem(props) {
           <Icon name={'angle-right'} style={ styles.icon } />
         </View>
       </View>
-      <View style={{height: 0.5, backgroundColor: '#417505'}} />
     </TouchableOpacity>
   );
 }

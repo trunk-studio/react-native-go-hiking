@@ -5,6 +5,8 @@ import React, {
   ScrollView,
   Image,
   Text,
+  Alert,
+  Platform,
 } from 'react-native';
 import SwipeOut from 'react-native-swipeout';
 import { connect } from 'react-redux';
@@ -13,6 +15,8 @@ import ListItem from '../components/PostList/ListItem';
 import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { calcDistance } from '../utils/place';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 const StyleSheet = require('../utils/F8StyleSheet');
 const picNoFavItem = require('../images/no-fav-item.png');
 const styles = StyleSheet.create({
@@ -58,51 +62,69 @@ export default class PostList extends Component {
       lat: 0,
       lon: 0,
       nearbyData: null,
+      visible: true,
+      marginTop: 10000,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
+    setTimeout(() => {
+      this.setState({
+        visible: !this.state.visible,
+        marginTop: 0,
+      });
+    }, 3000);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.pathList !== nextProps.pathList) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const nearbyData = [];
-            nextProps.pathList.forEach((post) => {
-              const distance = calcDistance(
-                post.lat,
-                post.lon,
-                position.coords.latitude,
-                position.coords.longitude
-              );
-              if (distance <= 70) {
-                nearbyData.push({
-                  ...post,
-                  distance,
-                });
-              }
-            })
-            nearbyData.sort((a, b) => {
-              return parseFloat(a.distance) - parseFloat(b.distance);
-            });
-            this.setState({
-              nearbyData,
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-            });
-          },
-          (error) => {},
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
+         (position) => {
+           const nearbyData = [];
+           nextProps.pathList.forEach((post) => {
+             const distance = calcDistance(
+               post.lat,
+               post.lon,
+               position.coords.latitude,
+               position.coords.longitude
+             );
+             if (distance <= 70) {
+               nearbyData.push({
+                 ...post,
+                 distance,
+               });
+             }
+           });
+           nearbyData.sort((a, b) => {
+             return parseFloat(a.distance) - parseFloat(b.distance);
+           });
+           this.setState({
+             nearbyData,
+             lat: position.coords.latitude,
+             lon: position.coords.longitude,
+           });
+          //  navigator.geolocation.stopObserving();
+         },
+         (error) => {
+           navigator.geolocation.stopObserving();
+           // Alert.alert(error.toString());
+         },
+         { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
+       );
       }
     }
   }
 
   onListItemPress = (rowData) => {
-    Actions.postDetail(rowData);
+    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const newDate = {
+      ...rowData,
+      title: pageTitle,
+      postTitle: rowData.title,
+    };
+    Actions.postDetail(newDate);
     // Alert.alert('', '立即前往', [
     //   { text: '確認', onPress: () => {
     //     const lat = this.state.lat;
@@ -191,12 +213,22 @@ export default class PostList extends Component {
 
     let contentChildren = null;
     if (this.state.nearbyData === null) {
-      contentChildren = <View />;
+      contentChildren = (
+       <View style={[styles.picContainer, { marginTop: this.state.marginTop }]}>
+        <Image
+          source={picNoFavItem}
+          style={styles.picNoFavItem}
+        />
+        <Text style={styles.textNoFavItem}>
+          目前沒辦法取得 GPS 資訊，請稍候再試 :(
+        </Text>
+      </View>
+      );
     } else if (ListItemArray.length > 0) {
       contentChildren = ListItemArray;
-    } else {
+    } else if (ListItemArray.length < 1) {
       contentChildren = (
-       <View style={styles.picContainer}>
+       <View style={[styles.picContainer, { marginTop: this.state.marginTop }]}>
         <Image
           source={picNoFavItem}
           style={styles.picNoFavItem}
@@ -205,12 +237,16 @@ export default class PostList extends Component {
           目前您附近沒有任何步道 :p
         </Text>
       </View>
-    );}
+      );
+    }
 
     return (
-      <ScrollView style={styles.content}>
-        { contentChildren }
-      </ScrollView>
+      <View style={styles.content}>
+        <Spinner visible={this.state.visible} />
+        <ScrollView>
+          { contentChildren }
+        </ScrollView>
+      </View>
     );
   }
 }

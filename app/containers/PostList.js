@@ -3,6 +3,7 @@ import React, {
   Component,
   ListView,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -12,6 +13,8 @@ import Filter from '../components/Filter/FilterContainer';
 import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { requestFilterArea, requestFilterType } from '../actions/SearchActions';
+import Spinner from 'react-native-loading-spinner-overlay';
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
@@ -26,6 +29,12 @@ const styles = StyleSheet.create({
       marginTop: 55,
     },
   },
+  filterContainer: {
+    backgroundColor: '#567354',
+    marginTop: -1,
+    paddingTop: 5,
+    paddingBottom: 2,
+  },
 });
 
 
@@ -37,11 +46,23 @@ export default class PostList extends Component {
     this.state = {
       dataSource,
       postList: [],
+      visible: false,
+      canLoadMoreContent: true,
     };
   }
 
   componentWillMount() {
     this.props.requestPathData();
+    // if (Platform.OS === 'ios') {
+      this.setState({
+        visible: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          visible: !this.state.visible,
+        });
+      }, 500);
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +77,13 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    Actions.postDetail(rowData);
+    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const newDate = {
+      ...rowData,
+      title: pageTitle,
+      postTitle: rowData.title,
+    };
+    Actions.postDetail(newDate);
   }
 
   getListItem(rowData, sectionID, rowID) {
@@ -145,27 +172,31 @@ export default class PostList extends Component {
     ];
     let filterAreaPostList = [];
     if (area[nextProps.areaIndex].title !== '全部') {
-      nextProps.pathList.forEach((post) => {
-        if (post.zone === area[nextProps.areaIndex].title) {
-          filterAreaPostList.push(post);
+      for (let i = 0; i < nextProps.pathList.length; i++) {
+        if (nextProps.pathList[i].zone === area[nextProps.areaIndex].title) {
+          filterAreaPostList.push(nextProps.pathList[i]);
         }
-      });
+      }
     } else {
       filterAreaPostList = [...nextProps.pathList];
     }
     let postList = [];
     if (type[nextProps.typeIndex].title !== '全部') {
-      filterAreaPostList.forEach((post) => {
-        if (post.postType === type[nextProps.typeIndex].title) {
-          postList.push(post);
+      for (let i = 0; i < filterAreaPostList.length; i++) {
+        if (filterAreaPostList[i].postType === type[nextProps.typeIndex].title) {
+          postList.push(filterAreaPostList[i]);
         }
-      });
+      }
+
     } else {
       postList = [...filterAreaPostList];
     }
+    const newPostList = [...postList];
+    const dataSource = newPostList.splice(0, 5);
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(postList),
+      dataSource: this.state.dataSource.cloneWithRows(dataSource),
       postList,
+      canLoadMoreContent: true,
     });
   }
 
@@ -176,43 +207,65 @@ export default class PostList extends Component {
     return ListItemArray;
   }
 
+  loadMorePost = () => {
+    let postList = [...this.state.postList];
+    const dataSource = postList.splice(0, this.state.dataSource.getRowCount() + 10);
+    let canLoadMoreContent = true;
+    if (postList.length === 0) {
+      canLoadMoreContent = false;
+    }
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(dataSource),
+      canLoadMoreContent,
+    });
+  }
+
   render() {
     const area = [
-      { title: '全部' },
+      { title: '全部區域' },
       { title: '北部' },
       { title: '中部' },
       { title: '南部' },
       { title: '東部' },
     ];
     const type = [
-      { title: '全部' },
-      { title: '郊山' },
+      { title: '全部類型' },
+      { title: '郊　山' },
       { title: '中級山', width: 65 },
-      { title: '百岳' },
+      { title: '百　岳' },
     ];
     return (
       <View style={styles.content}>
-        <Filter
-          title={'區域'}
-          dataList={area}
-          active={this.props.areaIndex}
-          onChange={this.areaOnChange}
-        />
-        <Filter
-          title={'類型'}
-          dataList={type}
-          active={this.props.typeIndex}
-          onChange={this.typeOnChange}
-        />
-        {/*<ListView
+        <Spinner visible={this.state.visible} />
+        <View style={styles.filterContainer}>
+          <Filter
+            title={'類型'}
+            dataList={type}
+            active={this.props.typeIndex}
+            onChange={this.typeOnChange}
+            activeColor={'#fff'}
+            textColor={'#567354'}
+            />
+          <Filter
+            title={'區域'}
+            dataList={area}
+            active={this.props.areaIndex}
+            onChange={this.areaOnChange}
+            activeColor={'#fff'}
+            textColor={'#567354'}
+          />
+        </View>
+        <ListView
+          renderScrollComponent={props => <InfiniteScrollView {...props} />}
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
-          ref={'ListView'}
-          enableEmptySections
-        />*/}
-        <ScrollView>
+          canLoadMore={this.state.canLoadMoreContent}
+          onLoadMoreAsync={this.loadMorePost}
+          distanceToLoadMore={500}
+        />
+        {/*<ScrollView>
           {this.renderScrollViewListItem()}
-        </ScrollView>
+        </ScrollView>*/}
     </View>
     );
   }

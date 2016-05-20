@@ -45,6 +45,7 @@ export default function FilterContainer(props) {
           active={i === props.active}
           onPress={onChange}
           activeColor={props.activeColor}
+          textColor={props.textColor}
         />
       );
     });
@@ -74,6 +75,7 @@ FilterContainer.propTypes = {
   active: PropTypes.number,
   onChange: PropTypes.func,
   activeColor: PropTypes.string,
+  textColor: PropTypes.string,
 };
 
 FilterContainer.defaultProps = {
@@ -82,4 +84,5 @@ FilterContainer.defaultProps = {
   active: 1,
   onChange: () => {},
   activeColor: 'rgb(79, 164, 89)',
+  textColor: '#fff',
 };
