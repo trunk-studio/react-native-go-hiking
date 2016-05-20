@@ -13,6 +13,7 @@ import { checkIsFav, requestRemoveFavorite } from '../actions/FavoriteActions';
 import SwipeOut from 'react-native-swipeout';
 import ListItem from '../components/PostList/ListItem';
 // const picNoFavItem = require('../images/no-fav-item.png');
+import Share from 'react-native-share';
 const picNoFavItem = {uri: 'http://i.imgur.com/RnNDu8l.png '};
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
@@ -61,6 +62,7 @@ export default class MyFavorite extends Component {
 
   componentWillMount() {
     this.props.requestPathData();
+    console.log(Actions, Share);
   }
 
   onListItemPress = (rowData) => {
@@ -113,13 +115,25 @@ export default class MyFavorite extends Component {
           backgroundColor: 'rgb(231, 48, 43)',
           onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
         },
-        // {
-        //   text: '分享',
-        //   backgroundColor: 'rgb(79, 164, 89)',
-        //   onPress: () => {
-        //     console.log(rowData);
-        //   },
-        // },
+        {
+          text: '分享',
+          backgroundColor: 'rgb(79, 164, 89)',
+          onPress: () => {
+            let downloadUrl;
+            if (Platform.OS === 'ios') {
+              downloadUrl = 'https://appsto.re/tw/F5Xwcb.i';
+            } else {
+              downloadUrl = 'https://play.google.com/store/apps/details?id=com.trunksys.gohiking';
+            }
+            Share.open({
+              share_text: `我發現了一個 ${rowData.title} 感覺不錯，改天一起來爬山啊`,
+              share_URL: downloadUrl,
+              title: `台灣步道一指通`,
+            },(e) => {
+              console.log(e);
+            });
+          },
+        },
       ];
 
       ListItemArray.push(

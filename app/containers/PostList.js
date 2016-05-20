@@ -52,17 +52,17 @@ export default class PostList extends Component {
   }
 
   componentWillMount() {
+
+    // loading indicator
+    this.setState({ visible: true });
+  }
+
+  componentDidMount() {
     this.props.requestPathData();
-    // if (Platform.OS === 'ios') {
-      this.setState({
-        visible: true,
-      });
-      setTimeout(() => {
-        this.setState({
-          visible: !this.state.visible,
-        });
-      }, 500);
-    // }
+
+    setTimeout(() => {
+      this.setState({ visible: false });
+    }, 500);
   }
 
   componentWillReceiveProps(nextProps) {

@@ -23,7 +23,7 @@ import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 
 // const coverImg = require('../images/dashboard.png');
-const coverImg = {uri: 'http://i.imgur.com/npjaJgX.png'};
+const coverImg = {uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg'};
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({

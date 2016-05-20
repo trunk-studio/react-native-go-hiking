@@ -5,3 +5,5 @@ include ':react-native-vector-icons'
 include ':react-native-auto-updater'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
 project(':react-native-auto-updater').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-auto-updater/android')
+include ':react-native-share'
+project(':react-native-share').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share/android')

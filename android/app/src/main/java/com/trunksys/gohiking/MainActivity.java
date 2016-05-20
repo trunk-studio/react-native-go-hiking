@@ -9,6 +9,7 @@ import com.aerofs.reactnativeautoupdater.ReactNativeAutoUpdaterPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import cl.json.RNSharePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -138,6 +139,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
         return Arrays.asList(
                 new ReactNativeAutoUpdaterPackage(),
                 new MainReactPackage(),
+                new RNSharePackage(),
                 new VectorIconsPackage()
         );
     }
