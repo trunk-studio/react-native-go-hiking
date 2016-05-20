@@ -8,6 +8,7 @@ import React, {
   Text,
   Alert,
   Platform,
+  Image,
 } from 'react-native';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 3,
     backgroundColor: 'rgb(79, 164, 89)',
-    width: 140,
+    width: 200,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -68,8 +69,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
+    paddingTop: 180,
     color: '#FFF',
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: 'bold',
     shadowOffset: {
       width: 3,
@@ -78,6 +80,13 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 1.0,
   },
+  coverBottom: {
+    width: windowSize.width,
+    height: 60,
+    position: 'relative',
+    top: -30,
+  },
+  /*
   bar: {
     ios: {
       position: 'absolute',
@@ -97,6 +106,7 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
   },
+  */
   versionBlock: {
     position: 'absolute',
     bottom: 15,
@@ -202,7 +212,7 @@ export default class Dashboard extends Component {
     const type = [
       { title: '全部類型' },
       { title: '郊　山' },
-      { title: '中級山', width: 65 },
+      { title: '中級山' }, // 不要加 width 避免 large font 被強迫換行
       { title: '百　岳' },
     ];
     return (
@@ -212,7 +222,7 @@ export default class Dashboard extends Component {
         header={(
           <View style={styles.header}>
             <Text style={styles.headerTitle}>
-                台灣步道
+                台灣步道一指通
             </Text>
             <View style={styles.versionBlock}>
               <Text style={styles.imgSrcText}>
@@ -222,9 +232,13 @@ export default class Dashboard extends Component {
           </View>
         )}
       >
-        <StatusBar barStyle="light-content" />
-        <View style={{ backgroundColor: '#fff', marginBottom: 50 }}>
-          <View style={styles.bar} />
+
+        <Image source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover-bottom.png' }} resizeMode="contain" style={ styles.coverBottom } />
+
+        <View style={{ backgroundColor: '#fff', marginBottom: 50, position: 'relative', top: -25 }}>
+        
+          <StatusBar barStyle="light-content" />
+
           <Filter
             title={'類型'}
             dataList={type}
