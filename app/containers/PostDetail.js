@@ -19,7 +19,8 @@ const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   parallaxView: {
-    paddingBottom: 60,
+    //遮掉地圖下方的商標文字
+    paddingBottom: 30,
     ios: {
       marginTop: 64,
     },
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 5,
   },
   statusText: {
     color: '#FFF',
@@ -240,11 +242,9 @@ class PostDetail extends Component {
     let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
 
     return (
-      <View style={{ paddingTop: 20 }}>
-        <TouchableOpacity onPress={this.navigate}>
-          <Image resizeMode="cover" source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=9&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw`}} style={{ flex: 1, width: imgWidth, height: imgHeight }} />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={this.navigate} style={{ paddingTop: 20 }}>
+        <Image resizeMode="cover" source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=9&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw`}} style={{ flex: 1, width: imgWidth, height: imgHeight }} />
+      </TouchableOpacity>
     );
   }
 
