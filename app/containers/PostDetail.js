@@ -306,7 +306,7 @@ class PostDetail extends Component {
 
     return (
       <ParallaxView
-        backgroundSource={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/covers/cover${this.props.id}_l.jpg` }}
+        backgroundSource={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover/${this.props.id}/${this.props.id}_l.jpg` }}
         windowHeight={260}
         header={(
           <View style={styles.header}>

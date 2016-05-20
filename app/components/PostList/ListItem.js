@@ -171,7 +171,7 @@ export default function PostListItem(props) {
       <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress} >
         <View style={styles.commentContent}>
           <View style={styles.imageContent}>
-            <Image source={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/covers/cover${props.id}_s.jpg` }} style={styles.itemImg} />
+            <Image source={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover/${props.id}/${props.id}_s.jpg` }} style={styles.itemImg} />
           </View>
           <View style={styles.commentBody}>
             <Text style={styles.title} numberOfLines={2} >
