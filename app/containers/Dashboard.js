@@ -128,26 +128,22 @@ export default class Dashboard extends Component {
   componentWillMount() {
     // this.props.requestNews();
     // this.props.requestToday();
-    try {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.props.requestSetLocation(position);
-            this.setState({
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-            });
-          },
-          (error) => {
-            navigator.geolocation.stopObserving();
-            // Alert.alert(error.toString());
-          },
-          { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
-        );
-        if (navigator.geolocation) navigator.geolocation.stopObserving();
-      }
-    } catch (e) {
-      // Alert.alert(e.toString());
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.props.requestSetLocation(position);
+          this.setState({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          });
+          // navigator.geolocation.stopObserving();
+        },
+        (error) => {
+          navigator.geolocation.stopObserving();
+          // Alert.alert(error.toString());
+        },
+        { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
+      );
     }
     let url;
     if (Platform.OS === 'ios') {
