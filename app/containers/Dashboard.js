@@ -9,7 +9,6 @@ import React, {
   Alert,
   Platform,
 } from 'react-native';
-import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
 import Filter from '../components/Filter/FilterContainer';
 import activityData from '../src/activity.json';
@@ -71,12 +70,14 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 30,
     fontWeight: 'bold',
-    shadowOffset: {
-      width: 3,
-      height: 3,
+    ios: {
+      shadowOffset: {
+        width: 3,
+        height: 3,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
     },
-    shadowColor: 'black',
-    shadowOpacity: 1.0,
   },
   bar: {
     ios: {

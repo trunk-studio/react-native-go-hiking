@@ -22,7 +22,7 @@ public class PermissionCheckActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // create a layout and using Transparent_windowNoTitle
+        // create a layout and using Transparent_windowR.layout.activity_main2
         RelativeLayout relativeLayout = new RelativeLayout(this);
         this.setContentView(relativeLayout);
 
@@ -41,7 +41,13 @@ public class PermissionCheckActivity extends Activity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.wtf(TAG, "location permission ok");
-                    startMainActiviry();
+//                    if (!((LocationManager) this.getSystemService(Context.LOCATION_SERVICE))
+//                            .isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//                        Toast.makeText(this,"請先開啟 GPS！",Toast.LENGTH_LONG).show();
+//                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 100);
+//                    } else {
+                        startMainActiviry();
+//                    }
                 } else {
                     Log.wtf(TAG, "request location permission failed. try it again.");
                     dialogNeedPermissions(this);

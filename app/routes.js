@@ -149,7 +149,7 @@ export default class AppRoutes extends Component {
           >
             <Route name="tabDashboard" schema="tab" title="首頁" iconName="home">
               <Router>
-                <Route name="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
+                <Route name="dashboard" hideNavBar component={Dashboard} title="首頁" />
                 <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
               </Router>
             </Route>
@@ -166,7 +166,7 @@ export default class AppRoutes extends Component {
                 <Route name="postDetail" schema="back" component={PostDetail} />
               </Router>
             </Route>
-            <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" >
+            <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" initial>
               <Router>
                 <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
                 <Route name="postDetail" schema="back" component={PostDetail} />
