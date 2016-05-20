@@ -10,23 +10,19 @@ const styles = StyleSheet.create({
 
 export default function PostList(props) {
   const { listData } = props;
-  const listItemArray = [];
-  if (listData.length > 0) {
-    listData.forEach((item, i) => {
-      listItemArray.push(
-        <ListItem
-          key={i}
-          title={item.title}
-          img={item.cover}
-          description={item.distance !== -1 ? `${item.distance} km` : ''}
-          onItemPress={props.onItemPress}
-        />
-      );
-    });
-  }
   return (
     <View style={styles.list}>
-      {listItemArray}
+      {
+        listData.map(function(item) {
+          <ListItem
+            key={i}
+            title={item.title}
+            img={item.cover}
+            description={item.distance !== -1 ? `${item.distance} km` : ''}
+            onItemPress={props.onItemPress}
+          />
+        });
+      }
     </View>
   );
 }
