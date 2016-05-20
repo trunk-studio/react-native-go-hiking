@@ -318,7 +318,7 @@ class PostDetail extends Component {
             </Text>
             <TouchableOpacity onPress={this.linkToSrc.bind(this, this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
               <Text style={styles.imgSrcText}>
-                {this.props.coverSourceName} #{this.props.id}
+                圖片來源：{this.props.coverSourceName} #{this.props.id}
               </Text>
             </TouchableOpacity>
           </View>
