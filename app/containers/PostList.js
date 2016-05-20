@@ -59,7 +59,7 @@ export default class PostList extends Component {
         this.setState({
           visible: !this.state.visible,
         });
-      }, 1000);
+      }, 2000);
     // }
   }
 
