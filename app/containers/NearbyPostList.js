@@ -214,21 +214,21 @@ export default class PostList extends Component {
 
     let contentChildren = null;
     if (this.state.nearbyData === null) {
-      contentChildren = <View />;
+      // contentChildren = <View />;
+      contentChildren = (
+         <View style={styles.picContainer}>
+          <Image
+            source={picNoFavItem}
+            style={styles.picNoFavItem}
+          />
+          <Text style={styles.textNoFavItem}>
+            目前您附近沒有任何步道 :p
+          </Text>
+        </View>
+      );
     } else if (ListItemArray.length > 0) {
       contentChildren = ListItemArray;
-    } else {
-      contentChildren = (
-       <View style={styles.picContainer}>
-        <Image
-          source={picNoFavItem}
-          style={styles.picNoFavItem}
-        />
-        <Text style={styles.textNoFavItem}>
-          目前您附近沒有任何步道 :p
-        </Text>
-      </View>
-    );}
+    }
 
     return (
       <View style={styles.content}>
