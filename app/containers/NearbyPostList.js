@@ -5,6 +5,8 @@ import React, {
   ScrollView,
   Image,
   Text,
+  Alert,
+  Platform,
 } from 'react-native';
 import SwipeOut from 'react-native-swipeout';
 import { connect } from 'react-redux';
@@ -69,47 +71,61 @@ export default class PostList extends Component {
       this.setState({
         visible: !this.state.visible
       });
-    }, 500);
+    }, 5000);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.pathList !== nextProps.pathList) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const nearbyData = [];
-            nextProps.pathList.forEach((post) => {
-              const distance = calcDistance(
-                post.lat,
-                post.lon,
-                position.coords.latitude,
-                position.coords.longitude
-              );
-              if (distance <= 70) {
-                nearbyData.push({
-                  ...post,
-                  distance,
-                });
-              }
-            })
-            nearbyData.sort((a, b) => {
-              return parseFloat(a.distance) - parseFloat(b.distance);
-            });
-            this.setState({
-              nearbyData,
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-            });
-          },
-          (error) => {},
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
+      try {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+           (position) => {
+             const nearbyData = [];
+             nextProps.pathList.forEach((post) => {
+               const distance = calcDistance(
+                 post.lat,
+                 post.lon,
+                 position.coords.latitude,
+                 position.coords.longitude
+               );
+               if (distance <= 70) {
+                 nearbyData.push({
+                   ...post,
+                   distance,
+                 });
+               }
+             });
+             nearbyData.sort((a, b) => {
+               return parseFloat(a.distance) - parseFloat(b.distance);
+             });
+             this.setState({
+               nearbyData,
+               lat: position.coords.latitude,
+               lon: position.coords.longitude,
+             });
+           },
+           (error) => {
+             navigator.geolocation.stopObserving();
+             // Alert.alert(error.toString());
+           },
+           { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
+         );
+        }
+      } catch (e) {
+        Alert.alert(e.toString());
       }
+      if (navigator.geolocation) navigator.geolocation.stopObserving();
     }
   }
 
   onListItemPress = (rowData) => {
-    Actions.postDetail(rowData);
+    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const newDate = {
+      ...rowData,
+      title: pageTitle,
+      postTitle: rowData.title,
+    };
+    Actions.postDetail(newDate);
     // Alert.alert('', '立即前往', [
     //   { text: '確認', onPress: () => {
     //     const lat = this.state.lat;
@@ -215,10 +231,12 @@ export default class PostList extends Component {
     );}
 
     return (
-      <ScrollView style={styles.content}>
+      <View style={styles.content}>
         <Spinner visible={this.state.visible} />
-        { contentChildren }
-      </ScrollView>
+        <ScrollView>
+          { contentChildren }
+        </ScrollView>
+      </View>
     );
   }
 }

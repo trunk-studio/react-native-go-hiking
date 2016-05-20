@@ -278,6 +278,7 @@ class PostDetail extends Component {
           break;
       }
     }
+
     return (
       <ParallaxView
         backgroundSource={{ uri: this.props.cover }}
@@ -288,7 +289,7 @@ class PostDetail extends Component {
               {this.info()}
             </View>
             <Text style={styles.headerTitle}>
-                {this.props.title}
+                {this.props.postTitle}
             </Text>
             <TouchableOpacity onPress={this.linkToSrc.bind(this, this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
               <Text style={styles.imgSrcText}>
