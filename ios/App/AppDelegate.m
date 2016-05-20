@@ -53,6 +53,7 @@
                      defaultJSCodeLocation:jsCodeLocation
                defaultMetadataFileLocation:defaultMetadataFileLocation ];
     [updater setHostnameForRelativeDownloadURLs:@"https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking"];
+    [updater downloadUpdatesForType: ReactNativeAutoUpdaterPatchUpdate];
     [updater checkUpdate];
 
     NSURL* latestJSCodeLocation = [updater latestJSCodeLocation];

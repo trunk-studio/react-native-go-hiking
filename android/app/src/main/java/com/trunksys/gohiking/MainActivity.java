@@ -75,7 +75,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
      */
     @Override
     protected ReactNativeAutoUpdaterUpdateType getAllowedUpdateType() {
-        return ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType.MINOR;
+        return ReactNativeAutoUpdater.ReactNativeAutoUpdaterUpdateType.PATCH;
     }
 
     /**
