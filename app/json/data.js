@@ -1,4 +1,4 @@
-export default [{
+module.exports = [{
   "id": 1,
   "title": "蘇花古道大南澳越嶺段",
   "cover": "http://5.share.photo.xuite.net/leekl00/1570c9a/10650800/494300906_m.jpg",
