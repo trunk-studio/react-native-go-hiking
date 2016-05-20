@@ -78,12 +78,14 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 26,
     fontWeight: 'bold',
-    shadowOffset: {
-      width: 2,
-      height: 2,
+    ios: {
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
     },
-    shadowColor: 'black',
-    shadowOpacity: 1.0,
   },
   statusBlock: {
     alignSelf: 'stretch',
@@ -135,12 +137,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#EEE',
     fontStyle: 'italic',
-    shadowOffset: {
-      width: 2,
-      height: 2,
+    ios: {
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
     },
-    shadowColor: 'black',
-    shadowOpacity: 1.0,
   },
 });
 

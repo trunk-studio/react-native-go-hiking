@@ -108,12 +108,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#555',
     fontStyle: 'italic',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowColor: 'black',
-    shadowOpacity: 1.0,
+    ios: {
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
+    }
   },
 });
 
