@@ -14,6 +14,7 @@ import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { requestFilterArea, requestFilterType } from '../actions/SearchActions';
 import Spinner from 'react-native-loading-spinner-overlay';
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
@@ -46,6 +47,7 @@ export default class PostList extends Component {
       dataSource,
       postList: [],
       visible: false,
+      canLoadMoreContent: true,
     };
   }
 
@@ -59,7 +61,7 @@ export default class PostList extends Component {
         this.setState({
           visible: !this.state.visible,
         });
-      }, 2000);
+      }, 500);
     // }
   }
 
@@ -71,9 +73,6 @@ export default class PostList extends Component {
       this.props.typeIndex !== nextProps.typeIndex ||
       this.props.areaIndex !== nextProps.areaIndex) {
       this.renderList(nextProps);
-    }
-    if(nextProps.pathList.length > 10) {
-      this
     }
   }
 
@@ -191,9 +190,12 @@ export default class PostList extends Component {
     } else {
       postList = [...filterAreaPostList];
     }
+    const newPostList = [...postList];
+    const dataSource = newPostList.splice(0, 5);
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(postList),
+      dataSource: this.state.dataSource.cloneWithRows(dataSource),
       postList,
+      canLoadMoreContent: true,
     });
   }
 
@@ -202,6 +204,19 @@ export default class PostList extends Component {
       return this.getListItem(post, 0, i);
     });
     return ListItemArray;
+  }
+
+  loadMorePost = () => {
+    let postList = [...this.state.postList];
+    const dataSource = postList.splice(0, this.state.dataSource.getRowCount() + 10);
+    let canLoadMoreContent = true;
+    if (postList.length === 0) {
+      canLoadMoreContent = false;
+    }
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(dataSource),
+      canLoadMoreContent,
+    });
   }
 
   render() {
@@ -239,15 +254,17 @@ export default class PostList extends Component {
             textColor={'#567354'}
           />
         </View>
-        {/*<ListView
+        <ListView
+          renderScrollComponent={props => <InfiniteScrollView {...props} />}
           dataSource={this.state.dataSource}
           renderRow={this.getListItem}
-          ref={'ListView'}
-          enableEmptySections
-        />*/}
-        <ScrollView>
+          canLoadMore={this.state.canLoadMoreContent}
+          onLoadMoreAsync={this.loadMorePost}
+          distanceToLoadMore={500}
+        />
+        {/*<ScrollView>
           {this.renderScrollViewListItem()}
-        </ScrollView>
+        </ScrollView>*/}
     </View>
     );
   }
