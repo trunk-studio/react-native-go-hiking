@@ -80,11 +80,43 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 1.0,
   },
+  mainContent: {
+    ios: {
+      backgroundColor: '#FFFFFF',
+      marginBottom: 50,
+      position: 'relative',
+      top: -25
+    },
+    android: {
+      backgroundColor: '#FFFFFF',
+    }
+  },
   coverBottom: {
-    width: windowSize.width,
-    height: 60,
-    position: 'relative',
-    top: -30,
+    ios: {
+      height: 60,
+      position: 'relative',
+      top: -30,
+    },
+    android: {
+      height: 0,
+      /*
+      width: windowSize.width,
+      height: 5,
+      backgroundColor: 'rgb(79, 164, 89)',
+      marginBottom: 10,
+      */
+    }
+  },
+  coverBottomWrapper: {
+    ios: {
+
+    },
+    android: {
+      width: windowSize.width,
+      height: 5,
+      backgroundColor: 'rgb(79, 164, 89)',
+      marginBottom: 10,      
+    }
   },
   /*
   bar: {
@@ -230,13 +262,14 @@ export default class Dashboard extends Component {
               </Text>
             </View>
           </View>
-        )}
-      >
+        )}>
 
-        <Image source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover-bottom.png' }} resizeMode="contain" style={ styles.coverBottom } />
+        <View style={ styles.coverBottomWrapper }>
+          <Image source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover-bottom.png' }} resizeMode="contain" style={ styles.coverBottom } />
+        </View>
 
-        <View style={{ backgroundColor: '#fff', marginBottom: 50, position: 'relative', top: -25 }}>
-        
+        <View style={ styles.mainContent }>
+
           <StatusBar barStyle="light-content" />
 
           <Filter
