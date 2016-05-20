@@ -98,7 +98,9 @@ export default class AppRoutes extends Component {
           { text: '稍後', onPress: () => {} },
         ]);
       } else if (onlineVersion[1] !== nowVersion[1] || onlineVersion[2] !== nowVersion[2]) {
-        Alert.alert('有新版本喔', '重新開啟 App 更新');
+        if (Platform.OS === 'ios') {
+          Alert.alert('有新版本喔', '重新開啟 App 更新');
+        }
       }
     })
     .catch((error) => {
