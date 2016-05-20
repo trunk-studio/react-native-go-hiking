@@ -15,9 +15,10 @@ import ListItem from '../components/PostList/ListItem';
 import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { calcDistance } from '../utils/place';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 const StyleSheet = require('../utils/F8StyleSheet');
 const picNoFavItem = require('../images/no-fav-item.png');
-import Spinner from 'react-native-loading-spinner-overlay';
 const styles = StyleSheet.create({
   content: {
     flex: 1,
@@ -62,6 +63,7 @@ export default class PostList extends Component {
       lon: 0,
       nearbyData: null,
       visible: true,
+      marginTop: 10000,
     };
   }
 
@@ -69,7 +71,8 @@ export default class PostList extends Component {
     this.props.requestPathData();
     setTimeout(() => {
       this.setState({
-        visible: !this.state.visible
+        visible: !this.state.visible,
+        marginTop: 0,
       });
     }, 5000);
   }
@@ -214,20 +217,31 @@ export default class PostList extends Component {
 
     let contentChildren = null;
     if (this.state.nearbyData === null) {
-      // contentChildren = <View />;
       contentChildren = (
-         <View style={styles.picContainer}>
-          <Image
-            source={picNoFavItem}
-            style={styles.picNoFavItem}
-          />
-          <Text style={styles.textNoFavItem}>
-            目前您附近沒有任何步道 :p
-          </Text>
-        </View>
+       <View style={[styles.picContainer, { marginTop: this.state.marginTop }]}>
+        <Image
+          source={picNoFavItem}
+          style={styles.picNoFavItem}
+        />
+        <Text style={styles.textNoFavItem}>
+          目前沒辦法取得 GPS 資訊，請稍候再試 :(
+        </Text>
+      </View>
       );
     } else if (ListItemArray.length > 0) {
       contentChildren = ListItemArray;
+    } else if (ListItemArray.length < 1) {
+      contentChildren = (
+       <View style={[styles.picContainer, { marginTop: this.state.marginTop }]}>
+        <Image
+          source={picNoFavItem}
+          style={styles.picNoFavItem}
+        />
+        <Text style={styles.textNoFavItem}>
+          目前您附近沒有任何步道 :p
+        </Text>
+      </View>
+      );
     }
 
     return (
