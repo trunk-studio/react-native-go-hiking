@@ -5,6 +5,8 @@ import React, {
   Component,
   Dimensions,
   Platform,
+  Alert,
+  Linking,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
@@ -25,6 +27,7 @@ import Category from './containers/Category';
 import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ReactNativeAutoUpdater from 'react-native-auto-updater';
 
 const windowSize = Dimensions.get('window');
 const StyleSheet = require('./utils/F8StyleSheet');
@@ -62,6 +65,45 @@ export default class AppRoutes extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentWillMount() {
+    let url;
+    if (Platform.OS === 'ios') {
+      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.json';
+    } else {
+      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json';
+    }
+    fetch(url)
+    .then((response) => response.text())
+    .then((responseText) => {
+      const onlineMetadata = JSON.parse(responseText);
+      const onlineVersion = onlineMetadata.version.split('.');
+      const nowVersion = ReactNativeAutoUpdater.jsCodeVersion().split('.');
+      if (onlineVersion[0] !== nowVersion[0]) {
+        Alert.alert('版本過舊', '請至 App Store 更新', [
+          { text: '立即更新', onPress: () => {
+            let downloadUrl;
+            if (Platform.OS === 'ios') {
+              downloadUrl = 'https://itunes.apple.com/us/app/tai-wan-bu-dao1zhi-tong/id1113267807?l=zh&ls=1&mt=8';
+            } else {
+              downloadUrl = 'https://play.google.com/store/apps/details?id=com.trunksys.gohiking';
+            }
+            Linking.canOpenURL(downloadUrl).then(supported => {
+              if (supported) {
+                Linking.openURL(downloadUrl);
+              }
+            });
+          } },
+          { text: '稍後', onPress: () => {} },
+        ]);
+      } else if (onlineVersion[1] !== nowVersion[1] || onlineVersion[2] !== nowVersion[2]) {
+        Alert.alert('有新版本喔', '重新開啟 App 更新');
+      }
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
   }
 
   render() {

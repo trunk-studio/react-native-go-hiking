@@ -147,28 +147,6 @@ export default class Dashboard extends Component {
         { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
       );
     }
-    let url;
-    if (Platform.OS === 'ios') {
-      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.json';
-    } else {
-      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json';
-    }
-    fetch(url)
-    .then((response) => response.text())
-    .then((responseText) => {
-      const onlineMetadata = JSON.parse(responseText);
-      const onlineVersion = onlineMetadata.version.split('.');
-      const nowVersion = ReactNativeAutoUpdater.jsCodeVersion().split('.');
-      if (onlineVersion[0] !== nowVersion[0]) {
-        Alert.alert('版本過舊', '請至 App Store 更新');
-      } else if (onlineVersion[1] !== nowVersion[1] || onlineVersion[2] !== nowVersion[2]) {
-        Alert.alert('有新版本喔', '重新開啟 App 更新');
-      }
-
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
   }
   componentWillReceiveProps(nextProps) {
     const { countryName, locationName } = nextProps;
@@ -270,7 +248,7 @@ export default class Dashboard extends Component {
 
           <NewsBoard boardTitle={'近期活動'} listData={activityListData}
             itemCount={30} onItemPress={onListItemPress} />
-          
+
         </View>
       </ParallaxView>
     );
