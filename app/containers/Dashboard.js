@@ -265,11 +265,11 @@ export default class Dashboard extends Component {
               <Text style={styles.searchText}>搜尋台灣步道</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
+          <View style={{ height: 0.5, backgroundColor: 'rgb(79, 164, 89)' }} />
           <NewsBoard boardTitle={'近期活動'} listData={activityListData}
             itemCount={30} onItemPress={onListItemPress}
           />
-          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
+        <View style={{ height: 0.5, backgroundColor: 'rgb(79, 164, 89)' }} />
         </View>
       </ParallaxView>
     );

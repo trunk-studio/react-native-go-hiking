@@ -172,21 +172,22 @@ export default class PostList extends Component {
     ];
     let filterAreaPostList = [];
     if (area[nextProps.areaIndex].title !== '全部') {
-      nextProps.pathList.forEach((post) => {
-        if (post.zone === area[nextProps.areaIndex].title) {
-          filterAreaPostList.push(post);
+      for (let i = 0; i < nextProps.pathList.length; i++) {
+        if (nextProps.pathList[i].zone === area[nextProps.areaIndex].title) {
+          filterAreaPostList.push(nextProps.pathList[i]);
         }
-      });
+      }
     } else {
       filterAreaPostList = [...nextProps.pathList];
     }
     let postList = [];
     if (type[nextProps.typeIndex].title !== '全部') {
-      filterAreaPostList.forEach((post) => {
-        if (post.postType === type[nextProps.typeIndex].title) {
-          postList.push(post);
+      for (let i = 0; i < filterAreaPostList.length; i++) {
+        if (filterAreaPostList[i].postType === type[nextProps.typeIndex].title) {
+          postList.push(filterAreaPostList[i]);
         }
-      });
+      }
+
     } else {
       postList = [...filterAreaPostList];
     }

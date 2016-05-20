@@ -9,7 +9,7 @@ import NewsItem from './NewsItem';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F1F7EB',
+    backgroundColor: '#fff',
   },
   defaultTxt: {
     fontSize: 20,
