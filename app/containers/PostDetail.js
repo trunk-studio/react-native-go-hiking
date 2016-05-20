@@ -19,6 +19,7 @@ const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   parallaxView: {
+    paddingBottom: 60,
     ios: {
       marginTop: 64,
     },
@@ -34,10 +35,11 @@ const styles = StyleSheet.create({
   },
   infoText: {
     flex: 1,
-    fontSize: 16,
-    color: 'white',
+    fontSize: 14,
+    color: '#FFF',
     fontWeight: 'bold',
-    textAlign: 'right',
+    textAlign: 'center',
+    marginTop: 5,
   },
   placeText: {
     fontSize: 18,
@@ -186,10 +188,7 @@ class PostDetail extends Component {
           break;
       }
       infos.push(
-        <View key={'level'} style={{ flexDirection: 'row'}}>
-          <Text style={styles.infoText}>
-            難易度：
-          </Text>
+        <View key={'level'} style={{ flexDirection: 'row', justifyContent: 'center'}}>
           <Image source={{ uri: levelImgSrc }} style={{
               width: 80,
               height: 15,
