@@ -212,7 +212,7 @@ export default class Dashboard extends Component {
         header={(
           <View style={styles.header}>
             <Text style={styles.headerTitle}>
-                台灣步道 1 指通
+                台灣步道
             </Text>
             <View style={styles.versionBlock}>
               <Text style={styles.imgSrcText}>
