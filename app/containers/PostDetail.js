@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   imgSrcText: {
-    fontSize: 15,
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#EEE',
     fontStyle: 'italic',
