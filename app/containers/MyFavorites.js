@@ -113,6 +113,13 @@ export default class MyFavorite extends Component {
           backgroundColor: 'rgb(231, 48, 43)',
           onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
         },
+        // {
+        //   text: '分享',
+        //   backgroundColor: 'rgb(79, 164, 89)',
+        //   onPress: () => {
+        //     console.log(rowData);
+        //   },
+        // },
       ];
 
       ListItemArray.push(
