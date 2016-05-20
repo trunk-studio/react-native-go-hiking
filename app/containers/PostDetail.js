@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   scrollFrame: {
     flex: 1,
     flexDirection: 'column',
-    paddingBottom: 25,
+    //paddingBottom: 25,
   },
   scrollContainer: {
     flex: 1,
@@ -211,17 +211,22 @@ class PostDetail extends Component {
   }
 
   map = () => {
+    let imgWidth = windowSize.width;
+    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+
     let mapImg;
     if (this.props.map !== 'null') {
       mapImg = (
-        <View style={{ flex: 1, marginBottom: 20 }}>
+        <View style={{ flex: 1 }}>
           <LightBox>
             <Image
+              resizeMode="contain"
               source={{ uri: this.props.map }}
               style={{
                 flex: 1,
                 padding: 20,
-                height: 500,
+                width: imgWidth,
+                height: imgHeight,
               }}
             />
           </LightBox>
@@ -229,6 +234,19 @@ class PostDetail extends Component {
       );
     }
     return mapImg;
+  }
+
+  gmap = () => {
+    let imgWidth = windowSize.width;
+    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+
+    return (
+      <View style={{ paddingTop: 20 }}>
+        <TouchableOpacity onPress={this.navigate}>
+          <Image resizeMode="cover" source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=9&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw`}} style={{ flex: 1, width: imgWidth, height: imgHeight }} />
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   navigate = () => {
@@ -339,13 +357,15 @@ class PostDetail extends Component {
               <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
                 {this.props.description_01}
               </Text>
-              {this.map()}
+
               {/*
               <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
                 {props.description_02 !== 'null' ? props.description_02 : null }
               </Text>
               */}
             </View>
+            {this.map()}
+            {this.gmap()}
           </View>
         </View>
       </ParallaxView>
