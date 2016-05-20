@@ -304,6 +304,8 @@ export default class PostList extends Component {
           renderRow={this.getListItem}
           canLoadMore={this.state.canLoadMoreContent}
           onLoadMoreAsync={this.loadMorePost}
+          initialListSize={5}
+          pageSize={5}
           distanceToLoadMore={500}
         />
         {/*<ScrollView>
