@@ -55,7 +55,7 @@ export default function NewsItem(props) {
   }
   return (
     <TouchableOpacity underlayColor={"#f3f3f3"} onPress={onItemPress}>
-      <View style={{height: 0.5, backgroundColor: '#417505'}} />
+      <View style={{height: 1, backgroundColor: '#37A22E'}} />
       <View style={styles.newsItem}>
         <View style={styles.newsConent}>
           <Text style={styles.newsTitle} numberOfLines={1}>
@@ -69,7 +69,6 @@ export default function NewsItem(props) {
           <Icon name={'angle-right'} style={ styles.icon } />
         </View>
       </View>
-      <View style={{height: 0.5, backgroundColor: '#417505'}} />
     </TouchableOpacity>
   );
 }

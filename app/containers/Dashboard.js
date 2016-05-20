@@ -108,12 +108,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#555',
     fontStyle: 'italic',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowColor: 'black',
-    shadowOpacity: 1.0,
+    ios: {
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
+    }
   },
 });
 
@@ -265,11 +267,10 @@ export default class Dashboard extends Component {
               <Text style={styles.searchText}>搜尋台灣步道</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
+
           <NewsBoard boardTitle={'近期活動'} listData={activityListData}
-            itemCount={30} onItemPress={onListItemPress}
-          />
-          <View style={{ height: 0.5, backgroundColor: '#417505' }} />
+            itemCount={30} onItemPress={onListItemPress} />
+          
         </View>
       </ParallaxView>
     );
