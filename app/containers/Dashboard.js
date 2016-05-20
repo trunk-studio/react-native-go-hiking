@@ -7,6 +7,7 @@ import React, {
   StatusBar,
   Text,
   Alert,
+  Platform,
 } from 'react-native';
 import CoverCard from '../components/CoverCard';
 import NewsBoard from '../components/NewsBoard';
@@ -19,6 +20,7 @@ import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxView from 'react-native-parallax-view';
+import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 
 // const coverImg = require('../images/dashboard.png');
@@ -95,6 +97,24 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
   },
+  versionBlock: {
+    position: 'absolute',
+    bottom: 15,
+    right: 5,
+    padding: 2,
+  },
+  imgSrcText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#555',
+    fontStyle: 'italic',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
+  },
 });
 
 export default class Dashboard extends Component {
@@ -129,6 +149,28 @@ export default class Dashboard extends Component {
     } catch (e) {
       // Alert.alert(e.toString());
     }
+    let url;
+    if (Platform.OS === 'ios') {
+      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.json';
+    } else {
+      url = 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/qa/packager/metadata.android.json';
+    }
+    fetch(url)
+    .then((response) => response.text())
+    .then((responseText) => {
+      const onlineMetadata = JSON.parse(responseText);
+      const onlineVersion = onlineMetadata.version.split('.');
+      const nowVersion = ReactNativeAutoUpdater.jsCodeVersion().split('.');
+      if (onlineVersion[0] !== nowVersion[0]) {
+        Alert.alert('版本過舊', '請至 App Store 更新');
+      } else if (onlineVersion[1] !== nowVersion[1] || onlineVersion[2] !== nowVersion[2]) {
+        Alert.alert('有新版本喔', '重新開啟 App 更新');
+      }
+
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
   }
   componentWillReceiveProps(nextProps) {
     const { countryName, locationName } = nextProps;
@@ -196,6 +238,11 @@ export default class Dashboard extends Component {
             <Text style={styles.headerTitle}>
                 台灣步道 1 指通
             </Text>
+            <View style={styles.versionBlock}>
+              <Text style={styles.imgSrcText}>
+                v {ReactNativeAutoUpdater.jsCodeVersion()}
+              </Text>
+            </View>
           </View>
         )}
       >
