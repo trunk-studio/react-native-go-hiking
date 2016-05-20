@@ -138,6 +138,7 @@ public class MainActivity extends ReactNativeAutoUpdaterActivity {
         return Arrays.asList(
                 new ReactNativeAutoUpdaterPackage(),
                 new MainReactPackage(),
+            new RNSharePackage(),
                 new VectorIconsPackage()
         );
     }
