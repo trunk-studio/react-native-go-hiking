@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   searchBtn: {
     margin: 10,
-    padding: 5,
+    padding: 10,
     borderRadius: 3,
     backgroundColor: 'rgb(79, 164, 89)',
     width: 140,
