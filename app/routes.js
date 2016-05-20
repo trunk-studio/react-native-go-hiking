@@ -71,6 +71,7 @@ export default class AppRoutes extends Component {
           sceneConfig={Navigator.SceneConfigs.FloatFromRight}
         />
         <Schema name="back"
+          sceneConfig={Navigator.SceneConfigs.FloatFromRight}
           renderLeftButton={() => {
             return (
               <TouchableOpacity
@@ -83,7 +84,7 @@ export default class AppRoutes extends Component {
                   color={'#FFF'}
                   style={styles.menuIcon}
                 />
-                <Text style={styles.navBackTitle}> Back </Text>
+                <Text style={styles.navBackTitle}></Text>
               </TouchableOpacity>
             );}}
         />

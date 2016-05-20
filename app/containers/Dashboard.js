@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 3,
+      height: 3,
     },
     shadowColor: 'black',
     shadowOpacity: 1.0,
