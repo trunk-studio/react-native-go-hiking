@@ -4,6 +4,7 @@ import React, {
   Image,
   View,
   Text,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -63,7 +64,13 @@ export default class MyFavorite extends Component {
   }
 
   onListItemPress = (rowData) => {
-    Actions.postDetail(rowData);
+    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const newDate = {
+      ...rowData,
+      title: pageTitle,
+      postTitle: rowData.title,
+    };
+    Actions.postDetail(newDate);
   }
 
   render() {

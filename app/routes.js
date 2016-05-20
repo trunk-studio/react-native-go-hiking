@@ -3,6 +3,8 @@ import React, {
   TouchableOpacity,
   Text,
   Component,
+  Dimensions,
+  Platform,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
@@ -23,6 +25,8 @@ import Category from './containers/Category';
 import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+const windowSize = Dimensions.get('window');
 const StyleSheet = require('./utils/F8StyleSheet');
 const styles = StyleSheet.create({
   leftButtonContainer: {
@@ -45,10 +49,11 @@ const styles = StyleSheet.create({
   titleStyle: {
     color: 'white',
     android: {
+      flex: 1,
       textAlign: 'center',
       textAlignVertical: 'center',
       paddingTop: 10,
-      paddingLeft: 30,
+      marginLeft: ~~(windowSize.width / 5),
     },
   },
 });
