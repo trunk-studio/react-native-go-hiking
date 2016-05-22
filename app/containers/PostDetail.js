@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: 'bold',
     ios: {
+      paddingTop: 170,
       shadowOffset: {
         width: 2,
         height: 2,
