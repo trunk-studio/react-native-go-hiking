@@ -160,7 +160,7 @@ export default class PostList extends Component {
     let listItem = [];
     listItem = (
       <SwipeOut key={rowData.id} right={swipeoutBtns} autoClose >
-        <SimpleListItem
+        <ListItem
           id={rowData.id}
           index={rowData.index}
           title={rowData.title}

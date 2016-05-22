@@ -143,8 +143,7 @@ export default class Dashboard extends Component {
         }
       });
     }
-    let activityListData;
-    activityListData = [];
+    let activityListData = [];
     for (const item of activityData.list) {
       activityListData.push({
         title: item.title,
