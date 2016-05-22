@@ -769,7 +769,7 @@ module.exports = [{
   "description_01": "唐麻丹山海拔1305公尺，三等三角點No.6409，位於台中縣和平鄉大甲溪南岸，屬白姑大山系之支稜，隔大甲溪與東卯山相對向，為大甲溪和裡冷溪之間稜脈的第一座山頭，從裡冷部落望去相當雄偉，是中部中級山「谷關七雄」中的老么。（健行筆記）",
   "description_02": null,
   "status": "null",
-  "feature": 瀑布景觀,
+  "feature": "瀑布景觀",
   "recommend": "登頂俯瞰大甲溪及裡冷溪流域、蝴蝶谷瀑布景觀",
   "level": 3,
   "length": 4.35,
@@ -823,7 +823,7 @@ module.exports = [{
   "description_01": "屋我尾山位於大甲溪北岸，為谷關七雄中的老三。步道沿路環境多樣，有杜鵑林，稜線上矮密的風衝林、杉木造林地、針闊混合林與楠櫟林；林下潮濕的枯枝倒木與落葉層上有著成簇之蕈叢。天氣晴朗時，從步道的破空處可遠眺周圍群山。（健行筆記）",
   "description_02": null,
   "status": "全線封閉",
-  "feature": 沿途可見體能訓練設施,
+  "feature": "沿途可見體能訓練設施",
   "recommend": "軍事體能設施、林蔭山徑、觀賞杜鵑",
   "level": 3,
   "length": 4.1,
@@ -3208,7 +3208,6 @@ module.exports = [{
   "lon": 120.7175105,
   "entryLat": 24.1791031,
   "entryLon": 120.7303494,
-  15,
   "entry": "經補庫停車場斜對面之經補路直走至九九橋，再直行約1.5公里處。",
   "map": "http://www.scenic.taichung.gov.tw/public/data/121020/542411122171.jpg",
   "url": "http://www.scenic.taichung.gov.tw/ct.asp?xItem=59041&ctNode=4231&mp=121020"
@@ -3236,7 +3235,6 @@ module.exports = [{
   "lon": 120.7175105,
   "entryLat": 24.1791031,
   "entryLon": 120.7303494,
-  15,
   "entry": "經補庫停車場斜對面之經補路直走經過九九橋再直走。",
   "map": "http://www.scenic.taichung.gov.tw/public/data/121020/542411122171.jpg",
   "url": "http://www.scenic.taichung.gov.tw/ct.asp?xItem=59041&ctNode=4231&mp=121020"
@@ -3264,7 +3262,6 @@ module.exports = [{
   "lon": 120.7175105,
   "entryLat": 24.1791031,
   "entryLon": 120.7303494,
-  15,
   "entry": "經補庫停車場斜對面之經補路直走至九九橋對面。",
   "map": "http://www.scenic.taichung.gov.tw/public/data/121020/542411122171.jpg",
   "url": "http://www.scenic.taichung.gov.tw/ct.asp?xItem=59041&ctNode=4231&mp=121020"
