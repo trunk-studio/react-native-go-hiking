@@ -21,6 +21,7 @@ import Nearby from './containers/NearbyPostList'
 import NewsDetail from './containers/NewsDetail';
 import PostDetail from './containers/PostDetail';
 import Dashboard from './containers/Dashboard';
+import SimpleDashboard from './containers/SimpleDashboard';
 import Category from './containers/Category';
 import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
@@ -124,17 +125,26 @@ export default class AppRoutes extends Component {
 
 
   render() {
+
     const tabStyle = {
       icon: TabIcon,
       navigationBarStyle: styles.navigationBarStyle,
       titleStyle: styles.titleStyle,
+    };
+
+    let autoDashboard = Dashboard;
+    if (Platform.OS === 'android') {
+      if (Platform.Version < 21) {
+        autoDashboard = SimpleDashboard;
+      }
     }
+
     return (
       <Router key="root" createReducer={this.reducerCreate} getSceneStyle={this.getSceneStyle}>
         <Scene key="tabbar" component={NavigationDrawer}>
           <Scene hideNavBar key="main" tabs >
             <Scene key="tabDashboard" title="首頁" iconName="home" {...tabStyle}>
-                <Scene key="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
+                <Scene key="dashboard" hideNavBar component={autoDashboard} title="首頁" initial />
                 <Scene key="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
             </Scene>
             <Scene key="tabList" title="步道導覽" iconName="map-signs" {...tabStyle}>

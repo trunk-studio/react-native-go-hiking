@@ -8,6 +8,7 @@ import React, {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import ListItem from '../components/PostList/ListItem';
+import SimpleListItem from '../components/PostList/SimpleListItem';
 import SwipeOut from 'react-native-swipeout';
 import Filter from '../components/Filter/FilterContainer';
 import { requestPathData } from '../actions/PathDataActions';
@@ -72,7 +73,6 @@ export default class PostList extends Component {
   }
 
   componentWillMount() {
-
     // loading indicator
     this.setState({ visible: true });
   }
@@ -148,7 +148,10 @@ export default class PostList extends Component {
         },
       );
     }
-    return (
+
+    // give different listItem component to android version < 21.
+    let listItem = [];
+    listItem = (
       <SwipeOut key={rowData.id} right={swipeoutBtns} autoClose >
         <ListItem
           id={rowData.id}
@@ -167,6 +170,25 @@ export default class PostList extends Component {
         />
       </SwipeOut>
     );
+    if (Platform.OS === 'android') {
+      if (Platform.Version < 21) {
+        listItem = (
+          <SimpleListItem
+            id={rowData.id}
+            index={rowData.index}
+            title={rowData.title}
+            img={rowData.cover}
+            place={rowData.place}
+            status={rowData.status}
+            tagColor={tagColor}
+            onItemPress={this.onListItemPress.bind(this, rowData)}
+            bakColor={bakColor}
+            rightText={''}
+          />
+        );
+      }
+    }
+    return (listItem);
   }
 
   areaOnChange = (id) => {

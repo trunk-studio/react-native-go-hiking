@@ -198,7 +198,7 @@ export default class PostList extends Component {
               distance={rowData.distance}
               bakColor={bakColor}
               rightText={''}
-              />
+            />
           </SwipeOut>
         );
       }
