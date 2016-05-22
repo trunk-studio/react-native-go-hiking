@@ -6,10 +6,7 @@ import React, {
   TouchableOpacity,
   StatusBar,
   Text,
-  Platform,
-  Image,
 } from 'react-native';
-import NewsBoard from '../components/NewsBoard';
 import Filter from '../components/Filter/FilterContainer';
 import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
@@ -18,12 +15,8 @@ import { requestNews, requestFilterArea, requestFilterType } from '../actions/Se
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ParallaxView from 'react-native-parallax-view';
-import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 
-// const coverImg = require('../images/dashboard.png');
-const coverImg = {uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg'};
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -86,27 +79,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: -30,
   },
-  /*
-  bar: {
-    ios: {
-      position: 'absolute',
-      width: windowSize.width * 7,
-      height: windowSize.width * 7,
-      top: -25,
-      left: -windowSize.width * 3,
-      backgroundColor: '#fff',
-      borderRadius: windowSize.width * 3.5,
-      borderColor: 'rgb(79, 164, 89)',
-      borderWidth: 5,
-    },
-    android: {
-      width: windowSize.width,
-      height: 5,
-      backgroundColor: 'rgb(79, 164, 89)',
-      marginBottom: 10,
-    },
-  },
-  */
   versionBlock: {
     position: 'absolute',
     bottom: 15,
@@ -125,7 +97,7 @@ const styles = StyleSheet.create({
       },
       shadowColor: 'black',
       shadowOpacity: 1.0,
-    }
+    },
   },
 });
 
@@ -171,7 +143,8 @@ export default class Dashboard extends Component {
         }
       });
     }
-    let activityListData = [];
+    let activityListData;
+    activityListData = [];
     for (const item of activityData.list) {
       activityListData.push({
         title: item.title,
@@ -222,12 +195,6 @@ export default class Dashboard extends Component {
             <Text style={styles.searchText}>搜尋台灣步道</Text>
           </TouchableOpacity>
         </View>
-        {/*<NewsBoard
-          boardTitle={'近期活動'}
-          listData={activityListData}
-          itemCount={30}
-          onItemPress={onListItemPress}
-        />*/}
       </View>
     );
   }

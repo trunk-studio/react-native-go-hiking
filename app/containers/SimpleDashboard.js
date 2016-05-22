@@ -3,29 +3,22 @@ import React, {
   Dimensions,
   View,
   Linking,
-  TouchableOpacity,
-  StatusBar,
   Text,
-  Platform,
   Image,
-  ScrollView,
 } from 'react-native';
-import Filter from '../components/Filter/FilterContainer';
 import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { requestNews, requestFilterArea, requestFilterType } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import ParallaxView from 'react-native-parallax-view';
 import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 import DashboardFilter from './DashboardFilter';
 import NewsBoard from '../components/NewsBoard';
 import NewsItem from '../components/NewsItem';
 
-const coverImg = {uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg'};
+const coverImg = { uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg' };
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({

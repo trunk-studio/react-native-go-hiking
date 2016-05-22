@@ -62,6 +62,10 @@ const styles = StyleSheet.create({
       marginTop: 55,
     },
   },
+  underline: {
+    backgroundColor: '#rgb(79, 164, 89)',
+    height: 5,
+  },
   scrollFrame: {
     flex: 1,
     flexDirection: 'column',
@@ -302,7 +306,7 @@ class PostDetail extends Component {
 
     return (
       <ParallaxView
-        backgroundSource={{ uri: this.props.cover }}
+        backgroundSource={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover/${this.props.id}/${this.props.id}_l.jpg` }}
         windowHeight={260}
         header={(
           <View style={styles.header}>
@@ -314,22 +318,24 @@ class PostDetail extends Component {
             </Text>
             <TouchableOpacity onPress={this.linkToSrc.bind(this, this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
               <Text style={styles.imgSrcText}>
-                {this.props.coverSourceName}
+                圖片來源：{this.props.coverSourceName} #{this.props.id}
               </Text>
             </TouchableOpacity>
           </View>
         )}
-        style={styles.parallaxView}
-      >
-        {(this.props.status !== 'null') ?
-          (<View style={[styles.statusBlock, { backgroundColor: tagColor }]}>
-              <Text style={styles.statusText}>
-                {this.props.status}
-              </Text>
-            </View>
-          ) : null
-        }
+        style={styles.parallaxView}>
         <View style={styles.scrollFrame}>
+          {(this.props.status !== 'null') ?
+            (
+              <View style={[styles.statusBlock, { backgroundColor: tagColor }]}>
+                <Text style={styles.statusText}>
+                  {this.props.status}
+                </Text>
+              </View>
+            ) : (
+              <View style={styles.underline} />
+            )
+          }
           <View style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
             <View index={0} style={styles.scrollContainer}>
               <View style={styles.toolbar}>

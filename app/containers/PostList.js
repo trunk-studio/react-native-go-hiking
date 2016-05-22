@@ -38,6 +38,33 @@ const styles = StyleSheet.create({
   },
 });
 
+var areaCache = {
+  cached: false,
+  north: [],  //北部
+  east: [],   //東部
+  west: [],   //中部
+  south: [],  //南部
+};
+
+var createAreaCache = function(originalList) {
+  if (!areaCache.cached) {
+    for (let i = 0; i < originalList.length; i++) {
+      if (originalList[i].zone === '北部') {
+        areaCache.north.push(originalList[i]);
+      }
+      else if (originalList[i].zone === '中部') {
+        areaCache.west.push(originalList[i]);
+      }
+      else if (originalList[i].zone === '南部') {
+        areaCache.south.push(originalList[i]);
+      }
+      else if (originalList[i].zone === '東部') {
+        areaCache.east.push(originalList[i]);
+      }
+    }
+    areaCache.cached = true;
+  }
+};
 
 export default class PostList extends Component {
   constructor(props) {
@@ -192,29 +219,45 @@ export default class PostList extends Component {
       { title: '中級山', width: 65 },
       { title: '百岳' },
     ];
-    let filterAreaPostList = [];
-    if (area[nextProps.areaIndex].title !== '全部') {
-      for (let i = 0; i < nextProps.pathList.length; i++) {
-        if (nextProps.pathList[i].zone === area[nextProps.areaIndex].title) {
-          filterAreaPostList.push(nextProps.pathList[i]);
-        }
-      }
-    } else {
-      filterAreaPostList = [...nextProps.pathList];
-    }
-    let postList = [];
-    if (type[nextProps.typeIndex].title !== '全部') {
-      for (let i = 0; i < filterAreaPostList.length; i++) {
-        if (filterAreaPostList[i].postType === type[nextProps.typeIndex].title) {
-          postList.push(filterAreaPostList[i]);
-        }
-      }
 
-    } else {
-      postList = [...filterAreaPostList];
+    let originalList = nextProps.pathList;
+
+    //啟用快取加速
+    createAreaCache(originalList);
+
+    if (area[nextProps.areaIndex].title !== '全部') {
+      if (area[nextProps.areaIndex].title === '北部') {
+        originalList = areaCache.north;
+      }
+      else if (area[nextProps.areaIndex].title === '中部') {
+        originalList = areaCache.west;
+      }
+      else if (area[nextProps.areaIndex].title === '南部') {
+        originalList = areaCache.south;
+      }
+      else if (area[nextProps.areaIndex].title === '東部') {
+        originalList = areaCache.east;
+      }
     }
-    const newPostList = [...postList];
-    const dataSource = newPostList.splice(0, 5);
+
+    let postList = originalList;
+
+    if (area[nextProps.typeIndex].title !== '全部') {
+      // 篩選類型
+
+      postList = [];
+
+      let targetType = type[nextProps.typeIndex].title;
+
+      for (let i = 0; i < originalList.length; i++) {
+        if (originalList[i].postType === targetType) {
+          postList.push(originalList[i]);
+        }
+      }
+    }
+
+    const dataSource = [...postList].splice(0, 5);
+
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(dataSource),
       postList,
@@ -283,6 +326,8 @@ export default class PostList extends Component {
           renderRow={this.getListItem}
           canLoadMore={this.state.canLoadMoreContent}
           onLoadMoreAsync={this.loadMorePost}
+          initialListSize={5}
+          pageSize={5}
           distanceToLoadMore={500}
         />
         {/*<ScrollView>

@@ -3,28 +3,23 @@ import React, {
   Dimensions,
   View,
   Linking,
-  TouchableOpacity,
-  StatusBar,
   Text,
-  Platform,
   Image,
 } from 'react-native';
 import NewsBoard from '../components/NewsBoard';
-import Filter from '../components/Filter/FilterContainer';
 import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { requestNews, requestFilterArea, requestFilterType } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import ParallaxView from 'react-native-parallax-view';
 import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 import DashboardFilter from './DashboardFilter';
 
 // const coverImg = require('../images/dashboard.png');
-const coverImg = {uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg'};
+const coverImg = { uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg' };
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -81,11 +76,43 @@ const styles = StyleSheet.create({
       shadowOpacity: 1.0,
     },
   },
+  mainContent: {
+    ios: {
+      backgroundColor: '#FFFFFF',
+      marginBottom: 50,
+      position: 'relative',
+      top: -25,
+    },
+    android: {
+      backgroundColor: '#FFFFFF',
+    },
+  },
   coverBottom: {
-    width: windowSize.width,
-    height: 60,
-    position: 'relative',
-    top: -30,
+    ios: {
+      height: 60,
+      position: 'relative',
+      top: -30,
+    },
+    android: {
+      height: 0,
+      /*
+      width: windowSize.width,
+      height: 5,
+      backgroundColor: 'rgb(79, 164, 89)',
+      marginBottom: 10,
+      */
+    },
+  },
+  coverBottomWrapper: {
+    ios: {
+
+    },
+    android: {
+      width: windowSize.width,
+      height: 5,
+      backgroundColor: 'rgb(79, 164, 89)',
+      marginBottom: 10,
+    },
   },
   versionBlock: {
     position: 'absolute',
@@ -182,19 +209,6 @@ export default class Dashboard extends Component {
         content: item.description,
       });
     }
-    const area = [
-      { title: '全部區域' },
-      { title: '北部' },
-      { title: '中部' },
-      { title: '南部' },
-      { title: '東部' },
-    ];
-    const type = [
-      { title: '全部類型' },
-      { title: '郊　山' },
-      { title: '中級山' }, // 不要加 width 避免 large font 被強迫換行
-      { title: '百　岳' },
-    ];
     return (
       <ParallaxView
         backgroundSource={coverImg}
