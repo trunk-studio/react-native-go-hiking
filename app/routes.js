@@ -18,6 +18,7 @@ import RNRF, {
 const Router = connect()(RNRF.Router);
 
 // View
+import WebViewPage from './containers/WebViewPage';
 import TabIcon from './components/TabIcon';
 import Nearby from './containers/NearbyPostList'
 import NewsDetail from './containers/NewsDetail';
@@ -153,6 +154,7 @@ export default class AppRoutes extends Component {
               <Router>
                 <Route name="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
                 <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
             <Route name="tabList" schema="tab" title="步道導覽" iconName="map-signs">
