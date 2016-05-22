@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
       top: -30,
     },
     android: {
-      height: 0,
+      marginBottom: 55,
       /*
       width: windowSize.width,
       height: 5,
@@ -222,6 +222,7 @@ export default class Dashboard extends Component {
           </View>
         )}
       >
+        <View style={styles.coverBottomWrapper} />
         <Image
           source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover-bottom.png' }}
           resizeMode="contain"
