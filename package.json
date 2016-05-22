@@ -9,7 +9,7 @@
     "android-mock-update-server": "json-server db.json --watch --static ./android/app/src/main/assets",
     "bundle-ios": "node node_modules/react-native/local-cli/cli.js bundle --dev false --entry-file index.ios.js --bundle-output ./ios/main.jsbundle --sourcemap-output ./ios/sourcemap.js",
     "bundle-android": "node node_modules/react-native/local-cli/cli.js bundle --dev false --platform android --entry-file index.android.js --bundle-output ./android/app/src/main/assets/main.android.jsbundle --sourcemap-output ./android/app/src/main/assets/sourcemap.android.js",
-    "gsjson": "./node_modules/.bin/gsjson 142Ybs86pOSF6iLVjgDqH5LV5Rg-145kZUEM4eAGr1h0 ./app/json/data.src.json",
+    "gsjson": "./node_modules/.bin/gsjson -b 142Ybs86pOSF6iLVjgDqH5LV5Rg-145kZUEM4eAGr1h0 ./app/json/data.src.json",
     "mongo": "docker run -d -p 27017:27017 --name mongo mongo",
     "parse-server": "docker run -d -e APP_ID='go-hiking' -e MASTER_KEY='70c60931231231235968a1c7ad3dd3e5a74ef5cac' -p 1337:1337 --link mongo  --name parse-server yongjhih/parse-server"
   },
