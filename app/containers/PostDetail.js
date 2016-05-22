@@ -8,6 +8,7 @@ import React, {
   Component,
   Platform,
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import CoverCard from '../components/CoverCard';
 import { connect } from 'react-redux';
 import Dimensions from 'Dimensions';
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   },
   parallaxView: {
     //遮掉地圖下方的商標文字
-    paddingBottom: 30,
+    paddingBottom: 50,
     ios: {
       marginTop: 64,
     },
@@ -311,6 +312,13 @@ class PostDetail extends Component {
     });
   }
 
+  onImageSrcBtn = () => {
+    Actions.webViewPage({
+      url: this.props.url,
+      title: this.props.title,
+    });
+  }
+
   render() {
     let tagColor = '';
     if (this.props.status !== 'null') {
@@ -358,6 +366,14 @@ class PostDetail extends Component {
             {this.props.description_01}
           </Text>
         </View>
+        <View style={{ marginBottom: 18, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity
+            style={{ padding: 5, paddingLeft: 10, paddingRight: 10, backgroundColor: '#709D2A', borderRadius: 5 }}
+            onPress={this.onImageSrcBtn}
+          >
+            <Text style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
+          </TouchableOpacity>
+        </View>
         {this.map()}
         {this.gmap()}
       </View>
@@ -394,6 +410,12 @@ class PostDetail extends Component {
             <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
               {this.props.description_01}
             </Text>
+            <TouchableOpacity
+              style={{ padding: 5, paddingLeft: 10, paddingRight: 10, backgroundColor: '#709D2A', borderRadius: 5 }}
+              onPress={this.onImageSrcBtn}
+            >
+              <Text style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
+            </TouchableOpacity>
           {this.map()}
           {this.gmap()}
         </View>

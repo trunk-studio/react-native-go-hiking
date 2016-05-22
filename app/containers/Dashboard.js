@@ -2,7 +2,6 @@ import React, {
   Component,
   Dimensions,
   View,
-  Linking,
   Text,
   Image,
 } from 'react-native';
@@ -190,15 +189,12 @@ export default class Dashboard extends Component {
   };
   render() {
     function onListItemPress(detail) {
-      // Actions.newsDetail({
-      //   newsTitle: detail.title,
-      //   newsContent: detail.content,
-      // });
-      const url = activityData.list[detail.index].url;
-      Linking.canOpenURL(url).then(supported => {
-        if (supported) {
-          Linking.openURL(url);
-        }
+      let url = activityData.list[detail.index].url;
+
+      url = url.replace(/ct.asp/, 'fp.asp');
+      Actions.webViewPage({
+        url,
+        title: activityData.list[detail.index].title,
       });
     }
     const { listData, month, date, weekday, temp, desc, iconId } = this.props;
