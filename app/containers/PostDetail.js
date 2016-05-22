@@ -21,7 +21,7 @@ const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   parallaxView: {
     //遮掉地圖下方的商標文字
-    paddingBottom: 30,
+    paddingBottom: 50,
     ios: {
       marginTop: 64,
     },
