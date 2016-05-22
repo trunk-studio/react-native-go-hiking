@@ -411,7 +411,6 @@ PostDetail.propTypes = {
   coverSourceName: React.PropTypes.string,
   myLat: React.PropTypes.number,
   myLon: React.PropTypes.number,
-  router: React.PropTypes.object,
 };
 
 PostDetail.defaultProps = {
@@ -419,7 +418,6 @@ PostDetail.defaultProps = {
 
 function _injectPropsFromStore(state) {
   return {
-    router: state.router,
     myLat: state.geo.lat,
     myLon: state.geo.lon,
   };
