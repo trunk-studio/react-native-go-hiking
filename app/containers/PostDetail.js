@@ -18,6 +18,9 @@ import LightBox from 'react-native-lightbox';
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
+  navigator: {
+    flex: 1,
+  },
   parallaxView: {
     //遮掉地圖下方的商標文字
     paddingBottom: 30,
@@ -156,7 +159,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class PostDetail extends Component {
   constructor(props) {
     super(props);
@@ -194,11 +196,14 @@ class PostDetail extends Component {
           break;
       }
       infos.push(
-        <View key={'level'} style={{ flexDirection: 'row', justifyContent: 'center'}}>
-          <Image source={{ uri: levelImgSrc }} style={{
+        <View key={'level'} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Image
+            source={{ uri: levelImgSrc }}
+            style={{
               width: 80,
               height: 15,
-            }} />
+            }}
+          />
         </View>
       );
     }
@@ -216,8 +221,8 @@ class PostDetail extends Component {
   }
 
   map = () => {
-    let imgWidth = windowSize.width;
-    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+    const imgWidth = windowSize.width;
+    const imgHeight = parseInt(imgWidth / 16.0 * 9.0);
 
     let mapImg;
     if (this.props.map !== 'null') {
@@ -242,8 +247,8 @@ class PostDetail extends Component {
   }
 
   gmap = () => {
-    let imgWidth = windowSize.width;
-    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+    const imgWidth = windowSize.width;
+    const imgHeight = parseInt(imgWidth / 16.0 * 9.0);
 
     return (
       <TouchableOpacity onPress={this.navigate} style={{ paddingTop: 20 }}>
@@ -323,7 +328,8 @@ class PostDetail extends Component {
             </TouchableOpacity>
           </View>
         )}
-        style={styles.parallaxView}>
+        style={styles.parallaxView}
+      >
         <View style={styles.scrollFrame}>
           {(this.props.status !== 'null') ?
             (
@@ -336,9 +342,16 @@ class PostDetail extends Component {
               <View style={styles.underline} />
             )
           }
-          <View style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
-            <View index={0} style={styles.scrollContainer}>
-              <View style={styles.toolbar}>
+          <View
+            index={0}
+            style={[
+              styles.scrollContainer,
+              styles.toolbar,
+              { backgroundColor: 'rgb(246, 246, 246)' },
+            ]}
+          >
+            {/*<View index={0} style={styles.scrollContainer}>*/}
+              {/*<View style={styles.toolbar}>*/}
                 <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
                   <MaterialIcon
                     name="near-me"
@@ -358,20 +371,14 @@ class PostDetail extends Component {
                     style={[styles.menuIcon, styles.favoriteIcon]}
                   />
                 </TouchableOpacity>
-              </View>
+              {/*</View>*/}
               <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
                 {this.props.description_01}
               </Text>
-
-              {/*
-              <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
-                {props.description_02 !== 'null' ? props.description_02 : null }
-              </Text>
-              */}
             </View>
             {this.map()}
             {this.gmap()}
-          </View>
+          {/*</View>*/}
         </View>
       </ParallaxView>
     );
@@ -404,6 +411,7 @@ PostDetail.propTypes = {
   coverSourceName: React.PropTypes.string,
   myLat: React.PropTypes.number,
   myLon: React.PropTypes.number,
+  router: React.PropTypes.object,
 };
 
 PostDetail.defaultProps = {
@@ -411,6 +419,7 @@ PostDetail.defaultProps = {
 
 function _injectPropsFromStore(state) {
   return {
+    router: state.router,
     myLat: state.geo.lat,
     myLon: state.geo.lon,
   };
