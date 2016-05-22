@@ -6,6 +6,7 @@ import React, {
   Linking,
   Alert,
   Component,
+  Platform,
 } from 'react-native';
 import CoverCard from '../components/CoverCard';
 import { connect } from 'react-redux';
@@ -224,23 +225,43 @@ class PostDetail extends Component {
     const imgWidth = windowSize.width;
     const imgHeight = parseInt(imgWidth / 16.0 * 9.0);
 
+    let map = (
+      <LightBox>
+        <Image
+          resizeMode="contain"
+          source={{ uri: this.props.map }}
+          style={{
+            flex: 1,
+            padding: 20,
+            width: imgWidth,
+            height: imgHeight,
+          }}
+        />
+      </LightBox>
+    );
+    if (Platform.OS === 'android') {
+      if (Platform.Version < 21) {
+        map = (
+          <Image
+            resizeMode="contain"
+            source={{ uri: this.props.map }}
+            style={{
+              flex: 1,
+              padding: 20,
+              width: imgWidth,
+              height: imgHeight,
+            }}
+          />
+        );
+      }
+    }
+
     let mapImg;
     if (this.props.map !== 'null') {
       mapImg = (
         <View style={{ flex: 1 }}>
-          <LightBox>
-            <Image
-              resizeMode="contain"
-              source={{ uri: this.props.map }}
-              style={{
-                flex: 1,
-                padding: 20,
-                width: imgWidth,
-                height: imgHeight,
-              }}
-            />
-          </LightBox>
-      </View>
+          {map}
+        </View>
       );
     }
     return mapImg;
@@ -309,6 +330,77 @@ class PostDetail extends Component {
       }
     }
 
+    let toolbar = (
+      <View>
+        <View index={0} style={styles.scrollContainer}>
+          <View style={styles.toolbar}>
+            <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
+              <MaterialIcon
+                name="near-me"
+                size={26}
+                color={'#709D2A'}
+                style={[styles.menuIcon, styles.favoriteIcon]}
+              />
+              <Text style={styles.placeText}>
+                {this.props.place}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
+              <Icon
+                name={ this.state.isFav ? 'heart' : 'heart-o' }
+                size={24}
+                color={'#709D2A'}
+                style={[styles.menuIcon, styles.favoriteIcon]}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+            {this.props.description_01}
+          </Text>
+        </View>
+        {this.map()}
+        {this.gmap()}
+      </View>
+    );
+    if (Platform.OS === 'android') {
+      if (Platform.Version < 21) {
+        toolbar = (
+            <View
+              index={0}
+              style={[
+                styles.scrollContainer,
+              { backgroundColor: 'rgb(246, 246, 246)' },
+              ]}
+            >
+              <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
+                <MaterialIcon
+                  name="near-me"
+                  size={26}
+                  color={'#709D2A'}
+                  style={[styles.menuIcon, styles.favoriteIcon]}
+                />
+                <Text style={styles.placeText}>
+                  {this.props.place}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
+                <Icon
+                  name={ this.state.isFav ? 'heart' : 'heart-o' }
+                  size={24}
+                  color={'#709D2A'}
+                  style={[styles.menuIcon, styles.favoriteIcon]}
+                />
+              </TouchableOpacity>
+            <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+              {this.props.description_01}
+            </Text>
+          {this.map()}
+          {this.gmap()}
+        </View>
+        );
+      }
+    }
+
     return (
       <ParallaxView
         backgroundSource={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover/${this.props.id}/${this.props.id}_l.jpg` }}
@@ -342,44 +434,8 @@ class PostDetail extends Component {
               <View style={styles.underline} />
             )
           }
-          <View
-            index={0}
-            style={[
-              styles.scrollContainer,
-              styles.toolbar,
-              { backgroundColor: 'rgb(246, 246, 246)' },
-            ]}
-          >
-            {/*<View index={0} style={styles.scrollContainer}>*/}
-              {/*<View style={styles.toolbar}>*/}
-                <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
-                  <MaterialIcon
-                    name="near-me"
-                    size={26}
-                    color={'#709D2A'}
-                    style={[styles.menuIcon, styles.favoriteIcon]}
-                  />
-                  <Text style={styles.placeText}>
-                    {this.props.place}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
-                  <Icon
-                    name={ this.state.isFav ? 'heart' : 'heart-o' }
-                    size={24}
-                    color={'#709D2A'}
-                    style={[styles.menuIcon, styles.favoriteIcon]}
-                  />
-                </TouchableOpacity>
-              {/*</View>*/}
-              <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
-                {this.props.description_01}
-              </Text>
-            </View>
-            {this.map()}
-            {this.gmap()}
-          {/*</View>*/}
-        </View>
+          {toolbar}
+          </View>
       </ParallaxView>
     );
   }
