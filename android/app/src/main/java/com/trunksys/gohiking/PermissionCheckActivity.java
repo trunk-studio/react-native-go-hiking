@@ -17,6 +17,12 @@ public class PermissionCheckActivity extends Activity {
 
     private static final int MY_PERMISSION_LOCATION = 111;
     private static final String TAG = "GoHiking";
+    private static final String[] REQUIRED_PERMISSIONS =
+            new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.INTERNET
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +33,7 @@ public class PermissionCheckActivity extends Activity {
         this.setContentView(relativeLayout);
 
         // request permissions when activity is creating.
-        requestLocationPermission();
+        checkPermissions();
     }
 
     @Override
@@ -40,13 +46,13 @@ public class PermissionCheckActivity extends Activity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.wtf(TAG, "location permission ok");
+                    Log.wtf(TAG, "permission grant ok");
 //                    if (!((LocationManager) this.getSystemService(Context.LOCATION_SERVICE))
 //                            .isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 //                        Toast.makeText(this,"請先開啟 GPS！",Toast.LENGTH_LONG).show();
 //                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 100);
 //                    } else {
-                        startMainActiviry();
+                    startMainActivity();
 //                    }
                 } else {
                     Log.wtf(TAG, "request location permission failed. try it again.");
@@ -69,10 +75,7 @@ public class PermissionCheckActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(activity,
-                                new String[]{
-                                        Manifest.permission.ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                                },
+                                REQUIRED_PERMISSIONS,
                                 MY_PERMISSION_LOCATION);
                     }
                 })
@@ -85,34 +88,48 @@ public class PermissionCheckActivity extends Activity {
                 .show();
     }
 
-    private void requestLocationPermission() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        Log.wtf(TAG, "permissionCheck=>" + permissionCheck);
+    // function that in charge to request system for permissions directly.
+    private void checkPermissions() {
+        int count = 0;
 
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+        for (int i = 0; i < REQUIRED_PERMISSIONS.length; i++) {
+            int permissionCheck = ContextCompat.checkSelfPermission(this,
+                    REQUIRED_PERMISSIONS[i]);
+            Log.wtf(TAG, "permissionCheck=>" + REQUIRED_PERMISSIONS.toString() + " is=> " + permissionCheck);
+            count += permissionCheck;
+        }
+
+        Log.wtf(TAG, "total permissions=>" + REQUIRED_PERMISSIONS.length + " and check => " + count);
+
+        if (count != PackageManager.PERMISSION_GRANTED) {
             // show a msg to tell user why we need this permission
+
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 Log.wtf(TAG, "requestLocationPermission => show dialog.");
                 dialogNeedPermissions(this);
             } else {
-                Log.wtf(TAG, "requestLocationPermission => requestPermissions.");
-                ActivityCompat.requestPermissions(this,
-                        new String[]{
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                        },
-                        MY_PERMISSION_LOCATION);
+                requestPermissions(this);
             }
         } else {
-            startMainActiviry();
+            startMainActivity();
         }
     }
 
-    private void startMainActiviry(){
+    private void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void requestPermissions(final Activity activity){
+        Log.wtf(TAG, "requestLocationPermission => requestPermissions.");
+        for (int i = 0; i < REQUIRED_PERMISSIONS.length; i++) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{
+                            REQUIRED_PERMISSIONS[i]
+                    },
+                    MY_PERMISSION_LOCATION);
+        }
     }
 
 }
