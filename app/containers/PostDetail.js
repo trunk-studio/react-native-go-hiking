@@ -411,7 +411,15 @@ class PostDetail extends Component {
               {this.props.description_01}
             </Text>
             <TouchableOpacity
-              style={{ padding: 5, paddingLeft: 10, paddingRight: 10, backgroundColor: '#709D2A', borderRadius: 5 }}
+              style={{
+                width: 150,
+                marginLeft: 100,
+                padding: 5,
+                paddingLeft: 10,
+                paddingRight: 10,
+                backgroundColor: '#709D2A',
+                borderRadius: 5,
+              }}
               onPress={this.onImageSrcBtn}
             >
               <Text style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
