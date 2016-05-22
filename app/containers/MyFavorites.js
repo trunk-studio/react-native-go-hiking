@@ -20,23 +20,10 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     padding: 20,
-    ios: {
-      marginTop: 64,
-      marginBottom: 50,
-    },
-    android: {
-      marginTop: 54,
-    },
   },
   content: {
     flex: 1,
     backgroundColor: '#fff',
-    ios: {
-      marginTop: 65,
-    },
-    android: {
-      marginTop: 55,
-    },
   },
   picContainer: {
     paddingTop: 100,
