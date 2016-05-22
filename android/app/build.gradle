@@ -87,9 +87,9 @@ android {
     buildToolsVersion '23.0.3'
     defaultConfig {
         applicationId 'com.trunksys.gohiking'
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 23
-        versionCode 9
+        versionCode 12
         versionName '2.0.0'
         ndk {
             abiFilters "armeabi-v7a", "x86"
