@@ -162,18 +162,21 @@ export default class AppRoutes extends Component {
                 <Route name="postList" component={PostList} />
                 <Route name="postDetail" schema="back" component={PostDetail} />
                 <Route name="category" component={Category} title="月份導覽" />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
             <Route name="tabNearby" schema="tab" title="附近步道" iconName="tree">
               <Router>
                 <Route name="nearby" component={Nearby} title="附近步道" />
                 <Route name="postDetail" schema="back" component={PostDetail} />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
             <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" >
               <Router>
                 <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
                 <Route name="postDetail" schema="back" component={PostDetail} />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
           </Router>
