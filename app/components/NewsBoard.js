@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   boardBar: {
-    backgroundColor: 'rgb(79, 164, 89)',//'#359ac0',
+    backgroundColor: 'rgb(79, 164, 89)', // '#359ac0',
     paddingLeft: 20,
     paddingTop: 10,
     paddingBottom: 10,
@@ -48,17 +48,12 @@ export default function NewsBoard(props) {
     });
   }
   return (
-    <View style={{ flex: 1, flexDirection: 'column' }}>
-      {/*<View style={styles.boardBar}>
-        <Text style={styles.boardBarText}>{props.boardTitle}</Text>
-      </View>*/}
-      <ScrollView
-        keyscrollEventThrottle={200}
-        style={styles.container}
-      >
-        {listContainer.length > 0 ? listContainer : <Text style={styles.defaultTxt}>沒有資料囉！</Text>}
-      </ScrollView>
-    </View>
+    <ScrollView
+      keyscrollEventThrottle={200}
+      style={styles.container}
+    >
+      {listContainer.length > 0 ? listContainer : <Text style={styles.defaultTxt}>沒有資料囉！</Text>}
+    </ScrollView>
   );
 }
 
