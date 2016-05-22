@@ -1,12 +1,11 @@
 import React, {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   leftButtonContainer: {
     paddingTop: 15,
@@ -18,10 +17,11 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     paddingRight: 6,
-    marginTop: 2,
+    android: {
+      marginTop: -3,
+    },
   },
   navBackTitle: {
-    marginTop: 2,
     color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
