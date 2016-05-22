@@ -97,13 +97,13 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    // const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
-    // const newDate = {
-    //   ...rowData,
-    //   title: pageTitle,
-    //   postTitle: rowData.title,
-    // };
-    Actions.postDetail(rowData);
+    const pageTitle = rowData.title;
+    const newDate = {
+      ...rowData,
+      title: pageTitle,
+      postTitle: rowData.title,
+    };
+    Actions.postDetail(newDate);
   }
 
   getListItem(rowData, sectionID, rowID) {
@@ -226,7 +226,7 @@ export default class PostList extends Component {
         }
       }
     }
-    
+
     const dataSource = [...postList].splice(0, this.state.dataSource.getRowCount() + 5);
 
     this.setState({

@@ -53,13 +53,13 @@ export default class MyFavorite extends Component {
   }
 
   onListItemPress = (rowData) => {
-    // const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
-    // const newDate = {
-    //   ...rowData,
-    //   title: pageTitle,
-    //   postTitle: rowData.title,
-    // };
-    Actions.favPostDetail(rowData);
+    const pageTitle = rowData.title;
+    const newDate = {
+      ...rowData,
+      title: pageTitle,
+      postTitle: rowData.title,
+    };
+    Actions.favPostDetail(newDate);
   }
 
   render() {
