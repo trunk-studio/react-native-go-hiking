@@ -18,6 +18,7 @@ import RNRF, {
 const Router = connect()(RNRF.Router);
 
 // View
+import WebViewPage from './containers/WebViewPage';
 import TabIcon from './components/TabIcon';
 import Nearby from './containers/NearbyPostList'
 import NewsDetail from './containers/NewsDetail';
@@ -153,6 +154,7 @@ export default class AppRoutes extends Component {
               <Router>
                 <Route name="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
                 <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
             <Route name="tabList" schema="tab" title="步道導覽" iconName="map-signs">
@@ -160,18 +162,21 @@ export default class AppRoutes extends Component {
                 <Route name="postList" component={PostList} />
                 <Route name="postDetail" schema="back" component={PostDetail} />
                 <Route name="category" component={Category} title="月份導覽" />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
             <Route name="tabNearby" schema="tab" title="附近步道" iconName="tree">
               <Router>
                 <Route name="nearby" component={Nearby} title="附近步道" />
                 <Route name="postDetail" schema="back" component={PostDetail} />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
             <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" >
               <Router>
                 <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
                 <Route name="postDetail" schema="back" component={PostDetail} />
+                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
           </Router>

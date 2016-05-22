@@ -7,6 +7,7 @@ import React, {
   Alert,
   Component,
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import CoverCard from '../components/CoverCard';
 import { connect } from 'react-redux';
 import Dimensions from 'Dimensions';
@@ -20,7 +21,7 @@ const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   parallaxView: {
     //遮掉地圖下方的商標文字
-    paddingBottom: 30,
+    paddingBottom: 50,
     ios: {
       marginTop: 64,
     },
@@ -285,6 +286,13 @@ class PostDetail extends Component {
     });
   }
 
+  onImageSrcBtn = () => {
+    Actions.webViewPage({
+      url: this.props.url,
+      title: this.props.title,
+    });
+  }
+
   render() {
     let tagColor = '';
     if (this.props.status !== 'null') {
@@ -368,6 +376,12 @@ class PostDetail extends Component {
                 {props.description_02 !== 'null' ? props.description_02 : null }
               </Text>
               */}
+            </View>
+            <View style={{marginBottom: 18, justifyContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity style={{padding: 5, paddingLeft: 10, paddingRight: 10, backgroundColor: '#709D2A', borderRadius: 5}}
+                onPress={this.onImageSrcBtn}>
+                <Text style={{fontSize: 16, color: '#FFF'}}>檢視完整步道介紹</Text>
+              </TouchableOpacity>
             </View>
             {this.map()}
             {this.gmap()}
