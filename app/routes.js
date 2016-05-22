@@ -24,6 +24,7 @@ import Nearby from './containers/NearbyPostList'
 import NewsDetail from './containers/NewsDetail';
 import PostDetail from './containers/PostDetail';
 import Dashboard from './containers/Dashboard';
+import SimpleDashboard from './containers/SimpleDashboard';
 import Category from './containers/Category';
 import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
@@ -110,6 +111,13 @@ export default class AppRoutes extends Component {
   }
 
   render() {
+    let autoDashboard = Dashboard;
+    if (Platform.OS === 'android') {
+      if (Platform.Version < 21) {
+        autoDashboard = SimpleDashboard;
+      }
+    }
+
     return (
       <Router name="root">
         <Schema name="default"
@@ -150,9 +158,9 @@ export default class AppRoutes extends Component {
             }}
             titleStyle={styles.titleStyle}
           >
-            <Route name="tabDashboard" schema="tab" title="首頁" iconName="home">
+            <Route name="tabDashboard" schema="tab" title="首頁" iconName="home" initial>
               <Router>
-                <Route name="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
+                <Route name="dashboard" hideNavBar component={autoDashboard} title="首頁" />
                 <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
                 <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
@@ -172,7 +180,7 @@ export default class AppRoutes extends Component {
                 <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
               </Router>
             </Route>
-            <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart" >
+            <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart">
               <Router>
                 <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
                 <Route name="postDetail" schema="back" component={PostDetail} />

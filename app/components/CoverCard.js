@@ -1,11 +1,11 @@
 import React, {
-  StyleSheet,
   View,
   Text,
   Image,
   Dimensions,
 } from 'react-native';
 
+const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   cover: {
@@ -23,8 +23,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     letterSpacing: 1,
     fontWeight: '600',
-    textShadowColor: '#444',
-    textShadowOffset: { width: 1, height: 1 },
+    ios: {
+      textShadowColor: '#444',
+      textShadowOffset: { width: 1, height: 1 },
+    },
   },
 });
 

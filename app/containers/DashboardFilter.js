@@ -2,23 +2,21 @@ import React, {
   Component,
   Dimensions,
   View,
+  Linking,
+  TouchableOpacity,
+  StatusBar,
   Text,
-  Image,
 } from 'react-native';
-import NewsBoard from '../components/NewsBoard';
+import Filter from '../components/Filter/FilterContainer';
 import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { requestNews, requestFilterArea, requestFilterType } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
-import ParallaxView from 'react-native-parallax-view';
-import ReactNativeAutoUpdater from 'react-native-auto-updater';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { requestSetLocation } from '../actions/GeoActions';
-import DashboardFilter from './DashboardFilter';
 
-// const coverImg = require('../images/dashboard.png');
-const coverImg = { uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg' };
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     alignItems: 'center',
-    marginBottom: 10,
+    paddingBottom: 10,
   },
   searchBtn: {
     margin: 10,
@@ -75,43 +73,11 @@ const styles = StyleSheet.create({
       shadowOpacity: 1.0,
     },
   },
-  mainContent: {
-    ios: {
-      backgroundColor: '#FFFFFF',
-      marginBottom: 50,
-      position: 'relative',
-      top: -25,
-    },
-    android: {
-      backgroundColor: '#FFFFFF',
-    },
-  },
   coverBottom: {
-    ios: {
-      height: 60,
-      position: 'relative',
-      top: -30,
-    },
-    android: {
-      height: 0,
-      /*
-      width: windowSize.width,
-      height: 5,
-      backgroundColor: 'rgb(79, 164, 89)',
-      marginBottom: 10,
-      */
-    },
-  },
-  coverBottomWrapper: {
-    ios: {
-
-    },
-    android: {
-      width: windowSize.width,
-      height: 5,
-      backgroundColor: 'rgb(79, 164, 89)',
-      marginBottom: 10,
-    },
+    width: windowSize.width,
+    height: 60,
+    position: 'relative',
+    top: -30,
   },
   versionBlock: {
     position: 'absolute',
@@ -144,25 +110,6 @@ export default class Dashboard extends Component {
     };
   }
   componentWillMount() {
-    // this.props.requestNews();
-    // this.props.requestToday();
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.props.requestSetLocation(position);
-          this.setState({
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          });
-          // navigator.geolocation.stopObserving();
-        },
-        (error) => {
-          navigator.geolocation.stopObserving();
-          // Alert.alert(error.toString());
-        },
-        { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
-      );
-    }
   }
   componentWillReceiveProps(nextProps) {
     const { countryName, locationName } = nextProps;
@@ -189,15 +136,13 @@ export default class Dashboard extends Component {
   };
   render() {
     function onListItemPress(detail) {
-      let url = activityData.list[detail.index].url;
-
-      url = url.replace(/ct.asp/, 'fp.asp');
-      Actions.webViewPage({
-        url,
-        title: activityData.list[detail.index].title,
+      const url = activityData.list[detail.index].url;
+      Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        }
       });
     }
-    const { listData, month, date, weekday, temp, desc, iconId } = this.props;
     let activityListData = [];
     for (const item of activityData.list) {
       activityListData.push({
@@ -205,38 +150,51 @@ export default class Dashboard extends Component {
         content: item.description,
       });
     }
+    const area = [
+      { title: '全部區域' },
+      { title: '北部' },
+      { title: '中部' },
+      { title: '南部' },
+      { title: '東部' },
+    ];
+    const type = [
+      { title: '全部類型' },
+      { title: '郊　山' },
+      { title: '中級山' }, // 不要加 width 避免 large font 被強迫換行
+      { title: '百　岳' },
+    ];
     return (
-      <ParallaxView
-        backgroundSource={coverImg}
-        windowHeight={300}
-        header={(
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}>
-                台灣步道一指通
-            </Text>
-            <View style={styles.versionBlock}>
-              <Text style={styles.imgSrcText}>
-                v {ReactNativeAutoUpdater.jsCodeVersion()}
-              </Text>
-            </View>
-          </View>
-        )}
+      <View style={{
+        backgroundColor: '#fff',
+        position: 'relative',
+        top: 0,
+        marginTop: -50,
+        paddingBottom: 0,
+        height: 150,
+      }}
       >
-        <Image
-          source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover-bottom.png' }}
-          resizeMode="contain"
-          style={ styles.coverBottom }
+        <StatusBar barStyle="light-content" />
+        <Filter
+          title={'類型'}
+          dataList={type}
+          active={this.state.typeId}
+          onChange={this.typeOnChange}
+          activeColor={'#37A22E'}
         />
-        <View style={styles.dashboardItem}>
-          <DashboardFilter />
-          <NewsBoard
-            boardTitle={'近期活動'}
-            listData={activityListData}
-            itemCount={30}
-            onItemPress={onListItemPress}
-          />
+        <Filter
+          title={'區域'}
+          dataList={area}
+          active={this.state.areaId}
+          onChange={this.areaOnChange}
+          activeColor={'#338CAB'}
+        />
+        <View style={styles.searchContainer}>
+          <TouchableOpacity style={styles.searchBtn} onPress={this.onSearchHandle}>
+            <Icon name={'search'} style={ styles.searchIcon } />
+            <Text style={styles.searchText}>搜尋台灣步道</Text>
+          </TouchableOpacity>
         </View>
-      </ParallaxView>
+      </View>
     );
   }
 }

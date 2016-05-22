@@ -2,32 +2,28 @@ import React, {
   Component,
   Dimensions,
   View,
+  Linking,
   Text,
   Image,
 } from 'react-native';
-import NewsBoard from '../components/NewsBoard';
 import activityData from '../src/activity.json';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { requestNews, requestFilterArea, requestFilterType } from '../actions/SearchActions';
 import { requestToday } from '../actions/DateActions';
 import { requestWeather } from '../actions/WeatherActions';
-import ParallaxView from 'react-native-parallax-view';
 import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 import DashboardFilter from './DashboardFilter';
+import NewsBoard from '../components/NewsBoard';
+import NewsItem from '../components/NewsItem';
 
-// const coverImg = require('../images/dashboard.png');
 const coverImg = { uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg' };
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    marginBottom: 50,
-    ios: {
-      // marginTop: 21,
-    },
   },
   searchIcon: {
     color: '#fff',
@@ -58,63 +54,23 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   headerTitle: {
-    paddingTop: 180,
+    top: -100,
     color: '#FFF',
     fontSize: 28,
     fontWeight: 'bold',
-    ios: {
-      shadowOffset: {
-        width: 3,
-        height: 3,
-      },
-      shadowColor: 'black',
-      shadowOpacity: 1.0,
-    },
   },
-  mainContent: {
-    ios: {
-      backgroundColor: '#FFFFFF',
-      marginBottom: 50,
-      position: 'relative',
-      top: -25,
-    },
-    android: {
-      backgroundColor: '#FFFFFF',
-    },
-  },
-  coverBottom: {
-    ios: {
-      height: 60,
-      position: 'relative',
-      top: -30,
-    },
-    android: {
-      height: 0,
-      /*
-      width: windowSize.width,
-      height: 5,
-      backgroundColor: 'rgb(79, 164, 89)',
-      marginBottom: 10,
-      */
-    },
-  },
-  coverBottomWrapper: {
-    ios: {
-
-    },
-    android: {
-      width: windowSize.width,
-      height: 5,
-      backgroundColor: 'rgb(79, 164, 89)',
-      marginBottom: 10,
-    },
+  coverPhoto: {
+    width: windowSize.width,
+    height: 200,
+    top: -20,
   },
   versionBlock: {
     position: 'absolute',
+    top: -50,
     bottom: 15,
     right: 5,
     padding: 2,
@@ -124,14 +80,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#555',
     fontStyle: 'italic',
-    ios: {
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowColor: 'black',
-      shadowOpacity: 1.0,
-    },
+  },
+  dashboardItem: {
+    top: 0,
+    flex: 1,
+    marginTop: -300,
+    height: 150,
   },
 });
 
@@ -189,44 +143,58 @@ export default class Dashboard extends Component {
   };
   render() {
     function onListItemPress(detail) {
-      let url = activityData.list[detail.index].url;
-
-      url = url.replace(/ct.asp/, 'fp.asp');
-      Actions.webViewPage({
-        url,
-        title: activityData.list[detail.index].title,
+      // Actions.newsDetail({
+      //   newsTitle: detail.title,
+      //   newsContent: detail.content,
+      // });
+      const url = activityData.list[detail.index].url;
+      Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        }
       });
     }
-    const { listData, month, date, weekday, temp, desc, iconId } = this.props;
-    let activityListData = [];
+    const activityListData = [];
     for (const item of activityData.list) {
       activityListData.push({
         title: item.title,
         content: item.description,
       });
     }
+    const listContainer = [];
+    const itemCount = 30;
+    if (activityListData.length > 0) {
+      activityListData.forEach((news, i) => {
+        if (itemCount === 0 || i < itemCount) {
+          listContainer.push(
+            <NewsItem
+              key={i}
+              index={i}
+              title={news.title}
+              content={news.content}
+              onItemPress={onListItemPress}
+            />
+          );
+        }
+      });
+    }
     return (
-      <ParallaxView
-        backgroundSource={coverImg}
-        windowHeight={300}
-        header={(
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}>
-                台灣步道一指通
-            </Text>
-            <View style={styles.versionBlock}>
-              <Text style={styles.imgSrcText}>
-                v {ReactNativeAutoUpdater.jsCodeVersion()}
-              </Text>
-            </View>
-          </View>
-        )}
-      >
+      <View style={styles.wrapper}>
         <Image
-          source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover-bottom.png' }}
-          resizeMode="contain"
-          style={ styles.coverBottom }
+          source={coverImg}
+          resizeMode="cover"
+          style={ styles.coverPhoto }
         />
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>
+              台灣步道一指通
+          </Text>
+          <View style={styles.versionBlock}>
+            <Text style={styles.imgSrcText}>
+              v {ReactNativeAutoUpdater.jsCodeVersion()}
+            </Text>
+          </View>
+        </View>
         <View style={styles.dashboardItem}>
           <DashboardFilter />
           <NewsBoard
@@ -236,7 +204,7 @@ export default class Dashboard extends Component {
             onItemPress={onListItemPress}
           />
         </View>
-      </ParallaxView>
+      </View>
     );
   }
 }

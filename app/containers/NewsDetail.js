@@ -1,11 +1,11 @@
 import React, {
-  StyleSheet,
   ScrollView,
   View,
   Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 
+const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   wrapper: {
     paddingTop: 65,
@@ -36,11 +36,13 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 30,
     backgroundColor: 'white',
-    shadowOpacity: 1,
-    shadowColor: 'rgba(147, 147, 147, 0.6)',
-    shadowOffset: {
-      width: 0,
-      height: 0,
+    ios: {
+      shadowOpacity: 1,
+      shadowColor: 'rgba(147, 147, 147, 0.6)',
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
     },
   },
   content: {

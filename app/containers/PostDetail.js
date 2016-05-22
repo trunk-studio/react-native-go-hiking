@@ -6,6 +6,7 @@ import React, {
   Linking,
   Alert,
   Component,
+  Platform,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import CoverCard from '../components/CoverCard';
@@ -19,6 +20,9 @@ import LightBox from 'react-native-lightbox';
 const StyleSheet = require('../utils/F8StyleSheet');
 const windowSize = Dimensions.get('window');
 const styles = StyleSheet.create({
+  navigator: {
+    flex: 1,
+  },
   parallaxView: {
     //遮掉地圖下方的商標文字
     paddingBottom: 50,
@@ -157,7 +161,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 class PostDetail extends Component {
   constructor(props) {
     super(props);
@@ -195,11 +198,14 @@ class PostDetail extends Component {
           break;
       }
       infos.push(
-        <View key={'level'} style={{ flexDirection: 'row', justifyContent: 'center'}}>
-          <Image source={{ uri: levelImgSrc }} style={{
+        <View key={'level'} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Image
+            source={{ uri: levelImgSrc }}
+            style={{
               width: 80,
               height: 15,
-            }} />
+            }}
+          />
         </View>
       );
     }
@@ -217,34 +223,54 @@ class PostDetail extends Component {
   }
 
   map = () => {
-    let imgWidth = windowSize.width;
-    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+    const imgWidth = windowSize.width;
+    const imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+
+    let map = (
+      <LightBox>
+        <Image
+          resizeMode="contain"
+          source={{ uri: this.props.map }}
+          style={{
+            flex: 1,
+            padding: 20,
+            width: imgWidth,
+            height: imgHeight,
+          }}
+        />
+      </LightBox>
+    );
+    if (Platform.OS === 'android') {
+      if (Platform.Version < 21) {
+        map = (
+          <Image
+            resizeMode="contain"
+            source={{ uri: this.props.map }}
+            style={{
+              flex: 1,
+              padding: 20,
+              width: imgWidth,
+              height: imgHeight,
+            }}
+          />
+        );
+      }
+    }
 
     let mapImg;
     if (this.props.map !== 'null') {
       mapImg = (
         <View style={{ flex: 1 }}>
-          <LightBox>
-            <Image
-              resizeMode="contain"
-              source={{ uri: this.props.map }}
-              style={{
-                flex: 1,
-                padding: 20,
-                width: imgWidth,
-                height: imgHeight,
-              }}
-            />
-          </LightBox>
-      </View>
+          {map}
+        </View>
       );
     }
     return mapImg;
   }
 
   gmap = () => {
-    let imgWidth = windowSize.width;
-    let imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+    const imgWidth = windowSize.width;
+    const imgHeight = parseInt(imgWidth / 16.0 * 9.0);
 
     return (
       <TouchableOpacity onPress={this.navigate} style={{ paddingTop: 20 }}>
@@ -312,6 +338,99 @@ class PostDetail extends Component {
       }
     }
 
+    let toolbar = (
+      <View>
+        <View index={0} style={styles.scrollContainer}>
+          <View style={styles.toolbar}>
+            <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
+              <MaterialIcon
+                name="near-me"
+                size={26}
+                color={'#709D2A'}
+                style={[styles.menuIcon, styles.favoriteIcon]}
+              />
+              <Text style={styles.placeText}>
+                {this.props.place}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
+              <Icon
+                name={ this.state.isFav ? 'heart' : 'heart-o' }
+                size={24}
+                color={'#709D2A'}
+                style={[styles.menuIcon, styles.favoriteIcon]}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+            {this.props.description_01}
+          </Text>
+        </View>
+        <View style={{ marginBottom: 18, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity
+            style={{ padding: 5, paddingLeft: 10, paddingRight: 10, backgroundColor: '#709D2A', borderRadius: 5 }}
+            onPress={this.onImageSrcBtn}
+          >
+            <Text style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
+          </TouchableOpacity>
+        </View>
+        {this.map()}
+        {this.gmap()}
+      </View>
+    );
+    if (Platform.OS === 'android') {
+      if (Platform.Version < 21) {
+        toolbar = (
+            <View
+              index={0}
+              style={[
+                styles.scrollContainer,
+              { backgroundColor: 'rgb(246, 246, 246)' },
+              ]}
+            >
+              <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
+                <MaterialIcon
+                  name="near-me"
+                  size={26}
+                  color={'#709D2A'}
+                  style={[styles.menuIcon, styles.favoriteIcon]}
+                />
+                <Text style={styles.placeText}>
+                  {this.props.place}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
+                <Icon
+                  name={ this.state.isFav ? 'heart' : 'heart-o' }
+                  size={24}
+                  color={'#709D2A'}
+                  style={[styles.menuIcon, styles.favoriteIcon]}
+                />
+              </TouchableOpacity>
+            <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+              {this.props.description_01}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: 150,
+                marginLeft: 100,
+                padding: 5,
+                paddingLeft: 10,
+                paddingRight: 10,
+                backgroundColor: '#709D2A',
+                borderRadius: 5,
+              }}
+              onPress={this.onImageSrcBtn}
+            >
+              <Text style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
+            </TouchableOpacity>
+          {this.map()}
+          {this.gmap()}
+        </View>
+        );
+      }
+    }
+
     return (
       <ParallaxView
         backgroundSource={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover/${this.props.id}/${this.props.id}_l.jpg` }}
@@ -331,7 +450,8 @@ class PostDetail extends Component {
             </TouchableOpacity>
           </View>
         )}
-        style={styles.parallaxView}>
+        style={styles.parallaxView}
+      >
         <View style={styles.scrollFrame}>
           {(this.props.status !== 'null') ?
             (
@@ -344,49 +464,8 @@ class PostDetail extends Component {
               <View style={styles.underline} />
             )
           }
-          <View style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
-            <View index={0} style={styles.scrollContainer}>
-              <View style={styles.toolbar}>
-                <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
-                  <MaterialIcon
-                    name="near-me"
-                    size={26}
-                    color={'#709D2A'}
-                    style={[styles.menuIcon, styles.favoriteIcon]}
-                  />
-                  <Text style={styles.placeText}>
-                    {this.props.place}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
-                  <Icon
-                    name={ this.state.isFav ? 'heart' : 'heart-o' }
-                    size={24}
-                    color={'#709D2A'}
-                    style={[styles.menuIcon, styles.favoriteIcon]}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
-                {this.props.description_01}
-              </Text>
-
-              {/*
-              <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
-                {props.description_02 !== 'null' ? props.description_02 : null }
-              </Text>
-              */}
-            </View>
-            <View style={{marginBottom: 18, justifyContent: 'center', alignItems: 'center'}}>
-              <TouchableOpacity style={{padding: 5, paddingLeft: 10, paddingRight: 10, backgroundColor: '#709D2A', borderRadius: 5}}
-                onPress={this.onImageSrcBtn}>
-                <Text style={{fontSize: 16, color: '#FFF'}}>檢視完整步道介紹</Text>
-              </TouchableOpacity>
-            </View>
-            {this.map()}
-            {this.gmap()}
+          {toolbar}
           </View>
-        </View>
       </ParallaxView>
     );
   }
