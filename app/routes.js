@@ -24,6 +24,7 @@ import RNRF, {
 
 // View
 import TabIcon from './components/TabIcon';
+import BackBtn from './components/BackBtn';
 import NavigationDrawer from './components/NavigationDrawer';
 import Nearby from './containers/NearbyPostList'
 import NewsDetail from './containers/NewsDetail';
@@ -64,6 +65,9 @@ const styles = StyleSheet.create({
       paddingTop: 10,
       marginLeft: ~~(windowSize.width / 5),
     },
+  },
+  navigationBarStyle: {
+    backgroundColor: '#709D2A',
   },
 });
 
@@ -140,22 +144,22 @@ export default class AppRoutes extends Component {
       <Router key="root" createReducer={this.reducerCreate} getSceneStyle={this.getSceneStyle}>
         <Scene key="tabbar" component={NavigationDrawer}>
           <Scene hideNavBar key="main" tabs >
-            <Scene key="tabDashboard" title="首頁" iconName="home" icon={TabIcon} titleStyle={{color:"white"}}>
+            <Scene key="tabDashboard" title="首頁" iconName="home" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{color:"white"}}>
                 <Scene key="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
                 <Scene key="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
             </Scene>
-            <Scene key="tabList" title="步道導覽" iconName="map-signs" icon={TabIcon} titleStyle={{color:"white"}}>
-                <Scene key="postList" component={PostList} />
-                <Scene key="postDetail" component={PostDetail} />
+            <Scene key="tabList" title="步道導覽" iconName="map-signs" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{color:"white"}}>
+                <Scene key="postList" component={PostList} title="步道導覽" />
+                <Scene key="postDetail" component={PostDetail} renderBackButton={() => <BackBtn /> }/>
                 <Scene key="category" component={Category} title="月份導覽" />
             </Scene>
-            <Scene key="tabNearby" title="附近步道" iconName="tree" icon={TabIcon} titleStyle={{color:"white"}}>
+            <Scene key="tabNearby" title="附近步道" iconName="tree" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{color:"white"}}>
                 <Scene key="nearby" component={Nearby} title="附近步道" />
-                <Scene key="postDetail" component={PostDetail} />
+                <Scene key="nearPostDetail" component={PostDetail} renderBackButton={() => <BackBtn /> } />
             </Scene>
-            <Scene key="tabNews" title="我的收藏" iconName="heart" icon={TabIcon} titleStyle={{color:"white"}} >
+            <Scene key="tabNews" title="我的收藏" iconName="heart" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={{color:"white"}} >
                 <Scene key="myFavorites" component={MyFavorites} title="我的收藏" />
-                <Scene key="postDetail" component={PostDetail} />
+                <Scene key="favPostDetail" component={PostDetail} renderBackButton={() => <BackBtn /> } />
             </Scene>
           </Scene>
         </Scene>

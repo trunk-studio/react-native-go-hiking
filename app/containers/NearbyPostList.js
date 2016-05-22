@@ -111,13 +111,13 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
-    const newDate = {
-      ...rowData,
-      title: pageTitle,
-      postTitle: rowData.title,
-    };
-    Actions.postDetail(newDate);
+    // const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    // const newDate = {
+    //   ...rowData,
+    //   title: pageTitle,
+    //   postTitle: rowData.title,
+    // };
+    Actions.nearPostDetail(rowData);
     // Alert.alert('', '立即前往', [
     //   { text: '確認', onPress: () => {
     //     const lat = this.state.lat;
