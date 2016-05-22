@@ -21,13 +21,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: '#fff',
-    marginBottom: 50,
-    ios: {
-      marginTop: 65,
-    },
-    android: {
-      marginTop: 55,
-    },
   },
   filterContainer: {
     backgroundColor: '#567354',
