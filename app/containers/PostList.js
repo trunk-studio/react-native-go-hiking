@@ -226,8 +226,8 @@ export default class PostList extends Component {
         }
       }
     }
-
-    const dataSource = [...postList].splice(0, 5);
+    
+    const dataSource = [...postList].splice(0, this.state.dataSource.getRowCount() + 5);
 
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(dataSource),
