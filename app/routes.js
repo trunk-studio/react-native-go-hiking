@@ -1,28 +1,19 @@
 import React, {
-  Navigator,
-  TouchableOpacity,
-  Text,
   Component,
-  Dimensions,
   Platform,
   Alert,
   Linking,
-  View,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
-  Route,
-  Schema,
-  TabBar,
-  Actions,
   Scene,
   Reducer,
   Router,
-  DefaultRenderer,
 } from 'react-native-router-flux';
 // const Router = connect()(RNRF.Router);
 
 // View
+import WebViewPage from './containers/WebViewPage';
 import TabIcon from './components/TabIcon';
 import BackBtn from './components/BackBtn';
 import NavigationDrawer from './components/NavigationDrawer';
@@ -35,8 +26,6 @@ import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ReactNativeAutoUpdater from 'react-native-auto-updater';
-
-const windowSize = Dimensions.get('window');
 const StyleSheet = require('./utils/F8StyleSheet');
 const styles = StyleSheet.create({
   leftButtonContainer: {
@@ -114,14 +103,6 @@ export default class AppRoutes extends Component {
     });
   }
 
-  reducerCreate = (params) => {
-    const defaultReducer = Reducer(params);
-    return (state, action)=>{
-      console.log("ACTION:", action);
-      return defaultReducer(state, action);
-    }
-  }
-
   getSceneStyle = (props) => {
     return {
       flex: 1,
@@ -135,30 +116,56 @@ export default class AppRoutes extends Component {
     };
   }
 
+  reducerCreate = (params) => {
+    const defaultReducer = Reducer(params);
+    return (state, action) => defaultReducer(state, action);
+  }
+
+
+
   render() {
+    const tabStyle = {
+      icon: TabIcon,
+      navigationBarStyle: styles.navigationBarStyle,
+      titleStyle: styles.titleStyle,
+    }
     return (
       <Router key="root" createReducer={this.reducerCreate} getSceneStyle={this.getSceneStyle}>
         <Scene key="tabbar" component={NavigationDrawer}>
           <Scene hideNavBar key="main" tabs >
-            <Scene key="tabDashboard" title="首頁" iconName="home" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={styles.titleStyle}>
+            <Scene key="tabDashboard" title="首頁" iconName="home" {...tabStyle}>
                 <Scene key="dashboard" hideNavBar component={Dashboard} title="首頁" initial />
                 <Scene key="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
             </Scene>
-            <Scene key="tabList" title="步道導覽" iconName="map-signs" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={styles.titleStyle}>
+            <Scene key="tabList" title="步道導覽" iconName="map-signs" {...tabStyle}>
                 <Scene key="postList" component={PostList} title="步道導覽" />
-                <Scene key="postDetail" component={PostDetail} renderBackButton={() => <BackBtn /> }/>
+                <Scene key="postDetail"
+                  component={PostDetail}
+                  renderBackButton={() => <BackBtn /> }
+                />
                 <Scene key="category" component={Category} title="月份導覽" />
             </Scene>
-            <Scene key="tabNearby" title="附近步道" iconName="tree" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={styles.titleStyle}>
+            <Scene key="tabNearby" title="附近步道" iconName="tree" {...tabStyle}>
                 <Scene key="nearby" component={Nearby} title="附近步道" />
-                <Scene key="nearPostDetail" component={PostDetail} renderBackButton={() => <BackBtn /> } />
+                <Scene key="nearPostDetail"
+                  component={PostDetail}
+                  renderBackButton={() => <BackBtn /> }
+                />
             </Scene>
-            <Scene key="tabNews" title="我的收藏" iconName="heart" icon={TabIcon} navigationBarStyle={styles.navigationBarStyle} titleStyle={styles.titleStyle} >
+            <Scene key="tabNews" title="我的收藏" iconName="heart" {...tabStyle}>
                 <Scene key="myFavorites" component={MyFavorites} title="我的收藏" />
-                <Scene key="favPostDetail" component={PostDetail} renderBackButton={() => <BackBtn /> } />
+                <Scene key="favPostDetail"
+                  component={PostDetail}
+                  renderBackButton={() => <BackBtn /> }
+                />
             </Scene>
           </Scene>
         </Scene>
+        <Scene key="webViewPage" hideTabBar component={WebViewPage}
+          navigationBarStyle={styles.navigationBarStyle}
+          titleStyle={styles.titleStyle}
+          renderBackButton={() => <BackBtn /> }
+        />
       </Router>
     );
   }
