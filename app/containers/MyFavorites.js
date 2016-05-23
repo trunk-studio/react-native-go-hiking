@@ -12,9 +12,9 @@ import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestRemoveFavorite } from '../actions/FavoriteActions';
 import SwipeOut from 'react-native-swipeout';
 import ListItem from '../components/PostList/ListItem';
-// const picNoFavItem = require('../images/no-fav-item.png');
 import Share from 'react-native-share';
-const picNoFavItem = {uri: 'http://i.imgur.com/RnNDu8l.png '};
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   wrapper: {
@@ -31,12 +31,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  picNoFavItem: {
-    alignSelf: 'auto',
-    alignItems: 'stretch',
-    width: 250,
-    height: 177,
   },
   textNoFavItem: {
     marginTop: 50,
@@ -142,26 +136,29 @@ export default class MyFavorite extends Component {
       );
     }
 
-    function render() {
+    render = () => {
       let view = [];
       if (ListItemArray.length > 0) {
         view = (
         <ScrollView style={styles.content}>
           { ListItemArray }
         </ScrollView>);
-      } else {
+      } else if ( this.props.pathList !== 'null' ) {
         view = (
         <ScrollView style={styles.content}>
           <View style={styles.picContainer}>
-            <Image
-              source={picNoFavItem}
-              style={styles.picNoFavItem}
+            <FontAwesomeIcon
+              name="gratipay"
+              size={70}
+              color={'#666'}
             />
           <Text style={styles.textNoFavItem}>
             目前您沒有收藏任何步道 :p
           </Text>
           </View>
         </ScrollView>);
+      } else {
+        view = <View />;
       }
       return view;
     }
@@ -178,7 +175,9 @@ MyFavorite.propTypes = {
   pathList: React.PropTypes.array,
 };
 
-MyFavorite.defaultProps = {};
+MyFavorite.defaultProps = {
+  pathList: 'null',
+};
 
 function _injectPropsFromStore(state) {
   return {

@@ -7,6 +7,7 @@ import React, {
   Alert,
   Component,
   Platform,
+  BackAndroid,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import CoverCard from '../components/CoverCard';
@@ -167,10 +168,27 @@ class PostDetail extends Component {
     };
   }
 
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', function () {
+      Actions.pop();
+    });
+  }
+
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress');
+  }
+
+  onImageSrcBtn = () => {
+    Actions.webViewPage({
+      url: this.props.url,
+      title: this.props.title,
+    });
+  }
+
   info = () => {
     const infos = [];
     if (this.props.level) {
-      let star = '';
+      // let star = '';
       // for (let i = 0; i < this.props.level; i++) {
       //   star += '★';
       // }
@@ -268,11 +286,20 @@ class PostDetail extends Component {
 
   gmap = () => {
     const imgWidth = windowSize.width;
-    const imgHeight = parseInt(imgWidth / 16.0 * 9.0);
+    const imgHeight = parseInt(imgWidth / 16.0 * 9.0, 10);
 
     return (
       <TouchableOpacity onPress={this.navigate} style={{ paddingTop: 20 }}>
-        <Image resizeMode="cover" source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=14&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw`}} style={{ flex: 1, width: imgWidth, height: imgHeight }} />
+        <Image
+          resizeMode="cover"
+          source={{
+            uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=14&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw` }}
+          style={{
+            flex: 1,
+            width: imgWidth,
+            height: imgHeight,
+          }}
+        />
       </TouchableOpacity>
     );
   }
@@ -314,12 +341,6 @@ class PostDetail extends Component {
     // });
   }
 
-  onImageSrcBtn = () => {
-    Actions.webViewPage({
-      url: this.props.url,
-      title: this.props.title,
-    });
-  }
 
   render() {
     let tagColor = '';

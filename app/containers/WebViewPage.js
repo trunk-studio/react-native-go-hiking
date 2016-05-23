@@ -2,6 +2,7 @@ import React, {
   Component,
   View,
   WebView,
+  BackAndroid,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -10,7 +11,7 @@ const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+  },
 });
 
 export default class WebViewPage extends Component {
@@ -22,12 +23,23 @@ export default class WebViewPage extends Component {
   componentWillMount() {
   }
 
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', function () {
+      Actions.pop();
+    });
+  }
+
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress');
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <WebView
-          style={{flex: 1}}
-          source={{uri: this.props.url}} />
+          style={{ flex: 1 }}
+          source={{ uri: this.props.url }}
+        />
       </View>
     );
   }
