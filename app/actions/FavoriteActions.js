@@ -19,6 +19,16 @@ function toggleFavorite(id) {
   };
 }
 
+export async function getFavList() {
+  let favoriteList = await getItem(storageKey);
+  if (favoriteList) {
+    favoriteList = JSON.parse(favoriteList);
+  } else {
+    favoriteList = [];
+  }
+  return favoriteList;
+}
+
 export async function checkIsFav(id) {
   let isFav = false;
   let favoriteList = await getItem(storageKey);
@@ -29,6 +39,18 @@ export async function checkIsFav(id) {
     isFav = false;
   }
   return isFav;
+}
+
+export async function countFav() {
+  let count = 0;
+  let favoriteList = await getItem(storageKey);
+  if (favoriteList) {
+    favoriteList = JSON.parse(favoriteList);
+    count = favoriteList.length;
+  } else {
+    count = 0;
+  }
+  return count;
 }
 
 export async function addToFav(id) {
