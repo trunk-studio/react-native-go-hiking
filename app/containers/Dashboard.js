@@ -4,6 +4,8 @@ import React, {
   View,
   Text,
   Image,
+  Alert,
+  TouchableOpacity,
 } from 'react-native';
 import NewsBoard from '../components/NewsBoard';
 import activityData from '../src/activity.json';
@@ -16,6 +18,7 @@ import ParallaxView from 'react-native-parallax-view';
 import ReactNativeAutoUpdater from 'react-native-auto-updater';
 import { requestSetLocation } from '../actions/GeoActions';
 import DashboardFilter from './DashboardFilter';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 // const coverImg = require('../images/dashboard.png');
 const coverImg = { uri: 'https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/dashboard.jpg' };
@@ -58,6 +61,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -138,6 +142,11 @@ const styles = StyleSheet.create({
       shadowOpacity: 1.0,
     },
   },
+  rightsInfo: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
 });
 
 export default class Dashboard extends Component {
@@ -192,6 +201,20 @@ export default class Dashboard extends Component {
     this.props.requestFilterType(this.state.typeId);
     Actions.tabList();
   };
+  rightsInfoHandle = () => {
+    const msg = 'ㄧ、台灣步道一指通(以下簡稱本程式)所有之內容，本程式擁有著作權，均受到中 ' +
+    '華民國著作權法及國際著作權法律的保障。非經本程式同意，任何人均不得以任何方式重製、改作、' +
+      '編輯等使用本網站內所有內容，如有侵害，本程式將依法訴追所有之民、刑事責任。本程式資訊內容受' +
+      '著作權法保護者，除有合理使用情形外，應取得本程式之同意或授權後，方得利用；若涉及其他著作' +
+      '權人之著作內容者，亦應取得該著作權人之同意或授權後，方得利用。' +
+      '\n\n二、為報導、評論、教學、研究或其他正當目的，在合理範圍內，得引用本程式上之資訊；引' +
+      '用時並請註明出處。其他合理使用情形，請參考著作權法第44條至第65條之規定。' +
+      '\n\n三、為供網路使用者便利，任何網站連結至本程式網站，毋須經本程式同意。' +
+      '\n\n四、本程式僅提供相關網站之連結，對利用人涉及該網站內容之使用行為，本程式不負責任。' +
+      '\n\n五、本程式所提供相關連結網站之網頁或資料，均為被連結網站所提供，相關權利為該等網站' +
+      '或合法權利人所有，本程式不擔保其正確性、即時性或完整性。';
+    Alert.alert(msg);
+  };
   render() {
     function onListItemPress(detail) {
       let url = activityData.list[detail.index].url;
@@ -220,6 +243,13 @@ export default class Dashboard extends Component {
         windowHeight={300}
         header={(
           <View style={styles.header}>
+            <TouchableOpacity onPress={this.rightsInfoHandle} style={styles.rightsInfo}>
+              <FontAwesomeIcon
+                name="info-circle"
+                size={25}
+                color={'rgba(255, 255, 255, 0.5)'}
+              />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>
                 台灣步道一指通
             </Text>
