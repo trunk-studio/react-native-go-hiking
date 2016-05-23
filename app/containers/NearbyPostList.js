@@ -66,48 +66,62 @@ export default class PostList extends Component {
     this.props.requestPathData();
     setTimeout(() => {
       this.setState({
-        visible: !this.state.visible,
+        visible: false,
         marginTop: 0,
       });
     }, 3000);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pathList !== nextProps.pathList) {
+    if (nextProps.nowTab === 'tabNearby') {
       if (navigator.geolocation) {
+        this.setState({
+          visible: true,
+        });
         navigator.geolocation.getCurrentPosition(
-         (position) => {
-           const nearbyData = [];
-           nextProps.pathList.forEach((post) => {
-             const distance = calcDistance(
-               post.lat,
-               post.lon,
-               position.coords.latitude,
-               position.coords.longitude
-             );
-             if (distance <= 70) {
-               nearbyData.push({
-                 ...post,
-                 distance,
-               });
-             }
-           });
-           nearbyData.sort((a, b) => {
-             return parseFloat(a.distance) - parseFloat(b.distance);
-           });
-           this.setState({
-             nearbyData,
-             lat: position.coords.latitude,
-             lon: position.coords.longitude,
-           });
-          //  navigator.geolocation.stopObserving();
-         },
-         (error) => {
-           navigator.geolocation.stopObserving();
-           // Alert.alert(error.toString());
-         },
-         { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
-       );
+          (position) => {
+            const nearbyData = [];
+            nextProps.pathList.forEach((post) => {
+              const distance = calcDistance(
+                post.lat,
+                post.lon,
+                position.coords.latitude,
+                position.coords.longitude
+              );
+              if (distance <= 70) {
+                nearbyData.push({
+                  ...post,
+                  distance,
+                });
+              }
+            });
+            nearbyData.sort((a, b) => {
+              return parseFloat(a.distance) - parseFloat(b.distance);
+            });
+            this.setState({
+              nearbyData,
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+              visible: false,
+            });
+            //  navigator.geolocation.stopObserving();
+          },
+          (error) => {
+            navigator.geolocation.stopObserving();
+            // Alert.alert(error.toString());
+            setTimeout(() => {
+              this.setState({
+                visible: false,
+                marginTop: 0,
+              });
+            }, 3000);
+          },
+          { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 },
+        );
+      } else {
+        this.setState({
+          visible: false,
+        });
       }
     }
   }
@@ -259,6 +273,7 @@ PostList.defaultProps = {};
 function _injectPropsFromStore(state) {
   return {
     pathList: state.pathList,
+    nowTab: state.router.nowTab,
   };
 }
 
