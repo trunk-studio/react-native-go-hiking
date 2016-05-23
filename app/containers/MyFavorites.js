@@ -83,7 +83,7 @@ export default class MyFavorite extends Component {
       let tagColor;
       switch (rowData.status) {
         case '全線封閉':
-          tagColor = 'rgb(213, 64, 64)';
+          tagColor = 'rgba(213, 64, 64, .8)';
           break;
         case '部分封閉':
           tagColor = 'rgb(221, 105, 49)';
@@ -99,12 +99,12 @@ export default class MyFavorite extends Component {
       const swipeoutBtns = [
         {
           text: '取消收藏',
-          backgroundColor: 'rgb(231, 48, 43)',
+          backgroundColor: 'rgba(213, 64, 64, .8)',
           onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
         },
         {
           text: '分享',
-          backgroundColor: 'rgb(79, 164, 89)',
+          backgroundColor: 'rgba(79, 164, 89, .8)',
           onPress: () => {
             let downloadUrl;
             if (Platform.OS === 'ios') {

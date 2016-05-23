@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     },
   },
   underline: {
-    backgroundColor: '#rgb(79, 164, 89)',
+    backgroundColor: 'rgb(79, 164, 89)',
     height: 5,
   },
   scrollFrame: {
