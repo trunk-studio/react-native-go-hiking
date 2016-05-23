@@ -143,14 +143,14 @@ export default class MyFavorite extends Component {
       );
     }
 
-    function render() {
+    render = () => {
       let view = [];
       if (ListItemArray.length > 0) {
         view = (
         <ScrollView style={styles.content}>
           { ListItemArray }
         </ScrollView>);
-      } else {
+      } else if ( this.props.pathList !== 'null' ) {
         view = (
         <ScrollView style={styles.content}>
           <View style={styles.picContainer}>
@@ -163,6 +163,8 @@ export default class MyFavorite extends Component {
           </Text>
           </View>
         </ScrollView>);
+      } else {
+        view = <View />;
       }
       return view;
     }
@@ -179,7 +181,9 @@ MyFavorite.propTypes = {
   pathList: React.PropTypes.array,
 };
 
-MyFavorite.defaultProps = {};
+MyFavorite.defaultProps = {
+  pathList: 'null',
+};
 
 function _injectPropsFromStore(state) {
   return {
