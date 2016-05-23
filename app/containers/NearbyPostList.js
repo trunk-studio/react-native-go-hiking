@@ -16,6 +16,8 @@ import { requestPathData } from '../actions/PathDataActions';
 import { checkIsFav, requestAddFavorite, requestRemoveFavorite } from '../actions/FavoriteActions';
 import { calcDistance } from '../utils/place';
 import Spinner from 'react-native-loading-spinner-overlay';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const StyleSheet = require('../utils/F8StyleSheet');
 const picNoFavItem = require('../images/no-fav-item.png');
@@ -149,7 +151,7 @@ export default class PostList extends Component {
         let tagColor;
         switch (rowData.status) {
           case '全線封閉':
-            tagColor = 'rgb(213, 64, 64)';
+            tagColor = 'rgba(213, 64, 64, .8)';
             break;
           case '部分封閉':
             tagColor = 'rgb(221, 105, 49)';
@@ -167,7 +169,7 @@ export default class PostList extends Component {
           swipeoutBtns.push(
             {
               text: '收藏',
-              backgroundColor: 'rgb(79, 164, 89)',
+              backgroundColor: '#709C29',
               onPress: this.props.requestAddFavorite.bind(this, rowData.id),
             },
           );
@@ -175,7 +177,7 @@ export default class PostList extends Component {
           swipeoutBtns.push(
             {
               text: '取消收藏',
-              backgroundColor: 'rgb(231, 48, 43)',
+              backgroundColor: '#D63F43',
               onPress: this.props.requestRemoveFavorite.bind(this, rowData.id),
             },
           );
@@ -208,9 +210,10 @@ export default class PostList extends Component {
     if (this.state.nearbyData === null) {
       contentChildren = (
        <View style={[styles.picContainer, { marginTop: this.state.marginTop }]}>
-        <Image
-          source={picNoFavItem}
-          style={styles.picNoFavItem}
+        <MaterialIcon
+          name="gps-off"
+          size={70}
+          color={'#666'}
         />
         <Text style={styles.textNoFavItem}>
           目前沒辦法取得 GPS 資訊，請稍候再試 :(
@@ -222,9 +225,10 @@ export default class PostList extends Component {
     } else if (ListItemArray.length < 1) {
       contentChildren = (
        <View style={[styles.picContainer, { marginTop: this.state.marginTop }]}>
-        <Image
-          source={picNoFavItem}
-          style={styles.picNoFavItem}
+        <FontAwesomeIcon
+          name="road"
+          size={70}
+          color={'#666'}
         />
         <Text style={styles.textNoFavItem}>
           目前您附近沒有任何步道 :p

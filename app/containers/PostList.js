@@ -117,7 +117,7 @@ export default class PostList extends Component {
     let tagColor;
     switch (rowData.status) {
       case '全線封閉':
-        tagColor = 'rgb(213, 64, 64)';
+        tagColor = 'rgba(213, 64, 64, .8)';
         break;
       case '部分封閉':
         tagColor = 'rgb(221, 105, 49)';
@@ -248,9 +248,13 @@ export default class PostList extends Component {
         }
       }
     }
-
-    const dataSource = [...postList].splice(0, this.state.dataSource.getRowCount() + 5);
-
+    let dataSource;
+    if (this.props.typeIndex !== nextProps.typeIndex ||
+        this.props.areaIndex !== nextProps.areaIndex) {
+      dataSource = [...postList].splice(0, 5);
+    } else {
+      dataSource = [...postList].splice(0, this.state.dataSource.getRowCount() + 5);
+    }
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(dataSource),
       postList,

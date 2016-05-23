@@ -74,6 +74,11 @@ const styles = StyleSheet.create({
       shadowColor: 'black',
       shadowOpacity: 1.0,
     },
+    android: {
+      position: 'absolute',
+      top: 210,
+      left: windowSize.width / 2 - 90,
+    },
   },
   mainContent: {
     ios: {

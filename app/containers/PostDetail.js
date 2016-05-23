@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     // },
   },
   underline: {
-    backgroundColor: '#rgb(79, 164, 89)',
+    backgroundColor: 'rgb(79, 164, 89)',
     height: 5,
   },
   scrollFrame: {
@@ -84,8 +84,11 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 26,
     fontWeight: 'bold',
+    android: {
+      marginTop: 110,
+    },
     ios: {
-      paddingTop: 170,
+      paddingTop: 120,
       shadowOffset: {
         width: 2,
         height: 2,
@@ -98,7 +101,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5,
+    padding: 0,
   },
   statusText: {
     color: '#FFF',
@@ -269,7 +272,7 @@ class PostDetail extends Component {
 
     return (
       <TouchableOpacity onPress={this.navigate} style={{ paddingTop: 20 }}>
-        <Image resizeMode="cover" source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=9&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw`}} style={{ flex: 1, width: imgWidth, height: imgHeight }} />
+        <Image resizeMode="cover" source={{ uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.props.lat},${this.props.lon}&zoom=14&size=${imgWidth}x${imgHeight}&scale=2&maptype=hybrid&markers=color:red%7Clabel:S%7C${this.props.lat},${this.props.lon}&key=AIzaSyBiwSQUTr6brsJoPHcliZ3TVFYgYf7ulbw`}} style={{ flex: 1, width: imgWidth, height: imgHeight }} />
       </TouchableOpacity>
     );
   }
