@@ -87,7 +87,7 @@ android {
     buildToolsVersion '23.0.3'
     defaultConfig {
         applicationId 'com.trunksys.gohiking'
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 12
         versionName '2.0.0'
