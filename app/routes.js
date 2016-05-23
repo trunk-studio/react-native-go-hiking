@@ -3,6 +3,7 @@ import React, {
   Platform,
   Alert,
   Linking,
+  Text,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
@@ -49,11 +50,17 @@ const styles = StyleSheet.create({
   titleStyle: {
     color: 'white',
     android: {
-      top: 10,
+      marginTop: 20,
     },
   },
   navigationBarStyle: {
+    flex: 1,
+    alignSelf: 'stretch',
     backgroundColor: '#709D2A',
+    android: {
+      marginTop: 0,
+      padding: 65,
+    }
   },
 });
 
@@ -141,13 +148,13 @@ export default class AppRoutes extends Component {
 
     return (
       <Router key="root" createReducer={this.reducerCreate} getSceneStyle={this.getSceneStyle}>
-        <Scene key="tabbar" component={NavigationDrawer}>
+        <Scene key="tabbar" component={NavigationDrawer} >
           <Scene hideNavBar key="main" tabs >
             <Scene key="tabDashboard" title="首頁" iconName="home" {...tabStyle}>
                 <Scene key="dashboard" hideNavBar component={autoDashboard} title="首頁" initial />
                 <Scene key="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
             </Scene>
-            <Scene key="tabList" title="步道導覽" iconName="map-signs" {...tabStyle}>
+            <Scene key="tabList" title="步道導覽" iconName="map-signs" {...tabStyle} >
                 <Scene key="postList" component={PostList} title="步道導覽" />
                 <Scene key="postDetail"
                   component={PostDetail}
