@@ -27,6 +27,16 @@ const styles = StyleSheet.create({
       // marginTop: 21,
     },
   },
+  container: {
+    backgroundColor: '#fff',
+    position: 'relative',
+    top: 0,
+    marginTop: -50,
+    height: 150,
+    android: {
+      marginBottom: 15,
+    },
+  },
   searchIcon: {
     color: '#fff',
     paddingRight: 10,
@@ -164,15 +174,7 @@ export default class Dashboard extends Component {
       { title: '百　岳' },
     ];
     return (
-      <View style={{
-        backgroundColor: '#fff',
-        position: 'relative',
-        top: 0,
-        marginTop: -50,
-        paddingBottom: 0,
-        height: 150,
-      }}
-      >
+      <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Filter
           title={'類型'}
