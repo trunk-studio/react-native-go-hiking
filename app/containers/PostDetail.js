@@ -25,13 +25,7 @@ const styles = StyleSheet.create({
   },
   parallaxView: {
     //遮掉地圖下方的商標文字
-    paddingBottom: 50,
-    ios: {
-      marginTop: 64,
-    },
-    android: {
-      marginTop: 55,
-    },
+    marginBottom: -15,
   },
   title: {
     fontSize: 20,
@@ -91,6 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: 'bold',
     ios: {
+      paddingTop: 170,
       shadowOffset: {
         width: 2,
         height: 2,

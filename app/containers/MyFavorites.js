@@ -20,23 +20,10 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     padding: 20,
-    ios: {
-      marginTop: 64,
-      marginBottom: 50,
-    },
-    android: {
-      marginTop: 54,
-    },
   },
   content: {
     flex: 1,
     backgroundColor: '#fff',
-    ios: {
-      marginTop: 65,
-    },
-    android: {
-      marginTop: 55,
-    },
   },
   picContainer: {
     paddingTop: 100,
@@ -66,13 +53,13 @@ export default class MyFavorite extends Component {
   }
 
   onListItemPress = (rowData) => {
-    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const pageTitle = rowData.title;
     const newDate = {
       ...rowData,
       title: pageTitle,
       postTitle: rowData.title,
     };
-    Actions.postDetail(newDate);
+    Actions.favPostDetail(newDate);
   }
 
   render() {

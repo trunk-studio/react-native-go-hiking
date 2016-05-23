@@ -1,25 +1,22 @@
 import React, {
-  Navigator,
-  TouchableOpacity,
-  Text,
   Component,
-  Dimensions,
   Platform,
   Alert,
   Linking,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
-  Route,
-  Schema,
-  TabBar,
-  Actions,
+  Scene,
+  Reducer,
+  Router,
 } from 'react-native-router-flux';
-const Router = connect()(RNRF.Router);
+// const Router = connect()(RNRF.Router);
 
 // View
 import WebViewPage from './containers/WebViewPage';
 import TabIcon from './components/TabIcon';
+import BackBtn from './components/BackBtn';
+import NavigationDrawer from './components/NavigationDrawer';
 import Nearby from './containers/NearbyPostList'
 import NewsDetail from './containers/NewsDetail';
 import PostDetail from './containers/PostDetail';
@@ -30,8 +27,6 @@ import PostList from './containers/PostList';
 import MyFavorites from './containers/MyFavorites';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ReactNativeAutoUpdater from 'react-native-auto-updater';
-
-const windowSize = Dimensions.get('window');
 const StyleSheet = require('./utils/F8StyleSheet');
 const styles = StyleSheet.create({
   leftButtonContainer: {
@@ -54,12 +49,11 @@ const styles = StyleSheet.create({
   titleStyle: {
     color: 'white',
     android: {
-      flex: 1,
-      textAlign: 'center',
-      textAlignVertical: 'center',
-      paddingTop: 10,
-      marginLeft: ~~(windowSize.width / 5),
+      top: 10,
     },
+  },
+  navigationBarStyle: {
+    backgroundColor: '#709D2A',
   },
 });
 
@@ -110,7 +104,34 @@ export default class AppRoutes extends Component {
     });
   }
 
+  getSceneStyle = (props) => {
+    return {
+      flex: 1,
+      marginTop: props.hideNavBar ? 0 : 64,
+      marginBottom: props.hideTabBar ? 0 : 49.5,
+      backgroundColor: '#fff',
+      shadowColor: null,
+      shadowOffset: null,
+      shadowOpacity: null,
+      shadowRadius: null,
+    };
+  }
+
+  reducerCreate = (params) => {
+    const defaultReducer = Reducer(params);
+    return (state, action) => defaultReducer(state, action);
+  }
+
+
+
   render() {
+
+    const tabStyle = {
+      icon: TabIcon,
+      navigationBarStyle: styles.navigationBarStyle,
+      titleStyle: styles.titleStyle,
+    };
+
     let autoDashboard = Dashboard;
     if (Platform.OS === 'android') {
       if (Platform.Version < 21) {
@@ -119,76 +140,42 @@ export default class AppRoutes extends Component {
     }
 
     return (
-      <Router name="root">
-        <Schema name="default"
-          sceneConfig={Navigator.SceneConfigs.FloatFromRight}
-        />
-        <Schema name="back"
-          sceneConfig={Navigator.SceneConfigs.FloatFromRight}
-          renderLeftButton={() => {
-            return (
-              <TouchableOpacity
-                style={styles.leftButtonContainer}
-                onPress={Actions.pop}
-              >
-                <Icon
-                  name="angle-left"
-                  size={24}
-                  color={'#FFF'}
-                  style={styles.menuIcon}
+      <Router key="root" createReducer={this.reducerCreate} getSceneStyle={this.getSceneStyle}>
+        <Scene key="tabbar" component={NavigationDrawer}>
+          <Scene hideNavBar key="main" tabs >
+            <Scene key="tabDashboard" title="首頁" iconName="home" {...tabStyle}>
+                <Scene key="dashboard" hideNavBar component={autoDashboard} title="首頁" initial />
+                <Scene key="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
+            </Scene>
+            <Scene key="tabList" title="步道導覽" iconName="map-signs" {...tabStyle}>
+                <Scene key="postList" component={PostList} title="步道導覽" />
+                <Scene key="postDetail"
+                  component={PostDetail}
+                  renderBackButton={() => <BackBtn /> }
                 />
-                <Text style={styles.navBackTitle}></Text>
-              </TouchableOpacity>
-            );}}
+                <Scene key="category" component={Category} title="月份導覽" />
+            </Scene>
+            <Scene key="tabNearby" title="附近步道" iconName="tree" {...tabStyle}>
+                <Scene key="nearby" component={Nearby} title="附近步道" />
+                <Scene key="nearPostDetail"
+                  component={PostDetail}
+                  renderBackButton={() => <BackBtn /> }
+                />
+            </Scene>
+            <Scene key="tabNews" title="我的收藏" iconName="heart" {...tabStyle}>
+                <Scene key="myFavorites" component={MyFavorites} title="我的收藏" />
+                <Scene key="favPostDetail"
+                  component={PostDetail}
+                  renderBackButton={() => <BackBtn /> }
+                />
+            </Scene>
+          </Scene>
+        </Scene>
+        <Scene key="webViewPage" hideTabBar component={WebViewPage}
+          navigationBarStyle={styles.navigationBarStyle}
+          titleStyle={styles.titleStyle}
+          renderBackButton={() => <BackBtn /> }
         />
-        <Schema name="tab" type="switch" icon={TabIcon} />
-        <Route hideNavBar name="tabbar">
-          <Router
-            footer={TabBar}
-            tabBarStyle={{
-              borderTopColor: 'rgba(83, 83, 82, 0.25)',
-              borderTopWidth: 1,
-              backgroundColor: 'white',
-            }}
-            navigationBarStyle={{
-              backgroundColor: '#709D2A',
-              borderColor: '#DDD',
-              marginTop: 0,
-              paddingTop: 0,
-            }}
-            titleStyle={styles.titleStyle}
-          >
-            <Route name="tabDashboard" schema="tab" title="首頁" iconName="home" initial>
-              <Router>
-                <Route name="dashboard" hideNavBar component={autoDashboard} title="首頁" />
-                <Route name="newsDetail" hideNavBar={0} component={NewsDetail} title="活動資訊" />
-                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
-              </Router>
-            </Route>
-            <Route name="tabList" schema="tab" title="步道導覽" iconName="map-signs">
-              <Router>
-                <Route name="postList" component={PostList} />
-                <Route name="postDetail" schema="back" component={PostDetail} />
-                <Route name="category" component={Category} title="月份導覽" />
-                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
-              </Router>
-            </Route>
-            <Route name="tabNearby" schema="tab" title="附近步道" iconName="tree">
-              <Router>
-                <Route name="nearby" component={Nearby} title="附近步道" />
-                <Route name="postDetail" schema="back" component={PostDetail} />
-                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
-              </Router>
-            </Route>
-            <Route name="tabNews" schema="tab" title="我的收藏" iconName="heart">
-              <Router>
-                <Route name="myFavorites" component={MyFavorites} title="我的收藏" />
-                <Route name="postDetail" schema="back" component={PostDetail} />
-                <Route name="webViewPage" schema="back" component={WebViewPage} title="" />
-              </Router>
-            </Route>
-          </Router>
-        </Route>
       </Router>
     );
   }

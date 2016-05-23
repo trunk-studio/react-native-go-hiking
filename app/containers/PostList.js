@@ -22,13 +22,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: '#fff',
-    marginBottom: 50,
-    ios: {
-      marginTop: 65,
-    },
-    android: {
-      marginTop: 55,
-    },
   },
   filterContainer: {
     backgroundColor: '#567354',
@@ -104,7 +97,7 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const pageTitle = rowData.title;
     const newDate = {
       ...rowData,
       title: pageTitle,
@@ -256,7 +249,7 @@ export default class PostList extends Component {
       }
     }
 
-    const dataSource = [...postList].splice(0, 5);
+    const dataSource = [...postList].splice(0, this.state.dataSource.getRowCount() + 5);
 
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(dataSource),

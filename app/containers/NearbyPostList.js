@@ -23,13 +23,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: '#fff',
-    marginBottom: 50,
-    ios: {
-      marginTop: 65,
-    },
-    android: {
-      marginTop: 55,
-    },
   },
   picNoFavItem: {
     alignSelf: 'auto',
@@ -118,13 +111,13 @@ export default class PostList extends Component {
   }
 
   onListItemPress = (rowData) => {
-    const pageTitle = Platform.OS === 'ios' ? rowData.title : '步道資訊';
+    const pageTitle = rowData.title;
     const newDate = {
       ...rowData,
       title: pageTitle,
       postTitle: rowData.title,
     };
-    Actions.postDetail(newDate);
+    Actions.nearPostDetail(newDate);
     // Alert.alert('', '立即前往', [
     //   { text: '確認', onPress: () => {
     //     const lat = this.state.lat;

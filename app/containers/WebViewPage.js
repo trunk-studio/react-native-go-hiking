@@ -10,12 +10,6 @@ const StyleSheet = require('../utils/F8StyleSheet');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    ios: {
-      marginTop: 64,
-    },
-    android: {
-      marginTop: 55,
-    },
   }
 });
 

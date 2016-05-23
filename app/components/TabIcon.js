@@ -1,6 +1,7 @@
 import React, {
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -16,23 +17,18 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   icon: {
-    lineHeight: 15,
     fontSize: 20,
+    paddingBottom: 3,
   },
 });
 
 export default function TabIcon(props) {
+  const color =  props.selected ? 'rgb(79, 164, 89)' : 'rgba(83, 83, 82, 1)';
   return (
-    <Text
-      style={{
-        color: props.selected ? 'rgb(79, 164, 89)' : 'rgba(83, 83, 82, 1)',
-        textAlign: 'center',
-        paddingTop: 6,
-      }}
-    >
-      <Icon name={props.iconName} style={ styles.icon } />{"\n"}
-      <Text style={ styles.tabTitle }>{ props.title }</Text>
-    </Text>
+    <View style={{ position: 'absolute', top: -30, left: -25, justifyContent: 'center', alignItems: 'center', width: 50 }}>
+      <Icon name={props.iconName} style={[styles.icon, { color }]} />
+      <Text style={[styles.tabTitle, { color }]}>{ props.title }</Text>
+    </View>
   );
 }
 
