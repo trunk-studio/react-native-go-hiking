@@ -126,7 +126,7 @@ export default class AppRoutes extends Component {
   reducerCreate = (params) => {
     const defaultReducer = Reducer(params);
     return (state, action) => {
-      // console.log("ACTION:", action, Actions);
+      this.props.dispatch(action);
       return defaultReducer(state, action);
     }
   }
@@ -189,3 +189,5 @@ export default class AppRoutes extends Component {
     );
   }
 }
+
+export default connect()(AppRoutes);

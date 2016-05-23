@@ -43,7 +43,6 @@ export default class MyFavorite extends Component {
 
   componentWillMount() {
     this.props.requestPathData();
-    console.log(Actions, Share);
   }
 
   onListItemPress = (rowData) => {
