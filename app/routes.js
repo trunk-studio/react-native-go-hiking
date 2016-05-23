@@ -50,17 +50,16 @@ const styles = StyleSheet.create({
   titleStyle: {
     color: 'white',
     android: {
-      marginTop: 20,
+      alignSelf: 'center',
+      marginTop: Platform.Version < 21 ? 20 : 0,
     },
   },
   navigationBarStyle: {
     flex: 1,
-    alignSelf: 'stretch',
     backgroundColor: '#709D2A',
     android: {
-      marginTop: 0,
-      padding: 65,
-    }
+      height: 65,
+    },
   },
 });
 
