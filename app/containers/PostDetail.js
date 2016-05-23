@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     marginBottom: 50,
-    ios: {
-      marginTop: 65,
-    },
-    android: {
-      marginTop: 55,
-    },
+    // ios: {
+    //   marginTop: 65,
+    // },
+    // android: {
+    //   marginTop: 55,
+    // },
   },
   underline: {
     backgroundColor: '#rgb(79, 164, 89)',
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     margin: 10,
-    backgroundColor: 'rgb(246, 246, 246)',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
   },
   header: {
     flex: 1,
@@ -300,11 +300,15 @@ class PostDetail extends Component {
   }
 
   linkToSrc = (url) => {
-    Linking.canOpenURL(url).then(supported => {
-      if (supported) {
-        Linking.openURL(url);
-      }
+    Actions.webViewPage({
+      url,
+      title: this.props.title,
     });
+    // Linking.canOpenURL(url).then(supported => {
+    //   if (supported) {
+    //     Linking.openURL(url);
+    //   }
+    // });
   }
 
   onImageSrcBtn = () => {
@@ -380,10 +384,10 @@ class PostDetail extends Component {
               index={0}
               style={[
                 styles.scrollContainer,
-              { backgroundColor: 'rgb(246, 246, 246)' },
+              { backgroundColor: 'rgba(0, 0, 0, 0)' },
               ]}
             >
-              <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
+              <TouchableOpacity onPress={this.navigate} style={[styles.toolButton, {position: 'absolute', right: 40,}]}>
                 <MaterialIcon
                   name="near-me"
                   size={26}
@@ -394,7 +398,7 @@ class PostDetail extends Component {
                   {this.props.place}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
+              <TouchableOpacity onPress={this.favorite} style={[styles.toolButton, {position: 'absolute', right: 5}]}>
                 <Icon
                   name={ this.state.isFav ? 'heart' : 'heart-o' }
                   size={24}
@@ -402,7 +406,7 @@ class PostDetail extends Component {
                   style={[styles.menuIcon, styles.favoriteIcon]}
                 />
               </TouchableOpacity>
-            <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+            <Text style={{ marginTop: 34, fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
               {this.props.description_01}
             </Text>
             <TouchableOpacity
