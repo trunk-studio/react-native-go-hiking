@@ -157,6 +157,7 @@ export default class Dashboard extends Component {
       typeId: 0,
     };
   }
+
   componentWillMount() {
     // this.props.requestNews();
     // this.props.requestToday();
