@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   menuIcon: {
     paddingRight: 6,
     android: {
-      marginTop: -3,
+      marginTop: -10,
     },
   },
   navBackTitle: {

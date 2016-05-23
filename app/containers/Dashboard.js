@@ -192,9 +192,13 @@ export default class Dashboard extends Component {
       let url = activityData.list[detail.index].url;
 
       url = url.replace(/ct.asp/, 'fp.asp');
+      let title = activityData.list[detail.index].title;
+      if (title.length > 10) {
+        title = title.slice(0, 9) + '...';
+      }
       Actions.webViewPage({
         url,
-        title: activityData.list[detail.index].title,
+        title,
       });
     }
     const { listData, month, date, weekday, temp, desc, iconId } = this.props;
