@@ -4,12 +4,14 @@ import React, {
   Alert,
   Linking,
   Text,
+  BackAndroid,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
   Scene,
   Reducer,
   Router,
+  Actions,
 } from 'react-native-router-flux';
 // const Router = connect()(RNRF.Router);
 
@@ -62,11 +64,20 @@ const styles = StyleSheet.create({
     },
   },
 });
-
 export default class AppRoutes extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', function(){
+      return true;
+    });
+  }
+
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress');
   }
 
   componentWillMount() {

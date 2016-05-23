@@ -170,7 +170,12 @@ class PostDetail extends Component {
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', function () {
-      Actions.pop();
+      try {
+        Actions.pop();
+        return true;
+      } catch (e) {
+        return false;
+      }
     });
   }
 
