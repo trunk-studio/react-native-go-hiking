@@ -55,7 +55,7 @@ export async function countFav() {
 
 export async function addToFav(id) {
   let favoriteList = await getItem(storageKey);
-  console.log(favoriteList)
+  // console.log(favoriteList)
   if (!favoriteList) {
     favoriteList = [];
   } else {
