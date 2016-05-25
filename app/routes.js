@@ -93,26 +93,29 @@ export default class AppRoutes extends Component {
       const onlineMetadata = JSON.parse(responseText);
       const onlineVersion = onlineMetadata.version.split('.');
       const nowVersion = ReactNativeAutoUpdater.jsCodeVersion().split('.');
-      if (onlineVersion[0] !== nowVersion[0]) {
-        Alert.alert('版本過舊', '請至 App Store 更新', [
-          { text: '立即更新', onPress: () => {
-            let downloadUrl;
-            if (Platform.OS === 'ios') {
-              downloadUrl = 'https://itunes.apple.com/us/app/tai-wan-bu-dao1zhi-tong/id1113267807?l=zh&ls=1&mt=8';
-            } else {
-              downloadUrl = 'https://play.google.com/store/apps/details?id=com.trunksys.gohiking';
-            }
-            Linking.canOpenURL(downloadUrl).then(supported => {
-              if (supported) {
-                Linking.openURL(downloadUrl);
+      // 為了符合上架條件，ios不通知更新
+      if (Platform.OS !== 'ios') {
+        if (onlineVersion[0] !== nowVersion[0]) {
+          Alert.alert('版本過舊', '請至 App Store 更新', [
+            { text: '立即更新', onPress: () => {
+              let downloadUrl;
+              if (Platform.OS === 'ios') {
+                downloadUrl = 'https://itunes.apple.com/us/app/tai-wan-bu-dao1zhi-tong/id1113267807?l=zh&ls=1&mt=8';
+              } else {
+                downloadUrl = 'https://play.google.com/store/apps/details?id=com.trunksys.gohiking';
               }
-            });
-          } },
-          { text: '稍後', onPress: () => {} },
-        ]);
-      } else if (onlineVersion[1] !== nowVersion[1] || onlineVersion[2] !== nowVersion[2]) {
-        if (Platform.OS === 'ios') {
-          Alert.alert('有新版本喔', '重新開啟 App 更新');
+              Linking.canOpenURL(downloadUrl).then(supported => {
+                if (supported) {
+                  Linking.openURL(downloadUrl);
+                }
+              });
+            } },
+            { text: '稍後', onPress: () => {} },
+          ]);
+        } else if (onlineVersion[1] !== nowVersion[1] || onlineVersion[2] !== nowVersion[2]) {
+          if (Platform.OS === 'ios') {
+            Alert.alert('有新版本喔', '重新開啟 App 更新');
+          }
         }
       }
     })
