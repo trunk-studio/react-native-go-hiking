@@ -119,6 +119,7 @@ public class PermissionCheckActivity extends Activity {
     private void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        this.finish();
     }
 
     private void requestPermissions(final Activity activity){

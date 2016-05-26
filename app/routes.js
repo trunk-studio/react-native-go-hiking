@@ -5,6 +5,7 @@ import React, {
   Linking,
   Text,
   BackAndroid,
+  ToastAndroid,
  } from 'react-native';
 import { connect } from 'react-redux';
 import RNRF, {
@@ -71,7 +72,17 @@ export default class AppRoutes extends Component {
   }
 
   componentDidMount() {
+    let count = 1;
     BackAndroid.addEventListener('hardwareBackPress', function(){
+      if (count > 0) ToastAndroid.show('再按一次返回即可退出App', ToastAndroid.SHORT);
+      else if (count < 1) {
+        BackAndroid.exitApp();
+        return false;
+      }
+      count--;
+      setTimeout(() => {
+        count = 1;
+      }, 5000);
       return true;
     });
   }

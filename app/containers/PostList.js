@@ -171,22 +171,22 @@ export default class PostList extends Component {
       </SwipeOut>
     );
     if (Platform.OS === 'android') {
-      if (Platform.Version < 21) {
-        listItem = (
-          <SimpleListItem
-            id={rowData.id}
-            index={rowData.index}
-            title={rowData.title}
-            img={rowData.cover}
-            place={rowData.place}
-            status={rowData.status}
-            tagColor={tagColor}
-            onItemPress={this.onListItemPress.bind(this, rowData)}
-            bakColor={bakColor}
-            rightText={''}
-          />
-        );
-      }
+      // if (Platform.Version < 21) {
+      listItem = (
+        <SimpleListItem
+          id={rowData.id}
+          index={rowData.index}
+          title={rowData.title}
+          img={rowData.cover}
+          place={rowData.place}
+          status={rowData.status}
+          tagColor={tagColor}
+          onItemPress={this.onListItemPress.bind(this, rowData)}
+          bakColor={bakColor}
+          rightText={''}
+        />
+      );
+      // }
     }
     return (listItem);
   }
