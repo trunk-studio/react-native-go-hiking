@@ -217,7 +217,7 @@ export default class PostList extends Component {
             />
           </SwipeOut>
         );
-        if (Platform.os === 'Android') {
+        if (Platform.OS === 'android') {
           item = (
             <ListItem
               key={rowData.id}
