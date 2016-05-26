@@ -197,7 +197,7 @@ export default class PostList extends Component {
           );
         }
 
-        ListItemArray.push(
+        let item = (
           <SwipeOut right={swipeoutBtns} autoClose key={rowData.id}>
             <ListItem
               id={rowData.id}
@@ -217,6 +217,28 @@ export default class PostList extends Component {
             />
           </SwipeOut>
         );
+        if (Platform.os === 'Android') {
+          item = (
+            <ListItem
+              key={rowData.id}
+              id={rowData.id}
+              index={rowData.index}
+              title={rowData.title}
+              img={rowData.cover}
+              place={rowData.place}
+              status={rowData.status}
+              tagColor={tagColor}
+              level={rowData.level}
+              detail_02={rowData.detail_02}
+              description={null}
+              onItemPress={this.onListItemPress.bind(this, rowData)}
+              distance={rowData.distance}
+              bakColor={bakColor}
+              rightText={''}
+            />
+          );
+        }
+        ListItemArray.push(item);
       }
     }
 
