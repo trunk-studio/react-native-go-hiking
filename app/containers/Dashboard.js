@@ -214,7 +214,7 @@ export default class Dashboard extends Component {
       '\n\n四、本程式僅提供相關網站之連結，對利用人涉及該網站內容之使用行為，本程式不負責任。' +
       '\n\n五、本程式所提供相關連結網站之網頁或資料，均為被連結網站所提供，相關權利為該等網站' +
       '或合法權利人所有，本程式不擔保其正確性、即時性或完整性。';
-    Alert.alert(msg);
+    Alert.alert('服務條款', msg);
   };
   render() {
     function onListItemPress(detail) {
