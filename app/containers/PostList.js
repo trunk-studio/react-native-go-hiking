@@ -150,43 +150,49 @@ export default class PostList extends Component {
     }
 
     // give different listItem component to android version < 21.
-    let listItem = [];
-    listItem = (
-      <SwipeOut key={rowData.id} right={swipeoutBtns} autoClose >
-        <ListItem
-          id={rowData.id}
-          index={rowData.index}
-          title={rowData.title}
-          img={rowData.cover}
-          place={rowData.place}
-          status={rowData.status}
-          tagColor={tagColor}
-          level={rowData.level}
-          detail_02={rowData.detail_02}
-          description={null}
-          onItemPress={this.onListItemPress.bind(this, rowData)}
-          bakColor={bakColor}
-          rightText={''}
-        />
-      </SwipeOut>
+    let listItem = (
+      <ListItem
+        id={rowData.id}
+        index={rowData.index}
+        title={rowData.title}
+        img={rowData.cover}
+        place={rowData.place}
+        status={rowData.status}
+        tagColor={tagColor}
+        level={rowData.level}
+        detail_02={rowData.detail_02}
+        description={null}
+        onItemPress={this.onListItemPress.bind(this, rowData)}
+        bakColor={bakColor}
+        rightText={''}
+      />
     );
+    const simpleListItem = (
+      <SimpleListItem
+        id={rowData.id}
+        index={rowData.index}
+        title={rowData.title}
+        img={rowData.cover}
+        place={rowData.place}
+        status={rowData.status}
+        tagColor={tagColor}
+        onItemPress={this.onListItemPress.bind(this, rowData)}
+        bakColor={bakColor}
+        rightText={''}
+      />
+    );
+
     if (Platform.OS === 'android') {
-      // if (Platform.Version < 21) {
-      listItem = (
-        <SimpleListItem
-          id={rowData.id}
-          index={rowData.index}
-          title={rowData.title}
-          img={rowData.cover}
-          place={rowData.place}
-          status={rowData.status}
-          tagColor={tagColor}
-          onItemPress={this.onListItemPress.bind(this, rowData)}
-          bakColor={bakColor}
-          rightText={''}
-        />
+      if (Platform.Version < 21) {
+        listItem = simpleListItem;
+      }
+    } else if (Platform.OS === 'ios') {
+      const iosListItem = (
+        <SwipeOut key={rowData.id} right={swipeoutBtns} autoClose >
+          {listItem}
+        </SwipeOut>
       );
-      // }
+      listItem = iosListItem;
     }
     return (listItem);
   }
