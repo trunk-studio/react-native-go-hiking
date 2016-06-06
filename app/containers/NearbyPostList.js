@@ -251,7 +251,7 @@ export default class PostList extends Component {
           size={70}
           color={'#666'}
         />
-        <Text style={styles.textNoFavItem}>
+        <Text allowFontScaling={false} style={styles.textNoFavItem}>
           目前沒辦法取得 GPS 資訊，請稍候再試 :(
         </Text>
       </View>
@@ -266,7 +266,7 @@ export default class PostList extends Component {
           size={70}
           color={'#666'}
         />
-        <Text style={styles.textNoFavItem}>
+        <Text allowFontScaling={false} style={styles.textNoFavItem}>
           目前您附近沒有任何步道 :p
         </Text>
       </View>

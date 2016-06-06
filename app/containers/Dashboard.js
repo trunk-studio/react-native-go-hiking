@@ -246,16 +246,17 @@ export default class Dashboard extends Component {
           <View style={styles.header}>
             <TouchableOpacity onPress={this.rightsInfoHandle} style={styles.rightsInfo}>
               <FontAwesomeIcon
+                allowFontScaling={false}
                 name="info-circle"
                 size={25}
                 color={'rgba(255, 255, 255, 0.5)'}
               />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>
+            <Text style={styles.headerTitle} allowFontScaling={false}>
                 台灣步道一指通
             </Text>
             <View style={styles.versionBlock}>
-              <Text style={styles.imgSrcText}>
+              <Text allowFontScaling={false} style={styles.imgSrcText}>
                 v {ReactNativeAutoUpdater.jsCodeVersion()}
               </Text>
             </View>

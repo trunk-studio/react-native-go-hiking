@@ -37,7 +37,7 @@ export default function CoverCard(props) {
         style={[styles.cover, { height: props.height }]}
       />
       <View style={[{ height: props.height, paddingTop: props.height / 2 + props.txtTop }]}>
-        <Text style={[props.textStyle ? props.textStyle : styles.text]}>
+        <Text allowFontScaling={false} style={[props.textStyle ? props.textStyle : styles.text]}>
           {props.title}
         </Text>
       </View>

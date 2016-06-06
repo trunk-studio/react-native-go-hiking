@@ -58,15 +58,15 @@ export default function NewsItem(props) {
       <View style={{height: 1, backgroundColor: '#37A22E'}} />
       <View style={styles.newsItem}>
         <View style={styles.newsConent}>
-          <Text style={styles.newsTitle} numberOfLines={1}>
+          <Text allowFontScaling={false} style={styles.newsTitle} numberOfLines={1}>
             {props.title}
           </Text>
-          <Text style={styles.newsInfo} numberOfLines={3}>
+          <Text allowFontScaling={false} style={styles.newsInfo} numberOfLines={3}>
             {props.content}
           </Text>
         </View>
         <View style={styles.newsIcon}>
-          <Icon name={'angle-right'} style={ styles.icon } />
+          <Icon allowFontScaling={false} name={'angle-right'} style={ styles.icon } />
         </View>
       </View>
     </TouchableOpacity>

@@ -192,8 +192,8 @@ export default class Dashboard extends Component {
         />
         <View style={styles.searchContainer}>
           <TouchableOpacity style={styles.searchBtn} onPress={this.onSearchHandle}>
-            <Icon name={'search'} style={ styles.searchIcon } />
-            <Text style={styles.searchText}>搜尋台灣步道</Text>
+            <Icon allowFontScaling={false} name={'search'} style={ styles.searchIcon } />
+            <Text allowFontScaling={false} style={styles.searchText}>搜尋台灣步道</Text>
           </TouchableOpacity>
         </View>
       </View>

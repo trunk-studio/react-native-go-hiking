@@ -52,7 +52,7 @@ export default function NewsBoard(props) {
       keyscrollEventThrottle={200}
       style={styles.container}
     >
-      {listContainer.length > 0 ? listContainer : <Text style={styles.defaultTxt}>沒有資料囉！</Text>}
+      {listContainer.length > 0 ? listContainer : <Text allowFontScaling={false} style={styles.defaultTxt}>沒有資料囉！</Text>}
     </ScrollView>
   );
 }

@@ -109,7 +109,7 @@ export default function PostListItem(props) {
   }
   function info() {
     let infos = [];
-    if (props.place) infos.push(<Text style={styles.infoText} key={'place'}>{props.place}</Text>);
+    if (props.place) infos.push(<Text allowFontScaling={false} style={styles.infoText} key={'place'}>{props.place}</Text>);
 
     if (props.level) {
       let levelImgSrc = '';
@@ -135,7 +135,7 @@ export default function PostListItem(props) {
       }
       infos.push(
         <View key={'level'} style={{ flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={styles.infoText}>
+          <Text allowFontScaling={false} style={styles.infoText}>
             難易度：
           </Text>
           <Image source={{ uri: levelImgSrc }} style={{
@@ -147,7 +147,7 @@ export default function PostListItem(props) {
         </View>
       );
     }
-    if (props.detail_02 != 'null') infos.push(<Text style={styles.infoText} key={'detail_02'}>{props.detail_02}</Text>);
+    if (props.detail_02 != 'null') infos.push(<Text allowFontScaling={false} style={styles.infoText} key={'detail_02'}>{props.detail_02}</Text>);
     return infos;
   }
   function nearby() {
@@ -160,7 +160,7 @@ export default function PostListItem(props) {
             size={12}
             color={'#000'}
             style={[styles.favoriteIcon]}
-          /><Text style={styles.distance}>{formatDistance(props.distance)}</Text>
+          /><Text allowFontScaling={false} style={styles.distance}>{formatDistance(props.distance)}</Text>
         </View>
       );
     }
@@ -174,7 +174,7 @@ export default function PostListItem(props) {
             <Image source={{ uri: `https://s3-ap-northeast-1.amazonaws.com/s3.trunksys.com/hiking/prod/images/cover/${props.id}/${props.id}_t.jpg` }} style={styles.itemImg} />
           </View>
           <View style={styles.commentBody}>
-            <Text style={styles.title} numberOfLines={2} >
+            <Text allowFontScaling={false} style={styles.title} numberOfLines={2} >
               {props.title}
             </Text>
             {info()}
@@ -183,7 +183,7 @@ export default function PostListItem(props) {
           {
             (props.status !== 'null') ?
               <View style={ [styles.tag, { backgroundColor: props.tagColor }] }>
-                <Text style={styles.tagText}>
+                <Text allowFontScaling={false} style={styles.tagText}>
                   {props.status}
                 </Text>
               </View>
@@ -193,7 +193,7 @@ export default function PostListItem(props) {
         {
           (!!props.description) ?
             <View style={styles.commentTextBlock}>
-              <Text style={styles.commentText} numberOfLines={3}>
+              <Text allowFontScaling={false} style={styles.commentText} numberOfLines={3}>
                 {props.description}
               </Text>
             </View>

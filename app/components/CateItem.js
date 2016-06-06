@@ -112,8 +112,8 @@ export default function CateItem(props) {
         <Image source={getImage(props.mIndex)} style={ styles.avatar } />
         <View style={styles.commentBody}>
           <View style={styles.titleBar}>
-            <Text style={styles.titles}>{props.title}</Text>
-            <Text style={styles.subTitles}>{props.subTitle}</Text>
+            <Text style={styles.titles} allowFontScaling={false}>{props.title}</Text>
+            <Text style={styles.subTitles} allowFontScaling={false}>{props.subTitle}</Text>
           </View>
         </View>
       </View>

@@ -91,20 +91,20 @@ export default function InfoBar(props) {
   return (
     <View style={styles.container}>
       <View style={styles.dateFrame}>
-        <Text style={styles.dateTxt}>{props.month}/{props.date}</Text>
-        <Text style={styles.weekdayTxt}>星期{props.weekday}</Text>
-        <Text style={styles.locationArea}>{props.locationName}</Text>
+        <Text allowFontScaling={false} style={styles.dateTxt}>{props.month}/{props.date}</Text>
+        <Text allowFontScaling={false} style={styles.weekdayTxt}>星期{props.weekday}</Text>
+        <Text allowFontScaling={false} style={styles.locationArea}>{props.locationName}</Text>
       </View>
       <View style={styles.weatherFrame}>
-        <Text style={styles.degreeTxt}>
+        <Text allowFontScaling={false} style={styles.degreeTxt}>
           {props.temp !== undefined ? Math.round(props.temp) : ''}
-          <Text style={styles.degreeSign}>
+          <Text allowFontScaling={false} style={styles.degreeSign}>
           {props.temp !== undefined ? '℃' : ''}
           </Text>
         </Text>
         <View style={styles.stateArea}>
           <Image style={styles.weatherIcon} source={{ uri: `http://openweathermap.org/img/w/${props.iconId}.png` }} />
-          <Text style={styles.stateTxt}>{props.desc}</Text>
+          <Text allowFontScaling={false} style={styles.stateTxt}>{props.desc}</Text>
         </View>
       </View>
     </View>

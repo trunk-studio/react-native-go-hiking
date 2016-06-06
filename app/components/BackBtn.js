@@ -40,7 +40,7 @@ export default function BackBtn(props) {
         color={'#FFF'}
         style={styles.menuIcon}
       />
-    <Text style={styles.navBackTitle} />
+    <Text style={styles.navBackTitle} allowFontScaling={false} />
     </TouchableOpacity>
   );
 }

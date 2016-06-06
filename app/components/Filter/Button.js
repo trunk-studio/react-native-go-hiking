@@ -29,7 +29,7 @@ export default function Button(props) {
       style={[styles.container, { backgroundColor: buttonColor, width: props.width, borderColor: borderColor }]}
       onPress={props.onPress.bind(this, props.index)}
     >
-      <Text style={[styles.text, { color: textColor }]}>
+      <Text allowFontScaling={false} style={[styles.text, { color: textColor }]}>
         {props.text}
       </Text>
     </TouchableOpacity>
