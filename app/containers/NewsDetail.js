@@ -58,9 +58,9 @@ function NewsDetail(props) {
       keyscrollEventThrottle={200}
       automaticallyAdjustContentInsets={false}
     >
-      <Text style={ styles.title }>{props.newsTitle}</Text>
+      <Text allowFontScaling={false} style={ styles.title }>{props.newsTitle}</Text>
       <View style={ styles.container }>
-        <Text style={ styles.content }>{props.newsContent}</Text>
+        <Text allowFontScaling={false} style={ styles.content }>{props.newsContent}</Text>
       </View>
     </ScrollView>
   );

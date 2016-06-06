@@ -152,7 +152,7 @@ export default class MyFavorite extends Component {
               size={70}
               color={'#666'}
             />
-          <Text style={styles.textNoFavItem}>
+          <Text allowFontScaling={false} style={styles.textNoFavItem}>
             目前您沒有收藏任何步道 :p
           </Text>
           </View>

@@ -232,7 +232,7 @@ class PostDetail extends Component {
     }
     if (this.props.detail_02 !== 'null') {
       infos.push(
-        <Text
+        <Text allowFontScaling={false}
           style={styles.infoText}
           key={'detail_02'}
         >
@@ -372,17 +372,19 @@ class PostDetail extends Component {
           <View style={styles.toolbar}>
             <TouchableOpacity onPress={this.navigate} style={styles.toolButton}>
               <MaterialIcon
+                allowFontScaling={false}
                 name="near-me"
                 size={26}
                 color={'#709D2A'}
                 style={[styles.menuIcon, styles.favoriteIcon]}
               />
-              <Text style={styles.placeText}>
+              <Text allowFontScaling={false} style={styles.placeText}>
                 {this.props.place}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={this.favorite} style={styles.toolButton}>
               <Icon
+                allowFontScaling={false}
                 name={ this.state.isFav ? 'heart' : 'heart-o' }
                 size={24}
                 color={'#709D2A'}
@@ -390,7 +392,7 @@ class PostDetail extends Component {
               />
             </TouchableOpacity>
           </View>
-          <Text style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+          <Text allowFontScaling={false} style={{ fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
             {this.props.description_01}
           </Text>
         </View>
@@ -399,7 +401,7 @@ class PostDetail extends Component {
             style={{ padding: 5, paddingLeft: 10, paddingRight: 10, backgroundColor: '#709D2A', borderRadius: 5 }}
             onPress={this.onImageSrcBtn}
           >
-            <Text style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
+            <Text allowFontScaling={false} style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
           </TouchableOpacity>
         </View>
         {this.map()}
@@ -418,24 +420,26 @@ class PostDetail extends Component {
             >
               <TouchableOpacity onPress={this.navigate} style={[styles.toolButton, {position: 'absolute', right: 40,}]}>
                 <MaterialIcon
+                  allowFontScaling={false}
                   name="near-me"
                   size={26}
                   color={'#709D2A'}
                   style={[styles.menuIcon, styles.favoriteIcon]}
                 />
-                <Text style={styles.placeText}>
+                <Text allowFontScaling={false} style={styles.placeText}>
                   {this.props.place}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={this.favorite} style={[styles.toolButton, {position: 'absolute', right: 5}]}>
                 <Icon
+                  allowFontScaling={false}
                   name={ this.state.isFav ? 'heart' : 'heart-o' }
                   size={24}
                   color={'#709D2A'}
                   style={[styles.menuIcon, styles.favoriteIcon]}
                 />
               </TouchableOpacity>
-            <Text style={{ marginTop: 34, fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
+            <Text allowFontScaling={false} style={{ marginTop: 34, fontSize: 14, marginBottom: 20, lineHeight: 25 }}>
               {this.props.description_01}
             </Text>
             <TouchableOpacity
@@ -450,7 +454,7 @@ class PostDetail extends Component {
               }}
               onPress={this.onImageSrcBtn}
             >
-              <Text style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
+              <Text allowFontScaling={false} style={{ fontSize: 16, color: '#FFF' }}>檢視完整步道介紹</Text>
             </TouchableOpacity>
           {this.map()}
           {this.gmap()}
@@ -468,11 +472,11 @@ class PostDetail extends Component {
             <View style={styles.headerInfo}>
               {this.info()}
             </View>
-            <Text style={styles.headerTitle}>
+            <Text allowFontScaling={false} style={styles.headerTitle}>
                 {this.props.postTitle}
             </Text>
             <TouchableOpacity onPress={this.linkToSrc.bind(this, this.props.coverSourceUrl)} style={styles.imgSrcBlock}>
-              <Text style={styles.imgSrcText}>
+              <Text allowFontScaling={false} style={styles.imgSrcText}>
                 圖片來源：{this.props.coverSourceName} #{this.props.id}
               </Text>
             </TouchableOpacity>
@@ -484,7 +488,7 @@ class PostDetail extends Component {
           {(this.props.status !== 'null') ?
             (
               <View style={[styles.statusBlock, { backgroundColor: tagColor }]}>
-                <Text style={styles.statusText}>
+                <Text allowFontScaling={false} style={styles.statusText}>
                   {this.props.status}
                 </Text>
               </View>

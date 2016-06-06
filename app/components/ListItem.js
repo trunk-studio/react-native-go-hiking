@@ -75,7 +75,7 @@ export default function ListItem(props) {
       <View style={styles.commentContent}>
         <Image source={{ uri: `http://data.gov.tw/sites/default/files/visual/fruit/${formatUrlKey(props.urlKey, 3)}.jpg` }} style={ styles.avatar } />
         <View style={styles.commentBody}>
-          <Text style={styles.titles}>{props.crop}</Text>
+          <Text allowFontScaling={false} style={styles.titles}>{props.crop}</Text>
         </View>
       </View>
     </TouchableOpacity>

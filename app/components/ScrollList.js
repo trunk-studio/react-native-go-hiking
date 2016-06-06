@@ -45,7 +45,7 @@ export default function ScrollList(props) {
       backgroundColor={props.backgroundColor}
       style={styles.container}
     >
-      {listContainer.length > 0 ? listContainer : <Text style={styles.defaultTxt}>沒有資料囉！</Text>}
+      {listContainer.length > 0 ? listContainer : <Text allowFontScaling={false} style={styles.defaultTxt}>沒有資料囉！</Text>}
     </ScrollView>
   );
 }

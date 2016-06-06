@@ -27,7 +27,7 @@ export default function TabIcon(props) {
   return (
     <View style={{ position: 'absolute', top: -30, left: -25, justifyContent: 'center', alignItems: 'center', width: 50 }}>
       <Icon name={props.iconName} style={[styles.icon, { color }]} />
-      <Text style={[styles.tabTitle, { color }]}>{ props.title }</Text>
+      <Text allowFontScaling={false} style={[styles.tabTitle, { color }]}>{ props.title }</Text>
     </View>
   );
 }

@@ -58,13 +58,13 @@ export default function PostListItem(props) {
           <View style={styles.imageContent}>
             <Image source={{ uri: props.img }} style={styles.itemImg} />
           </View>
-          <Text style={styles.title} numberOfLines={2} >
+          <Text allowFontScaling={false} style={styles.title} numberOfLines={2} >
             {props.title}
           </Text>
           {
             (props.status !== 'null') ?
               <View style={ [styles.tag, { backgroundColor: props.tagColor }] }>
-                <Text style={styles.tagText}>
+                <Text allowFontScaling={false} style={styles.tagText}>
                   {props.status}
                 </Text>
               </View>

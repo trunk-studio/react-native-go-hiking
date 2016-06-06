@@ -186,11 +186,11 @@ export default class Dashboard extends Component {
           style={ styles.coverPhoto }
         />
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>
+          <Text allowFontScaling={false} style={styles.headerTitle}>
               台灣步道一指通
           </Text>
           <View style={styles.versionBlock}>
-            <Text style={styles.imgSrcText}>
+            <Text allowFontScaling={false} style={styles.imgSrcText}>
               v {ReactNativeAutoUpdater.jsCodeVersion()}
             </Text>
           </View>
